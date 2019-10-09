@@ -48,7 +48,7 @@
 		    }
             
             function startGame() {
-		        let interval = 650;
+		        let interval = 600;
 		        let tick = 0;
 
 		       	let inter = setInterval(() => {
@@ -58,10 +58,11 @@
 		       	   	   	return;
 		       	   	}
 		       	   	if (tick % interval == 0) {
-		       	   	    if (interval > 100) {
-							if (interval > 500) interval -= 20;
-							if (interval > 400) interval -= 7;
-							if (interval > 250) interval -= 3;
+		       	   	    if (interval > 50) {
+							if (interval > 500) interval -= 30;
+							if (interval > 400) interval -= 10;
+							if (interval > 100) interval -= 5;
+							else interval -= 1;
 		       	   	    }
 		       	   	    window.person++;
 
