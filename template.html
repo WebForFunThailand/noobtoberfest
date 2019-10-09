@@ -15,9 +15,18 @@
 			width: 600px;
 			margin: 20px auto;
 		}
+		@media screen and (max-width: 600px) {
+			.main-container {
+				width: 100%;
+				padding: 15px;
+				position:relative;
+				overflow: hidden;
+			}
+		}
 		.heading {
 			color: white;
 			font-weight: lighter;
+			margin-top: 42vh;
 		}
 		.desc {
 			color: white;
@@ -27,6 +36,7 @@
 			color: #fff922;
 			font-weight: bold;
 			text-decoration: none;
+			display: inline-block;
 		}
 		a.hacking:hover {
 			color: #fff922;
@@ -36,6 +46,7 @@
 		.credit {
 			color: #ccc;
 			margin-top: 30px;
+			margin-bottom: 40vh;
 		}
 
 		.game {
@@ -56,9 +67,11 @@
 </head>
 <body>
 	<div class="main-container">
-		<h1 class="heading">Noobtoberfest 2019</h1>
-		<p class="desc">Game-coding challenge for everyone who wants to contribute to an open-source project for Hacktoberfest 2019</p>
-		<a class="hacking" href="https://github.com/chunza2542/noobtoberfest" target="_blank">START HACKING</a>
+		<div>
+			<h1 class="heading">Noobtoberfest 2019</h1>
+			<p class="desc">Game-coding challenge for everyone who wants to contribute to an open-source project for Hacktoberfest 2019</p>
+			<a class="hacking" href="https://github.com/chunza2542/noobtoberfest" target="_blank">START HACKING</a>
+		</div>
 		<br>
 		<hr>
 
@@ -100,5 +113,31 @@
 
 		<div class="credit">Made with ❤️ by NoobProgrammer Thailand Community</div>
 	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+		    const height = screen.height - 200;
+		    const middle = height / 2;
+
+		    const childs = [...$(".main-container").children()];
+
+		    function render() {
+			    childs.forEach(child => {
+                	const top = child.getBoundingClientRect().top;
+                	const offset = middle - top;
+                	const deg = offset / height * 30;
+                	const rotate = deg;
+
+                	child.style.transform = `rotate3D(1,1,1, ${rotate}deg) translateX(${deg * 3}px)`;
+			    });
+		    }
+
+			$(window).scroll(function() {
+			    render()
+			});
+
+		    render()
+        });
+	</script>
 </body>
 </html>
