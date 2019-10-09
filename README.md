@@ -20,10 +20,9 @@ So, If you want to contribute and don't know how to start you can see the "Contr
 	```json
 	{
 		"name": "Your game name",
-		"thumbnail": "Your game thumbnail image link size 300 x 300",
 		"description": "Tell about your game",
 		"author": "Who created this game?",
-		"facebook": "Put your facebook link here (optional)"
+		"facebook": "Put your facebook link here"
 	}
 	```
 5. Open pull request (PR) and send to us.

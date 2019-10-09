@@ -75,41 +75,7 @@
 		<br>
 		<hr>
 
-		<div class="game">
-			<a class="head" href="#"><h3>Shoot me if you can</h3></a>
-			<p style="color: #ccc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi architecto, deleniti ea est iste, neque provident quibusdam ratione sit voluptate voluptatem voluptates. Atque distinctio earum exercitationem id pariatur! At?</p>
-			<a href="#" target="_blank" class="author">Created by Chun Rapeepat</a>
-		</div>
-
-		<div class="game">
-			<a class="head" href="#"><h3>Shoot me if you can</h3></a>
-			<p style="color: #ccc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi architecto, deleniti ea est iste, neque provident quibusdam ratione sit voluptate voluptatem voluptates. Atque distinctio earum exercitationem id pariatur! At?</p>
-			<a href="#" target="_blank" class="author">Created by Chun Rapeepat</a>
-		</div>
-
-		<div class="game">
-			<a class="head" href="#"><h3>Shoot me if you can</h3></a>
-			<p style="color: #ccc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi architecto, deleniti ea est iste, neque provident quibusdam ratione sit voluptate voluptatem voluptates. Atque distinctio earum exercitationem id pariatur! At?</p>
-			<a href="#" target="_blank" class="author">Created by Chun Rapeepat</a>
-		</div>
-
-		<div class="game">
-			<a class="head" href="#"><h3>Shoot me if you can</h3></a>
-			<p style="color: #ccc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi architecto, deleniti ea est iste, neque provident quibusdam ratione sit voluptate voluptatem voluptates. Atque distinctio earum exercitationem id pariatur! At?</p>
-			<a href="#" target="_blank" class="author">Created by Chun Rapeepat</a>
-		</div>
-
-		<div class="game">
-			<a class="head" href="#"><h3>Shoot me if you can</h3></a>
-			<p style="color: #ccc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi architecto, deleniti ea est iste, neque provident quibusdam ratione sit voluptate voluptatem voluptates. Atque distinctio earum exercitationem id pariatur! At?</p>
-			<a href="#" target="_blank" class="author">Created by Chun Rapeepat</a>
-		</div>
-
-		<div class="game">
-			<a class="head" href="#"><h3>Shoot me if you can</h3></a>
-			<p style="color: #ccc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi architecto, deleniti ea est iste, neque provident quibusdam ratione sit voluptate voluptatem voluptates. Atque distinctio earum exercitationem id pariatur! At?</p>
-			<a href="#" target="_blank" class="author">Created by Chun Rapeepat</a>
-		</div>
+		#include-template
 
 		<div class="credit">Made with ❤️ by NoobProgrammer Thailand Community</div>
 	</div>
@@ -126,9 +92,8 @@
                 	const top = child.getBoundingClientRect().top;
                 	const offset = middle - top;
                 	const deg = offset / height * 30;
-                	const rotate = deg;
 
-                	child.style.transform = `rotate3D(1,1,1, ${rotate}deg) translateX(${deg * 3}px)`;
+                	child.style.transform = `translateX(${deg * 10}px)`;
 			    });
 		    }
 
