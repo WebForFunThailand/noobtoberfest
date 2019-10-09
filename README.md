@@ -3,14 +3,20 @@ Game-coding challenge for everyone who wants to contribute to an open-source pro
 
 The main objective of this repo is to help everyone get started with contributing to open-source projects and we hope you enjoy coding and learning along the way during the Hacktoberfest 2019 period.
 
-### What's in this document
-- [How to Contribute - วิธีการ contribute](https://github.com/chunza2542/noobtoberfest#-how-to-contribute) 
-- [Community Ticket for Hacktoberfest Open Hack Day BKK 2019 - บัตรเข้างาน](https://github.com/chunza2542/noobtoberfest#-community-ticket-for-hacktoberfest-open-hack-day-bkk-2019)
+กิจกรรมเขียนโค้ดเกมสำหรับทุก ๆ คนที่ต้องการ contribute ให้กับโปรเจค open-source ของ Hacktoberfest 2019 โดยไอเดียที่ดีที่สุด 7 ไอเดียแรกจะได้รับบัตรเข้าร่วมกิจกรรม Hacktoberfest Open Hack Day BKK 2019 แบบ Early bird (ดูรายละเอียดเพิ่มเติมเกี่ยวกับกิจกรรม และบัตรแบบ Early bird ด้านล่าง)
 
-## 🤝 How to Contribute
+โดยวัตถุประสงค์หลักของ repo นี้ คือ การให้ทุก ๆ คนได้เริ่มต้น contribute ให้กับโปรเจค open-souce ต่าง ๆ และเราหวังว่าคุณจะมีสนุกไปกับการเขียนโค้ด และเรียนรู้ในช่วงของกิจกรรม Hacktoberfest 2019
+
+### What's in this document - มีอะไรบ้างในเอกสารนี้
+- [How to Contribute - วิธีการ contribute](https://github.com/chunza2542/noobtoberfest#-how-to-contribute) 
+- [Community Ticket for Hacktoberfest Open Hack Day BKK 2019 - รายละเอียดบัตรเข้าร่วมงาน](https://github.com/chunza2542/noobtoberfest#-community-ticket-for-hacktoberfest-open-hack-day-bkk-2019)
+
+## 🤝 How to Contribute - วิธีการ contribute
 We want contributing to this repo to be fun, enjoyable and educational for everyone. All contributions are welcome not only to submit your game but you can also help us improve the document, fixes typo and anything else.
 
 So, If you want to contribute and don't know how to start you can see the "Contribution Guide" below.
+
+เราต้องการให้การ contribute repo นี้เต็มไปด้วยความสนุกสนาน และเป็นการเรียนรู้สำหรับทุกคน เรายินดีต้อนรับผู้ที่ต้องการ contribute ทุกท่าน ไม่เฉพาะผู้ที่ิต้องการส่งเกมเข้าประกวดเท่านั้น คุณสามารถช่วยพัฒนาเอกสาร แก้คำผิด หรืออื่น ๆ ได้เช่นกัน
 
 ### 📝 Rules
 
