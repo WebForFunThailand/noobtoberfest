@@ -1,7 +1,7 @@
 # Noobtoberfest - Game Coding Challenge 2019
 Game-coding challenge for everyone who wants to contribute to an open-source project for Hacktoberfest 2019 and Topmost 7 amazing ideas will get an early bird ticket for Hacktoberfest Open Hack Day BKK 2019 (See more detail about the event and an early bird ticket below)
 
-The main objective of this repo is to help everyone contribute to open-source project and enjoy coding and learning along the way during the Hacktoberfest 2019 period.
+The main objective of this repo is to help everyone get started with contributing to open-source projects and we hope you enjoy coding and learning along the way during the Hacktoberfest 2019 period.
 
 ### What's in this document
 - [How to Contribute](https://github.com/chunza2542/noobtoberfest#-how-to-contribute) 
@@ -61,3 +61,7 @@ We have 2 factors to judge your work
 Anyway, Don't care too much about those 2 factors. Just make your idea fun and sharing how amazing your game was with us.
 
 We'll announce the winner on 14 Oct 2019, on this repo and Facebook event, and send you a coupon code to your email after then.
+
+---
+
+Made with ❤️ by [NoobProgrammer Thailand Community](https://www.facebook.com/groups/noobprogrammer/)
