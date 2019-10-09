@@ -1,6 +1,11 @@
 # Noobtoberfest - Game Coding Challenge 2019
+Game-coding challenge for everyone who wants to contribute to an open-source project for Hacktoberfest 2019 and Topmost 7 amazing ideas will get an early bird ticket for Hacktoberfest Open Hack Day BKK 2019 (See more detail about the event and an early bird ticket below)
 
-- About the Event
+The main objective of this repo is to help everyone contribute to open-source project and enjoy coding and learning along the way during the Hacktoberfest 2019 period.
+
+### What's in this document
+- [How to Contribute](https://github.com/chunza2542/noobtoberfest#-how-to-contribute) 
+- [Community Ticket for Hacktoberfest Open Hack Day BKK 2019](https://github.com/chunza2542/noobtoberfest#hacktoberfest-open-hack-day-bkk-2019---information)
 
 ## 🤝 How to Contribute
 We want contributing to this repo to be fun, enjoyable and educational for everyone. All contributions are welcome not only to submit your game but you can also help us improve the document, fixes typo and anything else.
@@ -9,7 +14,7 @@ So, If you want to contribute and don't know how to start you can see the "Contr
 
 ### 🤖 ‍Contribution Guide for Submitting Game
 1. Fork this repo to your account.
-2. Create new folder for your game named `your-game-name`.
+2. Create new folder for your game, named `your-game-name`.
 3. Create `index.html` file in your folder and coding your game there.
 4. Create file `info.json` in your folder and put this json code into it.
 	```json
@@ -25,7 +30,7 @@ So, If you want to contribute and don't know how to start you can see the "Contr
 6. Done~ After we merge, your work will be displayed on our site.
 
 
-## Hacktoberfest Open Hack Day BKK 2019 - Information
+## 🎟 Community Ticket for Hacktoberfest Open Hack Day BKK 2019
 
 Do you want the early bird "Hacktoberfest Open Hack Day BKK 2019" ticket?
 
