@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <header>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Quick Thai Name</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <style>
+      .red {
+        color: red;
+      }
+      .green {
+        color: green;
+      }
+      #btn-new-round {
+        display: none;
+      }
+      #answer {
+        width: 250px;
+        height: 40px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </header>
+
+  <body>
+
+    <h2 style="color: red">Score: <span id="score">0</span> เหลือเวลา: <span id="time">0</span> วินาที<h2>
+    <h3>จงตั้งชื่อจริงภาษาไทยที่ขึ้นต้นด้วย <h3>
+
+    <h3>ตัวอักษร "<span id="start_char" class="red"></span>"<h3>
+    <h3>เพศ "<span id="gender" class="red"></span>"<h3>
+
+    <div style="font-size: 14px">*ชื่อยิ่งยาวยิ่งได้คะแนนเยอะ</div>
+
+    <input type="text" id="answer" length="13" />
+
+    <div>
+      <button id="btn-check-answer" onclick="checkAnswer()">ตอบ</button>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <button id="btn-new-round" onclick="setUpRound()">เริ่มเกมส์ใหม่</button>
+    </div>
+
+    <div id="result-answer"></div>
+
+    <script>
+
+      var ROUND_INTERVAL
+      var ROUND_TIME = 60
+      var REMAIN_TIME = 0
+      var SCORE = 0
+      var CURRENT_START_CHAR = ""
+      var CURRENT_GENDER = ""
+      var GENDER = [{key: 'm', value: 'ชาย'}, {key: 'f', value: 'หญิง'}]
+
+      var thai_characters = [
+        "", "ก", "ข", "ฃ", "ค", "ฅ", "ฆ", "ง", "จ", "ฉ", "ช", "ซ", "ฌ", "ญ", "ฎ", "ฏ", "ฐ", "ฑ", "ฒ", "ณ", "ด", "ต", "ถ", "ท", "ธ", "น", "บ", "ป", "ผ", "ฝ", "พ", "ฟ", "ภ", "ม", "ย", "ร", "ฤ", "ล", "ว", "ศ", "ษ", "ส", "ห", "ฬ", "อ", "ฮ", "ะ", "ั", "า", "ำ", "ิ", "ี", "ึ", "ื", "ุ", "ู", "เ", "แ", "โ", "ใ", "ไ", "็", "่", "้", "๊","๋","์"
+      ];
+
+      var MOST_COMMON_START_CHARS = [
+        'ก', 'ป', 'อ', 'พ', 'ว', 'จ', 'น', 'ธ', 'ช', 'เ', 'ส', 'ณ', 'ภ', 'ร', 'ม', 'บ', 'ค', 'ศ', 'ท', 'ฐ'
+      ]
+
+      var MODEL;
+
+      $(document).ready(function () {
+        
+        tf.loadLayersModel(
+          'https://raw.githubusercontent.com/kittinan/thai-name-gender-classifier/master/web/public/tfjs_model/model.json'
+        ).then(async (m) => {
+          MODEL = m
+
+          // warm up network
+          const x = await MODEL.predict(tf.stack([tf.tensor1d(createInput('กิตตินันท์'))]));
+
+          setUpRound()
+        })
+      })
+
+      function setUpRound() {
+        SCORE = 0
+        $('#score').text(SCORE)
+        $('#btn-check-answer').prop('disabled', false )
+        $('#btn-new-round').hide();
+
+        REMAIN_TIME = ROUND_TIME + 1
+        randomQuestion()
+        
+        ROUND_INTERVAL = setInterval(function(){ 
+
+          REMAIN_TIME--
+          $('#time').text(REMAIN_TIME)
+
+          if (REMAIN_TIME < 0) {
+            REMAIN_TIME = 0
+            $('#time').text(REMAIN_TIME)
+            $('#btn-check-answer').prop('disabled', true)
+            alert('หมดเวลาแล้วจ้า')
+            $('#btn-new-round').show()
+            clearInterval(ROUND_INTERVAL);
+            
+          }
+        
+        }, 1000);
+      }
+
+
+      function randomQuestion() {
+        const index = Math.floor(Math.floor(Math.random() * 20));
+        CURRENT_START_CHAR = MOST_COMMON_START_CHARS[index];
+        $('#start_char').text(CURRENT_START_CHAR)
+
+        const gender = GENDER[Math.round(Math.random())]
+        CURRENT_GENDER = gender.key
+        $('#gender').text(gender.value)
+
+        $('#answer').val('')
+      }
+
+      async function checkAnswer() {
+        const answer = $('#answer').val()
+
+        if (REMAIN_TIME < 0) {
+          alert('หมดเวลาแล้วจ้า')
+        }
+
+        if (answer.length == 0) {
+          SCORE -= 2
+          $('#score').text(SCORE)
+          randomQuestion()
+          return
+        }
+
+        if (answer[0] != CURRENT_START_CHAR) {
+          SCORE -= 1
+          $('#score').text(SCORE)
+          $('#result-answer').removeClass().text('ผิด').addClass('red')
+          return
+        }
+
+        const result = await predictIsMale(answer)
+
+        if (result == CURRENT_GENDER) {
+          SCORE += 1 + Math.round(answer.length / 2)
+          $('#result-answer').removeClass().text('ถูก').addClass('green')
+        } else {
+
+          $('#result-answer').removeClass().text('ผิด').addClass('red')
+        }
+
+        $('#score').text(SCORE)
+        randomQuestion()
+      }
+
+      var pad_array = function (arr, len, fill) {
+        return arr.concat(Array(len).fill(fill)).slice(0, len);
+      };
+
+      function createInput(name, pad_length = 15) {
+        let input = [];
+        for (var i = 0; i < name.length; i++) {
+          const c = name.charAt(i);
+          let pos = thai_characters.indexOf(c);
+          if (pos == -1) {
+            pos = 999;
+          }
+          input.push(pos);
+        }
+        return pad_array(input, pad_length, 0);
+      }
+
+      async function predictIsMale(name) {
+        const input = createInput(name);
+        console.log(name, input);
+
+        const result = await MODEL.predict(tf.stack([tf.tensor1d(input)]));
+        const result_prob = await result.data();
+
+        const isMale = result_prob[0] > 0.5;
+
+        console.log(result_prob, isMale)
+
+        return isMale ? 'm' : 'f'
+
+      }
+    </script>
+  </body>
+
+</html>
