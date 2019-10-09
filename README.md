@@ -5,7 +5,7 @@ The main objective of this repo is to help everyone get started with contributin
 
 ### What's in this document
 - [How to Contribute - วิธีการ contribute](https://github.com/chunza2542/noobtoberfest#-how-to-contribute) 
-- [Community Ticket for Hacktoberfest Open Hack Day BKK 2019 - บัครเข้่างาน](https://github.com/chunza2542/noobtoberfest#-community-ticket-for-hacktoberfest-open-hack-day-bkk-2019)
+- [Community Ticket for Hacktoberfest Open Hack Day BKK 2019 - บัตรเข้างาน](https://github.com/chunza2542/noobtoberfest#-community-ticket-for-hacktoberfest-open-hack-day-bkk-2019)
 
 ## 🤝 How to Contribute
 We want contributing to this repo to be fun, enjoyable and educational for everyone. All contributions are welcome not only to submit your game but you can also help us improve the document, fixes typo and anything else.
