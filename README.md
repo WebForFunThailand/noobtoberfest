@@ -4,13 +4,22 @@ Game-coding challenge for everyone who wants to contribute to an open-source pro
 The main objective of this repo is to help everyone get started with contributing to open-source projects and we hope you enjoy coding and learning along the way during the Hacktoberfest 2019 period.
 
 ### What's in this document
-- [How to Contribute](https://github.com/chunza2542/noobtoberfest#-how-to-contribute) 
-- [Community Ticket for Hacktoberfest Open Hack Day BKK 2019](https://github.com/chunza2542/noobtoberfest#-community-ticket-for-hacktoberfest-open-hack-day-bkk-2019)
+- [How to Contribute - วิธีการ contribute](https://github.com/chunza2542/noobtoberfest#-how-to-contribute) 
+- [Community Ticket for Hacktoberfest Open Hack Day BKK 2019 - บัครเข้่างาน](https://github.com/chunza2542/noobtoberfest#-community-ticket-for-hacktoberfest-open-hack-day-bkk-2019)
 
 ## 🤝 How to Contribute
 We want contributing to this repo to be fun, enjoyable and educational for everyone. All contributions are welcome not only to submit your game but you can also help us improve the document, fixes typo and anything else.
 
 So, If you want to contribute and don't know how to start you can see the "Contribution Guide" below.
+
+### 📝 Rules
+
+1. Write your game with all your skill.
+2. All your code **MUST!!** remain in one html file.
+3. Send pull request to us.
+4. Done!
+
+After we merge, your work will be displayed at [https://noobtoberfest.netlify.com](https://noobtoberfest.netlify.com)
 
 ### 🤖 ‍Contribution Guide for Submitting Game
 1. Fork this repo to your account.
@@ -40,15 +49,6 @@ For more information visit 👉 [Facebook Event](https://www.facebook.com/events
 ### 🥇 Rewards
 
 Hacktoberfest BKK 2019 community ticket. We have only 7 tickets so do your best.
-
-### 📝 Rules
-
-1. Write your game with all your skill.
-2. All your code **MUST!!** remain in one html file.
-3. Send pull request to us.
-4. Done!
-
-After we merge, your work will be displayed at [https://noobtoberfest.netlify.com](https://noobtoberfest.netlify.com)
 
 ### 🏆 How do we judge who is suite for ticket?
 
