@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Shoot me if you can - Noobtoberfest - Example Game</title>
+
+	<style>
+		body, html {
+			font-family: sans-serif;
+			position:relative;
+			overflow: hidden;
+			margin: 0;
+		}
+	</style>
+</head>
+<body>
+	<div style="position: absolute; top: 10px; left: 10px">
+		Score: <span id="score"></span>, Heart: <span id="person"></span>
+	</div>
+
+	<div id="game" style="width: 100vw; height: 100vh;"></div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+		    const width = screen.width;
+		    const height = screen.height;
+
+		    function random(start, end){
+                   return Math.floor(Math.random() * (end - start + 1) + start);
+            }
+
+            const imgs = [
+                "https://steamuserimages-a.akamaihd.net/ugc/945093483574536818/9BB7392E074EBFFBAF5D81AE795156C96FAECFED/",
+                "https://media.tenor.com/images/96afb034075f4007ea09d4e4a6262cd7/tenor.gif",
+                "https://media.tenor.com/images/de5a894861f9b4fcee484bdc1b6f5993/tenor.gif",
+                "https://risibank.fr/cache/stickers/d1190/119098-full.gif",
+            ]
+
+            window.score = 0;
+		    window.person = 0;
+
+		    function updateScore() {
+				$("#score").text(window.score);
+				$("#person").text(50 - window.person);
+		    }
+            
+            function startGame() {
+		        let interval = 600;
+		        let tick = 0;
+
+		       	let inter = setInterval(() => {
+		       	   	if (window.person >= 50) {
+		       	   	    alert(`You died, Game over! Score: ${window.score}`);
+		       	   	    clearInterval(inter);
+		       	   	   	return;
+		       	   	}
+		       	   	if (tick % interval == 0) {
+		       	   	    if (interval > 50) {
+							if (interval > 500) interval -= 30;
+							if (interval > 400) interval -= 10;
+							if (interval > 100) interval -= 5;
+							else interval -= 1;
+		       	   	    }
+		       	   	    window.person++;
+
+		       	   	    $("#game").append(`
+		       	   	    	<img onclick="(() => { this.style.display='none'; ++window.score; --window.person })()" class="me" src="${imgs[random(0, 3)]}" style="position:absolute; top:${random(0, height - 200)}px; left:${random(0, width - 200)}px; cursor:pointer;" width="100px"/>
+		       	   	    `)
+		       	   	}
+		       	   	tick++;
+		       	   	updateScore();
+		       	}, 1)
+            }
+
+            updateScore();
+		    startGame();
+        });
+	</script>
+</body>
+</html>
