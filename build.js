@@ -20,7 +20,7 @@ directories.forEach(directory => {
 
     const template = `
         <div class="game">
-            <a class="head" href="/${directory}"><h3>${info.name}</h3></a>
+            <a class="head" href="/${directory}" target="_blank"><h3>${info.name}</h3></a>
             <p style="color: #ccc">${info.description}</p>
             <a href="${info.facebook}" target="_blank" class="author">${info.author}</a>
         </div>`
