@@ -1,10 +1,46 @@
-Fork this repo to your account.
-Create a new folder for your game, name your-game-name.
-Create index.html file in your folder and code your game there.
-Create file info.json in your folder and put this JSON into it.
-{
-	"name": "Your game name",
-	"description": "Tell about your game",
-	"author": "Who created this game?",
-	"facebook": "Put your facebook link here"
-}
+<!Doctype HTML>
+<html>
+    <head>
+        <title>PlanetCo</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Tic Tac Toe">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="tictactoe.css">
+    </head>
+    <body>
+        <div class="maincontainer">
+            <header class="flex-container titlecard"> 
+                <h1 class="gametitle">Tic Tac Toe<span class="tagline">The classic game of x's and o's!</span></h1>
+            </header>
+
+            <main>
+		<table id="dashboard" class="hidden">
+      			<tr class="row">
+        			<td id="sq00"></td>
+        			<td id="sq01"></td>
+        			<td id="sq02"></td>
+      			</tr>
+      			<tr class="row">
+        			<td id="sq03"></td>
+        			<td id="sq04"></td>
+        			<td id="sq05"></td>
+      			</tr>
+      			<tr class="row">
+        			<td id="sq06"></td>
+        			<td id="sq07"></td>
+        			<td id="sq08"></td>
+      			</tr>
+    		</table>
+
+                <button class="start">Start Game</button></a>
+            </main>
+        </div>
+
+        <footer>
+            &copy; TR 2019
+        </footer>
+
+        <script src="tictactoe.js"></script>
+
+    </body>
+</html>
