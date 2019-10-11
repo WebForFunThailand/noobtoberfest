@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>10 Sec clicker!</title>
+</head>
+
+<body>
+    <main>
+        <div>
+            How many click that you can do in <span id="time-counter">10</span> sec.
+        </div>
+        <div>
+            <div>Click : <span id="click-counter">0</span></div>
+            <div id="high-score"></div>
+        </div>
+        <div>
+            <button id="start-btn">start</button>
+            <button id="reset-btn">reset point</button>
+        </div>
+    </main>
+</body>
+<script>
+    const ONE_SEC = 1000;
+    const START_TIME_COUNTER = 10; // 10 sec
+    let isGameStart = false;
+    let counter = 0;
+    let highScore = 0;
+
+    function resetScore() {
+        highScore = 0;
+        document.getElementById(`high-score`).textContent = `high score : ${highScore}`;
+    }
+
+    function updateTimeCounterText(newTime) {
+        document.getElementById("time-counter").textContent = newTime;
+    }
+
+    function clickCounter() {
+        if (isGameStart) {
+            counter++;
+            document.getElementById(`click-counter`).textContent = counter;
+        }
+    }
+
+    function endGame() {
+        isGameStart = false;
+        if (counter >= highScore) {
+            highScore = counter;
+        }
+        if (highScore > 0) {
+            document.getElementById(`high-score`).textContent = `high score : ${highScore}`;
+        }
+    }
+
+    const gameStart = () => {
+        if (isGameStart) return;
+        isGameStart = true;
+        counter = 0;
+        document.getElementById(`click-counter`).textContent = counter;
+        let timeCounter = START_TIME_COUNTER;
+        const gameInterval = setInterval(() => {
+            timeCounter--;
+            updateTimeCounterText(timeCounter)
+            if (timeCounter <= 0) {
+                clearInterval(gameInterval);
+                endGame();
+            }
+        }, ONE_SEC)
+    }
+    document.getElementById("start-btn").addEventListener('click', gameStart)
+    document.getElementById("reset-btn").addEventListener('click', resetScore)
+    document.body.addEventListener('click', clickCounter)
+</script>
+
+</html>
+
+<style>
+    html,
+    body {
+        margin: 0;
+        height: 100%;
+    }
+</style>
