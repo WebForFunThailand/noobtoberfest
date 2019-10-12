@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <title>Aleph Zero</title>
+        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="title" content="ℵ0">
+        <meta name="description" content="ℵ0 ℵ1 ℵ2...">
+        <meta name="author" content="aomKhunpanitchot">
+        <meta http-equiv="content-language" content="en">
+        
+        <meta property="og:title" content="ℵ0">
+        <meta property="og:description" content="ℵ0 ℵ1 ℵ2...">
+        <meta property="og:site_name" content="Aleph Zero">
+        <meta property="og:image" content="https://raw.githubusercontent.com/aomkirby123/aleph-0-resources/master/cover.png">
+        <meta property="og:image:width" content="1920">
+        <meta property="og:image:height" content="1080">
+        <meta property="og:image:alt" content="Aleph Zero">
+
+        <meta name="twitter:title" content="ℵ0">
+        <meta name="twitter:description" content="ℵ0 ℵ1 ℵ2...">
+        <meta name="twitter:site" content="@saltyAom">
+        <meta name="twitter:creator" content="@saltyAom">
+        <meta name="twitter:image" content="https://raw.githubusercontent.com/aomkirby123/aleph-0-resources/master/cover.png">
+		<style>
+            * {
+                box-sizing: border-box;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', Oxygen, 'Ubuntu', 'Arial', sans-serif;
+            }
+
+            ::selection, ::-webkit-selection {
+                background-color: rgba(255,0,0,.25);
+            }
+
+			body {
+				margin: 0;
+				width: 100%;
+				height: 100vh;
+				overflow: hidden;
+				background-color: #000;
+			}
+
+			#area {
+				position: fixed;
+				z-index: 10;
+				top: calc(50vh - 300px);
+				left: calc(50% - 300px);
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
+				grid-template-rows: repeat(5, 1fr);
+				width: 600px;
+				height: 600px;
+                transition: transform .5s ease-out;
+			}
+
+			#area.hidden {
+				display: none;
+			}
+
+            #area.corrupted {
+                background-color: rgba(255,0,0,.125);
+                border: 1px solid #f00;
+            }
+
+			.grid {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				border: 1px solid transparent;
+				transition: border 0.5s ease-out;
+			}
+
+			.grid.me {
+				border: 1px solid #fff;
+			}
+
+            .grid.me.is-demon {
+                border: 1px solid #f00;
+            }
+
+            .grid.demon {
+                border: 1px solid #f00;
+            }
+
+            .grid.demon.hide {
+                opacity: 0;
+            }
+
+			.grid-animate-1 {
+				animation: reflect-1 2s ease-out 0s 1;
+				-webkit-animation: reflect-1 2s ease-out 0s 1;
+			}
+
+			.grid-animate-2 {
+				animation: reflect-2 2s ease-out 0s 1;
+				-webkit-animation: reflect-2 2s ease-out 0s 1;
+			}
+
+			.grid-animate-3 {
+				animation: reflect-3 2s ease-out 0s 1;
+				-webkit-animation: reflect-3 2s ease-out 0s 1;
+			}
+
+			.grid-animate-4 {
+				animation: reflect-4 2s ease-out 0s 1;
+				-webkit-animation: reflect-4 2s ease-out 0s 1;
+			}
+
+			.grid-animate-4 {
+				animation: reflect-4 2s ease-out 0s 1;
+				-webkit-animation: reflect-4 2s ease-out 0s 1;
+			}
+
+			.grid-animate-5 {
+				animation: reflect-5 2s ease-out 0s 1;
+				-webkit-animation: reflect-5 2s ease-out 0s 1;
+			}
+
+			.grid-animate-6 {
+				animation: reflect-6 2s ease-out 0s 1;
+				-webkit-animation: reflect-6 2s ease-out 0s 1;
+			}
+
+			.grid-animate-7 {
+				animation: reflect-7 2s ease-out 0s 1;
+				-webkit-animation: reflect-7 2s ease-out 0s 1;
+			}
+
+			.grid-animate-8 {
+				animation: reflect-8 2s ease-out 0s 1;
+				-webkit-animation: reflect-8 2s ease-out 0s 1;
+			}
+
+			.grid-animate-9 {
+				animation: reflect-9 2s ease-out 0s 1;
+				-webkit-animation: reflect-9 2s ease-out 0s 1;
+			}
+
+			@keyframes reflect-1 {
+				0% {
+					border-color: transparent;
+				}
+				5% {
+					border-color: transparent;
+				}
+				25% {
+					border-color: #fff;
+				}
+				30% {
+					border-color: transparent;
+				}
+			}
+
+			@keyframes reflect-2 {
+				0% {
+					border-color: transparent;
+				}
+				10% {
+					border-color: transparent;
+				}
+				30% {
+					border-color: #fff;
+				}
+				35% {
+					border-color: transparent;
+				}
+			}
+
+			@keyframes reflect-3 {
+				0% {
+					border-color: transparent;
+				}
+				15% {
+					border-color: transparent;
+				}
+				35% {
+					border-color: #fff;
+				}
+				40% {
+					border-color: transparent;
+				}
+			}
+
+			@keyframes reflect-4 {
+				0% {
+					border-color: transparent;
+				}
+				20% {
+					border-color: transparent;
+				}
+				40% {
+					border-color: #fff;
+				}
+				45% {
+					border-color: transparent;
+				}
+			}
+
+			@keyframes reflect-5 {
+				0% {
+					border-color: transparent;
+				}
+				25% {
+					border-color: transparent;
+				}
+				45% {
+					border-color: #fff;
+				}
+				50% {
+					border-color: transparent;
+				}
+			}
+
+			@keyframes reflect-6 {
+				0% {
+					border-color: transparent;
+				}
+				30% {
+					border-color: transparent;
+				}
+				50% {
+					border-color: #fff;
+				}
+				55% {
+					border-color: transparent;
+				}
+			}
+
+			@keyframes reflect-7 {
+				0% {
+					border-color: transparent;
+				}
+				35% {
+					border-color: transparent;
+				}
+				55% {
+					border-color: #fff;
+				}
+				60% {
+					border-color: transparent;
+				}
+			}
+
+			@keyframes reflect-8 {
+				0% {
+					border-color: transparent;
+				}
+				40% {
+					border-color: transparent;
+				}
+				60% {
+					border-color: #fff;
+				}
+				65% {
+					border-color: transparent;
+				}
+			}
+
+			@keyframes reflect-9 {
+				0% {
+					border-color: transparent;
+				}
+				45% {
+					border-color: transparent;
+				}
+				65% {
+					border-color: #fff;
+				}
+				70% {
+					border-color: transparent;
+				}
+			}
+
+            .glitch-1 {
+                animation: glitch-1 .5s ease-out 0s 1;
+                -webkit-animation: glitch-1 .5s ease-out 0s 1;
+            }
+
+            .glitch-2 {
+                transform: rotate(180deg);
+            }
+
+            .glitch-3 {
+                animation: glitch-3 5s ease-in 0s 1;
+                -webkit-animation: glitch-3 5s ease-in 0s 1;
+            }
+
+            .glitch-4 {
+                animation: glitch-4 4s ease-in-out 0s 1;
+                -webkit-animation: glitch-4 4s ease-in-out 0s 1;
+            }
+
+            .glitch-5 {
+                animation: glitch-5 12s ease-in-out 0s 1;
+                -webkit-animation: glitch-5 12s ease-in-out 0s 1;
+            }
+
+            .grid.glitch-6 {
+                animation: glitch-6 1.475s ease-in-out 0s 10;
+                -webkit-animation: glitch-6 1.475s ease-in-out 0s 10;
+            }
+
+            #area.glitch-6 {
+                animation: glitch-area-6 14.75s ease-in-out 0s 1;
+                -webkit-animation: glitch-area-6 14.75s ease-in-out 0s 1;
+                transform: rotate(0deg);
+            }
+
+            @keyframes glitch-1 {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            @keyframes glitch-3 {
+                0% {
+                    transform: scale(1);
+                }
+
+                60% {
+                    transform: scale(0.5);
+                }
+
+                100% {
+                    transform: scale(1) rotate(1440) rotate3d(1, 1, 1, 1080deg)
+                }
+            }
+
+            @keyframes glitch-4 {
+                from {
+                    transform: rotate(180deg);
+                }
+
+                to {
+                    transform: rotate(540deg);
+                }
+            }
+
+            @keyframes glitch-5 {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                7.09% {
+                    transform: rotate(21deg);
+                }
+
+                22.72% {
+                    transform: rotate(-180deg) translate(0,0);
+                }
+
+                35.46% {
+                    transform: rotate(-209deg) translate(0px, 0px);
+                }
+
+                38.18% {
+                    transform: rotate(-90deg);
+                }   
+
+                52.27% {
+                    transform: rotate(-71deg);
+                }
+
+                59.09% {
+                    transform: rotate(315deg);
+                }
+
+                70% {
+                    transform: rotate(336deg);
+                }
+
+                73.63% {
+                    transform: rotate(-135deg);
+                }
+
+                80.91% {
+                    transform: rotate(-118deg);
+                }
+
+                95% {
+                    transform: rotate(-180deg) scale(.625);
+                }
+                
+                100% {
+                    transform: rotate(180deg) scale(1);
+                }
+            }
+
+            @keyframes glitch-6 {
+                0% { 
+                    transform: rotate(0deg);
+                }
+
+                30% { 
+                    transform: rotate(0deg);
+                }
+
+                65% { 
+                    transform: rotate(180deg);
+                }
+
+                85% {
+                    transform: rotate(180deg);
+                }
+
+                100% {
+                    transform: rotate(180deg);
+                }
+            }
+
+            @keyframes glitch-area-6 {
+                to { 
+                    transform: rotate(360deg);
+                }
+            }
+
+            #result, #void, #insufficient-resolution {
+                position: fixed;
+                z-index: 100;
+                top: 0;
+                left: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100vh;
+                opacity: 1;
+                background-color: rgba(0,0,0,.15);
+                backdrop-filter: blur(1px);
+                -webkit-backdrop-filter: blur(1px);
+                animation: result-in .5s ease-out 0s 1;
+                -webkit-animation: result-in .5s ease-out 0s 1;
+            }
+
+            @keyframes result-in {
+                from {
+                    opacity: 0
+                }
+            }
+
+            #result.hidden {
+                display: none;
+            }
+
+            #void {
+                transition: opacity .5s ease-out;
+            }
+
+            #void.hidden {
+                opacity: 0;
+            }
+
+            .title {
+                color: #ddd;
+                font-size: 36px;
+                margin: 0 0 25px 0;
+            }
+
+            .detail {
+                color: #ddd;
+                font-size: 21px;
+                margin: 0 0 15px 0;
+            }
+
+            .button {
+                appearance: none;
+                -webkit-appearance: none;
+                color: #ddd;
+                font-size: 21px;
+                margin: 30px 0 0 0;
+                padding: 8px 45px;
+                border: 0;
+                background-color: transparent;
+                border: 1px solid #fff;
+                cursor: pointer;
+                outline: none;
+                transition: border-color .25s ease-out, color .25s ease-out;
+            }
+
+            .button:hover,
+            .button:focus {
+                border-color: #f00;
+                color: #f00;
+            }
+
+            #insufficient-resolution {
+                z-index: 9999;
+                background-color: #000;
+            }
+
+            #aleph-detail, #resources {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                margin: 200px 0 0 0;
+            }
+
+            #aleph-detail > .detail {
+                font-size: 16px;
+                opacity: .625;
+                text-align: center;
+            }
+
+            #aleph-zero {
+                font-size: 60px;
+                font-weight: normal;
+            }
+
+            #resources > .link {
+                display: block;
+                color: #ccc;
+                font-size: 19px;
+                text-decoration: none;
+                margin: 0 0 15px 0;
+            }
+
+            @media screen and (min-width: 900px) and (min-height:900px){
+                #insufficient-resolution {
+                    display: none
+                }
+            }
+		</style>
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"
+			type="text/javascript"
+		></script>
+		<script>
+            let me = [3, 3],
+                demon = [1,1],
+                corrupted = 0;
+
+			const delay = (timeout = 0) => {
+				return new Promise((resolve, reject) => {
+					setTimeout(() => {
+						return resolve(timeout)
+					}, timeout * 1000)
+				})
+			}
+
+            const enableControl = () => {
+                $(document).on('keydown', (event) => {
+                    let { key } = event || window.event
+                    let move = false
+
+                    if(key === "ArrowUp" && me[0] > 1){
+                        me[0]--
+                        move = true
+                    }
+                    if(key === "ArrowDown" && me[0] < 5){
+                        me[0]++
+                        move = true
+                    }
+                    if(key === "ArrowLeft" && me[1] > 1){
+                        me[1]--
+                        move = true
+                    }
+                    if(key === "ArrowRight" && me[1] < 5){
+                        me[1]++
+                        move = true
+                    }
+                    if(move){
+                        $(".grid.me").removeClass("me")
+                        $(`.grid-${me[0]}-${me[1]}`).addClass("me")
+                        checkForCorrupt()
+                    }
+                })
+            }
+
+            const checkForCorrupt = () => {
+                if($(".grid.me.demon").length){
+                    $("#area").addClass("corrupted")
+                    return ++corrupted
+                }
+
+                if($("#area.corrupted").length) 
+                    return $("#area").removeClass("corrupted")
+
+                return;
+            }
+
+            const demonChase = () => {
+                let random = Math.random() >= 0.5
+
+                if(me[0] !== demon[0] && me[1] !== demon[1]){
+                    if(random){
+                        demon[0] > me[0] ? demon[0]-- : demon[0]++
+                    } else {
+                        demon[1] > me[1] ? demon[1]-- : demon[1]++
+                    }
+                } else {
+                    if(me[0] === demon[0]){
+                        demon[1] > me[1] ? demon[1]-- : demon[1]++
+                    } else {
+                        demon[0] > me[0] ? demon[0]-- : demon[0]++
+                    }
+                }
+
+                updateDemonPosition()
+            }
+
+            const updateDemonPosition = () => {
+                $(".grid.demon").removeClass("demon")
+                $(`.grid-${demon[0]}-${demon[1]}`).addClass("demon")
+                checkForCorrupt()
+            }
+
+            const demonFlash = async (duration) => {
+                $(".demon").addClass("hide")
+                await delay(duration / 4)
+                $(".hide").removeClass("hide")
+                await delay(duration / 4)
+                $(".demon").addClass("hide")
+                randomDemonPositionWithOutClear()
+                await delay(duration / 4)
+                $(".hide").removeClass("hide")
+                updateDemonPosition()
+            }
+
+            const randomWhereIsNotMe = (plane = 0,min = 1, max = 5) => {
+                let randomPosition = Math.floor(Math.random() * (max - min + 1)) + min;
+                return (randomPosition === me[plane]) ? randomWhereIsNotMe(min, max) : randomPosition
+            }
+
+            const randomDemonPosition = () => {
+                demon = [randomWhereIsNotMe(0), randomWhereIsNotMe(1)]
+                $(`.grid-${demon[0]}-${demon[1]}`).addClass("demon")
+                checkForCorrupt()
+            }
+
+            const randomDemonPositionWithOutClear = () => {
+                demon = [randomWhereIsNotMe(0), randomWhereIsNotMe(1)]
+                $(`.grid-${demon[0]}-${demon[1]}`).addClass("demon")
+                checkForCorrupt()
+            }
+
+            const randomBetween = (min = 100,max = 100) => Math.floor(Math.random() * (max - min + 1)) + min
+
+            $(document).ready(() => {
+                $("#again").on("click", () => {
+                    window.location.reload();
+                });
+                $(document).on("keydown", (down) => {
+                    let stillDown = true,
+                        started = false
+
+                    if(down.key === "Enter"){
+                        document.getElementById("aleph").currentTime = 0
+                        $(document).on("keyup", () => {
+                            return stillDown = false  
+                        })
+                        setTimeout(() => {
+                            if(stillDown && !started && window.innerWidth >= 900 && window.innerHeight >= 900){
+                                $(document).off("keyup")
+                                $(document).off("keydown")
+                                document.getElementById("aleph").play()
+                                start()
+                            }
+                        }, 350, stillDown);
+                    }
+                })
+            })
+
+			const start = async () => {
+                await delay(.5)
+
+                document.getElementById("aleph").currentTime = 0
+                // Start cinematic
+				await delay(1)
+                $("#void").addClass("hidden")
+				$("#area").removeClass("hidden")                
+
+                await delay(3)
+				$(`.grid-${me[0]}-${me[1]}`).addClass("me")
+				await delay(2)
+				$(`.grid-${demon[0]}-${demon[1]}`).addClass("demon")
+
+                await delay(3.4)
+
+                enableControl()
+                let phase1 = setInterval(() => {
+                    return demonChase()
+                }, 1000)
+
+                await delay(8.05)
+                clearInterval(phase1)
+                phase1 = setInterval(() => {
+                    return demonChase()
+                }, 750)
+                $("#area").addClass("glitch-1")
+
+                await delay(7.85)
+                clearInterval(phase1)
+                demon = [0,0]
+                updateDemonPosition()
+
+                await delay(.3)
+                randomDemonPosition()
+
+                let phase2 = setInterval(() => {
+                    return demonChase()
+                }, 500)
+
+                await delay(14)
+                clearInterval(phase2)
+                demon = [0,0]
+                updateDemonPosition()
+
+                await delay(1)
+                $("#area").addClass("glitch-2")
+
+                await delay(1)
+                randomDemonPosition()
+
+                let demonAngry = setInterval(async () => {
+                    randomDemonPositionWithOutClear()
+                }, 200)
+
+                await delay(3.2)
+                clearInterval(demonAngry)
+
+                await delay(1)
+                updateDemonPosition()
+
+                await delay(.3)
+                randomDemonPosition()
+
+                let phase3 = setInterval(() => {
+                    return demonChase()
+                }, 750)
+                await delay(3.5)
+                clearInterval(phase3)
+
+                phase3 = setInterval(() => {
+                    return demonChase()
+                }, 700)
+                await delay(3.5)
+                clearInterval(phase3)
+
+                phase3 = setInterval(() => {
+                    return demonChase()
+                }, 520)
+                await delay(2.6)
+                clearInterval(phase3)
+
+                demonFlash(.6)
+
+                phase3 = setInterval(() => {
+                    return demonChase()
+                }, 465)
+                await delay(2.5 + .6)
+                clearInterval(phase3)
+
+                demonFlash(.6)
+
+                phase3 = setInterval(() => {
+                    return demonChase()
+                }, 400)
+                await delay(2.4 + .6)
+                clearInterval(phase3)
+
+                demonFlash(.55)
+
+                phase3 = setInterval(() => {
+                    return demonChase()
+                }, 330)
+                await delay(2.35 + .55)
+                clearInterval(phase3)
+
+                demonFlash(.525)
+
+                phase3 = setInterval(() => {
+                    return demonChase()
+                }, 280)
+                await delay(2.25 + .525)
+                clearInterval(phase3)
+
+                demonFlash(.525)
+
+                phase3 = setInterval(() => {
+                    return demonChase()
+                }, 250)
+                await delay(2.15 + .525)
+                clearInterval(phase3)
+
+                demonFlash(.525)
+
+                let demonAngry2 = setInterval(async () => {
+                    randomDemonPositionWithOutClear()
+                }, 150)
+
+                $("#area").addClass("glitch-3")
+                await delay(2.5)
+                updateDemonPosition()
+                await delay(3.125)
+                clearInterval(demonAngry2)
+
+                demon = [0,0]
+                updateDemonPosition()
+                await delay(.2625)
+                $("#area").addClass("glitch-4")
+
+                await delay(5)
+                randomDemonPosition()
+                $("#area").addClass("glitch-5")
+
+                let phase4 = setInterval(() => {
+                    return demonChase()
+                }, 350)
+
+                await delay(9)
+                demon = [0,0]
+                updateDemonPosition()
+
+                await delay(4);
+                clearInterval(phase4)
+                randomDemonPosition()
+
+                let phase5 = setInterval(() => {
+                    return demonChase()
+                }, 350)
+                $("#area").addClass("glitch-6")
+                $(".grid").addClass("glitch-6")
+
+                await delay(12.75);
+                clearInterval(phase5)
+                demon = [0,0]
+                updateDemonPosition()
+
+                await delay(1.5)
+                randomDemonPosition()
+
+                // 0 sec
+                let screenGlitch, demonAngry3, phase6
+
+                demonPosition = [0,0]
+                updateDemonPosition()
+                demonAngry3 = setInterval(async () => {
+                    randomDemonPositionWithOutClear()
+                }, 50)
+                screenGlitch = setInterval(() => {
+                    $(".grid").css(
+                        "transform", 
+                        `translate(${randomBetween(-100,100)}px, ${randomBetween(-100,100)}px)`
+                    )
+                }, 50)
+                demonAngry3 = setInterval(async () => {
+                    randomDemonPositionWithOutClear()
+                }, 50)
+
+                // 1.75 sec
+                await delay(1.75)
+                clearInterval(screenGlitch)
+                clearInterval(demonAngry3)
+                randomDemonPosition()
+                $(".grid").css("transform", "")
+                phase6 = setInterval(() => {
+                    return demonChase()
+                }, 50)
+
+                // 3 sec
+                await delay(1.25)
+                clearInterval(phase6)
+                demonPosition = [0,0]
+                updateDemonPosition()
+                demonAngry3 = setInterval(async () => {
+                    randomDemonPositionWithOutClear()
+                }, 50)
+                screenGlitch = setInterval(() => {
+                    $(".grid").css(
+                        "transform", 
+                        `translate(${randomBetween(-100,100)}px, ${randomBetween(-100,100)}px)`
+                    )
+                }, 50)
+
+                // 6.75 sec
+                await delay(3.75)
+                clearInterval(demonAngry3)
+                clearInterval(screenGlitch)
+                randomDemonPosition()
+                $(".grid").css("transform", "")
+                phase6 = setInterval(() => {
+                    return demonChase()
+                }, 300)
+
+                // 7.75 sec
+                await delay(1)
+                demonPosition = [0,0]
+                updateDemonPosition()
+                demonAngry3 = setInterval(async () => {
+                    randomDemonPositionWithOutClear()
+                }, 50)
+                screenGlitch = setInterval(() => {
+                    $(".grid").css(
+                        "transform", 
+                        `translate(${randomBetween(-125,125)}px, ${randomBetween(-125,125)}px)`
+                    )
+                }, 50)
+
+                // 9.25 sec
+                await delay(1)
+                clearInterval(demonAngry3)
+                clearInterval(screenGlitch)
+                randomDemonPosition()
+                $(".grid").css("transform", "")
+                phase6 = setInterval(() => {
+                    return demonChase()
+                }, 300)
+
+                // 11 sec
+                await delay(1.5)
+                demonPosition = [0,0]
+                updateDemonPosition()
+                demonAngry3 = setInterval(async () => {
+                    randomDemonPositionWithOutClear()
+                }, 50)
+                screenGlitch = setInterval(() => {
+                    $(".grid").css(
+                        "transform", 
+                        `translate(${randomBetween(-150,150)}px, ${randomBetween(-150,150)}px)`
+                    )
+                }, 50)
+
+                // 14.25 sec
+                await delay(3.25)
+                clearInterval(demonAngry3)
+                clearInterval(screenGlitch)
+                $(".grid").css("transform", "")
+
+                await delay(1.5)
+                screenGlitch = setInterval(() => {
+                    $("#area").css(
+                        "transform", 
+                        `translate(${randomBetween(-150,150)}px, ${randomBetween(-150,150)}px)`
+                    )
+                }, 50)
+
+                $(document).off("keydown")
+                await delay(7.5)
+                clearInterval(screenGlitch)
+                clearInterval(demonAngry3)
+
+                await delay(1)
+                $(".grid").css("transform", "")
+                $(".me").addClass("is-demon")
+                $("#corrupted").text(corrupted)
+
+                await delay(5)
+                $("#result").removeClass("hidden")
+			};
+        </script>
+	</head>
+	<body>
+        <div id="insufficient-resolution">
+            <h2 class="title">
+                Insufficient Resolution
+            </h2>
+            <p class="detail">
+                Atleast 900x900 pixel screen can interact with Aleph-0
+            </p>
+            <p class="detail">
+                Try zooming out.
+            </p>
+        </div>    
+        <div id="void">
+            <h1 id="aleph-zero" class="title">
+                ℵ<sub>0</sub>
+            </h1>
+            <p class="button">
+                Hold Enter
+            </p>
+            <footer id="aleph-detail">
+                <p class="detail">
+                    Arrow key to control.
+                </p>
+                <p class="detail">
+                    Fullscreen for best experience.
+                </p>
+            </footer>
+        </div>
+        <main id="area" class="hidden">
+			<div class="grid grid-1 grid-animate-1 grid-1-1"></div>
+			<div class="grid grid-2 grid-animate-2 grid-1-2"></div>
+			<div class="grid grid-3 grid-animate-3 grid-1-3"></div>
+			<div class="grid grid-4 grid-animate-4 grid-1-4"></div>
+			<div class="grid grid-5 grid-animate-5 grid-1-5"></div>
+			<div class="grid grid-6 grid-animate-2 grid-2-1"></div>
+			<div class="grid grid-7 grid-animate-3 grid-2-2"></div>
+			<div class="grid grid-8 grid-animate-4 grid-2-3"></div>
+			<div class="grid grid-9 grid-animate-5 grid-2-4"></div>
+			<div class="grid grid-10 grid-animate-6 grid-2-5"></div>
+			<div class="grid grid-11 grid-animate-3 grid-3-1"></div>
+			<div class="grid grid-12 grid-animate-4 grid-3-2"></div>
+			<div class="grid grid-13 grid-animate-5 grid-3-3"></div>
+			<div class="grid grid-14 grid-animate-6 grid-3-4"></div>
+			<div class="grid grid-15 grid-animate-7 grid-3-5"></div>
+			<div class="grid grid-16 grid-animate-4 grid-4-1"></div>
+			<div class="grid grid-17 grid-animate-5 grid-4-2"></div>
+			<div class="grid grid-18 grid-animate-6 grid-4-3"></div>
+			<div class="grid grid-19 grid-animate-7 grid-4-4"></div>
+			<div class="grid grid-20 grid-animate-8 grid-4-5"></div>
+			<div class="grid grid-21 grid-animate-5 grid-5-1"></div>
+			<div class="grid grid-22 grid-animate-6 grid-5-2"></div>
+			<div class="grid grid-23 grid-animate-7 grid-5-3"></div>
+			<div class="grid grid-24 grid-animate-8 grid-5-4"></div>
+			<div class="grid grid-25 grid-animate-9 grid-5-5"></div>
+		</main>
+		<audio id="aleph" preload="metadata">
+			<source src="https://raw.githubusercontent.com/aomkirby123/aleph-0-resources/master/BOFU2016%20Aleph-0%20BGA.mp3" type="audio/mpeg" />
+        </audio>
+        <div id="result" class="hidden">
+            <h2 class="title">
+                Corrupted: <span id="corrupted"></span>
+            </h2>
+            <p class="detail">Try aiming for lower corrupted.</p>
+            <button id="again" class="button">
+                Again?
+            </button>
+            <footer id="resources">
+                <a class="link" href="https://soundcloud.com/leaf-7/0a-1" rel="noopener noreferrer">Aleph 0 - Leaf</a>
+                <a class="link" href="https://en.wikipedia.org/wiki/Aleph_number" rel="noopener noreferrer">Meaning of Aleph 0 (Aleph Naught)</a>
+                <a class="link" href="https://github.com/aomkirby123" rel="noopener noreferrer">Developer</a>
+            </footer>
+        </div>
+	</body>
+</html>
