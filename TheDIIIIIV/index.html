@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>The DIIIIIV</title>
+    <style>
+      body {
+        background-color: #4d5784;
+        height: 80vh;
+        overflow: hidden;
+      }
+      button {
+        user-select: none;
+        position: absolute;
+        cursor: pointer;
+        min-width: 25px;
+        min-height: 25px;
+      }
+      .start {
+        cursor: grab;
+        border: 3px solid #fff;
+
+        text-align: center;
+        color: #fff;
+      }
+      #field {
+        z-index: 0;
+        display: flex;
+        position: relative;
+        height: 700px;
+        width: 800px;
+        border: 5px solid #000;
+        margin: auto;
+      }
+      .middle {
+        z-index: 1;
+        top: 50%;
+        left: 40%;
+        right: 40%;
+      }
+      .block {
+        position: absolute;
+        border: 2px solid #fff;
+        min-width: 200px;
+        min-height: 200px;
+      }
+      .insideBlock {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="start">
+      <h1>The DIIIIIV</h1>
+      <h2>level :<span id="level">0</span></h2>
+      <h2>Timer : <span id="timer">0</span> second</h2>
+    </div>
+    <div id="field">
+      <button class="middle" onClick="randomDiv()" id="start">
+        Click to Start
+      </button>
+    </div>
+    <script>
+      function finish() {
+        alert("Finish Thx ");
+      }
+
+      const randomDiv = () => {
+        document.querySelector("#field").innerHTML = null;
+        const level = document.getElementById("level");
+        const timer = document.getElementById("timer");
+        const nextLevel = Number(level.innerHTML) + 1;
+
+        [...Array(nextLevel)].map((_, index) => {
+          const id = `thediv${index}`;
+          const someDiv = document.createElement("div");
+          const insideDiv = document.createElement("div");
+          const closeBtn = document.createElement("BUTTON");
+
+          insideDiv.className = "insideBlock";
+
+          const randomInsidePositionX = 50 * Math.random();
+          const randomInsidePositionY = 50 * Math.random();
+          closeBtn.innerHTML = "close";
+          closeBtn.style.top = `${randomInsidePositionX}%`;
+          closeBtn.style.left = `${randomInsidePositionY}%`;
+          closeBtn.onclick = () => {
+            document.querySelector(`#${id}`).remove();
+          };
+
+          const randomSizeX = 500 * Math.random();
+          const randomSizeY = 600 * Math.random();
+          const randomPositionX = 50 * Math.random();
+          const randomPositionY = 50 * Math.random();
+          someDiv.className = "block";
+          someDiv.id = id;
+          someDiv.style.width = `${randomSizeX}px`;
+          someDiv.style.height = `${randomSizeY}px`;
+          someDiv.style.top = `${randomPositionX}%`;
+          someDiv.style.left = `${randomPositionY}%`;
+          someDiv.style.zIndex = index + 2;
+          insideDiv.append(closeBtn);
+          someDiv.append(insideDiv);
+          document.querySelector("#field").append(someDiv);
+        });
+        const middle = document.createElement("BUTTON");
+        middle.className = "middle";
+        middle.onclick = () => {
+          randomDiv();
+        };
+        middle.innerHTML = "GO TO NEXT LEVEL";
+        level.innerHTML = nextLevel;
+        timer.innerHTML = Number(timer.innerHTML) + 5;
+        document.querySelector("#field").append(middle);
+      };
+      const reset = () => {
+        const level = document.getElementById("level");
+        const timer = document.getElementById("timer");
+        level.innerHTML = 0;
+        timer.innerHTML = 1;
+        const startBtn = document.createElement("BUTTON");
+        startBtn.className = "middle";
+        startBtn.onclick = () => randomDiv();
+        startBtn.innerHTML = "Click to start";
+        startBtn.id = "start";
+        document.querySelector("#field").innerHTML = null;
+        document.querySelector("#field").append(startBtn);
+        startCount();
+      };
+      const startCount = () => {
+        document.querySelector("#start").addEventListener("click", () => {
+          const timer = document.getElementById("timer");
+          const counter = setInterval(() => {
+            console.log(Number(timer.innerHTML));
+            if (Number(timer.innerHTML) <= 1) {
+              clearInterval(counter);
+              const level = document.getElementById("level").innerHTML;
+              alert(`หมดเวลาแล้วจ้า Level:${level}`);
+              reset();
+            }
+            timer.innerHTML = Number(timer.innerHTML) - 1;
+          }, 1000);
+        });
+      };
+      startCount();
+    </script>
+  </body>
+</html>
