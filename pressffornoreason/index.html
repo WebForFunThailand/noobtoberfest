@@ -147,7 +147,7 @@
         window.buttonMode = "f"
         document.querySelector("#reset").disabled = !window.start
         window.countdown = setInterval(() => {
-            window.time -= 0.01
+            window.time -= 0.05
             document.querySelector("#timer").innerHTML = `time : ${window.time.toFixed(3)}`
             if (window.time <= 0) {
                 window.start = false
@@ -164,7 +164,7 @@
             if (isFinite(window.counter / (60 - window.time).toFixed(3)))
                 document.querySelector("#fps").innerHTML =
                 `F per sec :  ${(window.counter/(60-window.time)).toFixed(3)}`
-        }, 10)
+        }, 50)
     }
     document.addEventListener('keydown', e => {
         if (e.key.toLowerCase() === "f" || e.key=== " ") if(window.start) {
