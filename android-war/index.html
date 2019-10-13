@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Android War!
+	</title>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=500, initial-scale=1">
+	<style type="text/css">
+	body {
+		font-family: sans-serif;
+		/*background:hsl(220,100%,10%);*/
+		/*background-image: linear-gradient(hsla(199, 98%, 18%, 1),hsla(187, 100%, 2%, 1));*/
+		background-image: url(https://jabont.github.io/hitthemole/bg.gif);
+		background-size: cover;
+		background-position: center;
+		background-attachment: fixed;
+		animation: bg 1s infinite alternate linear;
+		color: white;
+		text-shadow: 0px 0px 8px #03A9F4;
+		margin: 0;
+		cursor: url(http://www.rw-designer.com/cursor-view/102607.png),auto;
+		touch-action:none;
+	}
+	a{
+		color:hsl(187, 100%, 42%)
+	}
+	h1,h2,h3{
+		text-align:center;
+		text-transform:uppercase;
+	}
+	game{
+		opacity: .2;
+		display:block;
+		margin:2em auto;
+		width:400px;
+		height:400px;
+		position:relative;
+		border-radius:10px;
+		overflow:hidden;
+		border: 2px solid #86d9ff;
+		box-shadow: 0px 0px 20px #03A9F4;
+		cursor: url(http://www.rw-designer.com/cursor-view/102658.gif),auto;
+	}
+	pit{
+		display:block;
+		width:100px;
+		height:100px;
+		position:absolute;
+		left:0px;
+		top:0px;
+		background-position: center;
+		background-size: 100%;
+		transition: transform .5s, background-size .5s;
+		background-repeat: no-repeat;
+	}
+
+	pit:hover{
+		background-color: #fff4;
+	}
+
+
+
+	/*  แก้เฉพาะด้านล่างเอง */
+
+	pit[y="1"]{
+		top:100px;
+	}
+	pit[y="2"]{
+		top:200px;
+	}
+	pit[y="3"]{
+		top:300px;
+	}
+	pit[x="1"]{
+		left:100px;
+	}
+	pit[x="2"]{
+		left:200px;
+	}
+	pit[x="3"]{
+		left:300px;
+	}
+
+	pit[status="mole"]{
+		background-image: url(https://jabont.github.io/hitthemole/char.gif);
+	}
+	pit[status="die"]{
+		background-image: url(https://jabont.github.io/hitthemole/char.gif);
+		transform: rotate(2turn);
+		background-size: 0;
+		background-color: transparent;
+	}
+	pit[status="miss"]{
+		background-image: url(https://jabont.github.io/hitthemole/miss.gif);
+	}
+	/*ใส่ภาพแต่ซ่อนไว้ จะได้โหลดภาพก่อน แต่ซ่อนไว*/
+	.preload{
+		width: 1px;
+		height: 1px;
+		opacity: 0;
+	}
+
+</style>
+</head>
+<body>
+	<br>
+	<h1>hit the Robots!</h1>
+
+	<h2 id="subTitle">loading...</h2>
+	<!-- โหลดภาพมารอ -->
+	<img src="https://jabont.github.io/hitthemole/char.gif" class="preload">
+	<img src="https://jabont.github.io/hitthemole/miss.gif" class="preload">
+
+	<!-- 
+		กล่องตารางเกม
+		สถานะของตุ่นที่จะอยู่ใน pit ได้แก่
+		1.blank (ไม่มีตุ่น) 2.mole (มีตุ่น) 3.die (ตีโดน) 4.miss (ตีผิด)
+	-->
+	<game>
+		<pit x="0" y="0" status="blank" onclick="hit(this)"></pit>
+		<pit x="1" y="0" status="blank" onclick="hit(this)"></pit>
+		<pit x="2" y="0" status="blank" onclick="hit(this)"></pit>
+		<pit x="3" y="0" status="blank" onclick="hit(this)"></pit>
+		<pit x="0" y="1" status="blank" onclick="hit(this)"></pit>
+		<pit x="1" y="1" status="blank" onclick="hit(this)"></pit>
+		<pit x="2" y="1" status="blank" onclick="hit(this)"></pit>
+		<pit x="3" y="1" status="blank" onclick="hit(this)"></pit>
+		<pit x="0" y="2" status="blank" onclick="hit(this)"></pit>
+		<pit x="1" y="2" status="blank" onclick="hit(this)"></pit>
+		<pit x="2" y="2" status="blank" onclick="hit(this)"></pit>
+		<pit x="3" y="2" status="blank" onclick="hit(this)"></pit>
+		<pit x="0" y="3" status="blank" onclick="hit(this)"></pit>
+		<pit x="1" y="3" status="blank" onclick="hit(this)"></pit>
+		<pit x="2" y="3" status="blank" onclick="hit(this)"></pit>
+		<pit x="3" y="3" status="blank" onclick="hit(this)"></pit>
+	</game>
+
+	<!-- ตัวนับถอยหลัง -->
+	<h2>time left <span id="theTime">10</span> seconds</h2>
+	<!-- นับคะแนน -->
+	<h1>score: <span id="theScore">0</span></h1>
+
+	<audio id="bgm" loop >
+		<source src="https://jabont.github.io/hitthemole/bgm.mp3" type="audio/ogg">
+		</audio>
+		<audio id="hit" preload="auto">
+			<source src="https://jabont.github.io/hitthemole/hit.wav" type="audio/ogg">
+			</audio>
+			<audio id="miss" preload="auto">
+				<source src="https://jabont.github.io/hitthemole/miss.mp3" type="audio/ogg">
+				</audio>
+				<audio id="birth" preload="auto">
+					<source src="https://jabont.github.io/hitthemole/birth.wav" type="audio/ogg">
+					</audio>
+
+
+
+
+					<script>
+	// เรียกกล่อง pit ทุก pit มาให้ js ใช้งาน
+	pits = document.querySelectorAll('pit');
+
+	// เวลาในการเตรียมตัว (s)
+	preparing = 5;
+	// ระยะเวลาที่ตุ่นจะเกิด (ms)
+	birth = 500;
+	// ระยะเวลาที่ตุ่นจะอยู่รอโดนตี (ms)
+	delay = 2500;
+
+	//ฟังก์ชันหลังโหลดเว็บเสร็จ จะนับถอยหลัง 5 วินาที แล้วเริ่มเกม
+	function ready(){
+		playbgm();
+		// คะแนนเริ่มต้น
+		score = 0;
+		// เวลาในการเล่นเกม (s)
+		time = 20;
+
+		// รีเซ็ทเวลา
+		updateTime();
+		// รีเซ็ทคะแนนให้คนดู
+		updatScore();
+		// reset ทุกหลุมให้ว่าง
+		for (var i = 0; i < pits.length; i++) {
+			pits[i].setAttribute("status","blank");
+		}
+
+		for (let i = 0; i < preparing; i++) {
+			setTimeout(
+				function(){
+					console.log(i);
+					subTitle.innerText = "Ready! Game start in "+(preparing-i);
+					sound('hit');
+				},i*1000);
+		}
+		// หมดเวลาเตรียมตัว เรื่มเกมได้!
+		setTimeout(
+			function(){
+				document.querySelector('game').style.opacity = 1;
+				subTitle.innerText = "Let's fire it!";
+				countdown();
+				reloadMole();
+			}
+			,preparing*1000);
+	}
+
+	// สำหรับสั่งให้เวลาลด
+	function countdown(){
+		// ทุกๆ 1 วินาที เวลาต้องลด
+		cd = setInterval(
+			function(){
+				// ถ้ายังไม่หมดเวลา
+				if (time > 0) {
+					// ลดเวลา
+					time--;
+					// อัพเดทเวลา
+					updateTime();
+				}
+				// ถ้าหมดเวลา
+				else{
+					document.querySelector('game').style.opacity = .2;
+					document.getElementById('bgm').pause();
+					clearInterval(cd);
+					console.log("END");
+				}
+			}
+			,1000)
+	}
+
+	// ฟังก์ชันเกม โดยจะคอยเรียกตัวเองจนกว่าจะตาย หลักการคือ ทุกๆ เวลา birth จะมีตุ่นโผล่หน้ามา โดยสุ่มว่าจะเกิดที่ไหน จากนั้นจะรอใหโดนตีตามเวลา delay ถ้าหมดเวลา delay ยังไม่โดนตี จะหายไป 
+	function reloadMole(){
+		// ถ้าเวลาไม่หมด ให้ทำตามนี
+		if (time>0) {
+			// สุ่มเลขหลุมที่จะเกิด ตั้งแต่เลข 0 ถึง 15
+			var randomPit = Math.floor(Math.random() * 16);
+
+			// ตั้ง status ให้หลุมที่สุ่มได้ เป็นตุ่นโผล่มา
+			pits[randomPit].setAttribute("status","mole");
+			sound('birth');
+
+			// ตั้งเวลาว่า เมื่อหมดเวลา ตุ่นจะหายไป
+			setTimeout(
+				function(){
+					// ถ้าเวลาเล่นเกมยังไม่หมด ตุ่่นจะหาย
+					if (time>0) {
+						pits[randomPit].setAttribute("status","blank");
+					}
+				}
+				,delay);
+			// กำหนดหน่วงเวลาไว้ พอหมดเวลา ให้แรนดอมตุ่นออกมาต่ออีกรอบ
+			setTimeout(
+				function(){
+				// เรียกตัวเอง
+				reloadMole()
+			}
+			,birth);
+		}
+	}
+
+    // สำหรับการตี
+    function hit(pit){
+    	// ตีได้ต่อเมื่อไม่หมดเวลา
+    	if (time>0) {
+    		// ดูว่า  status ตอนนี้คืออะไร
+    		var status = pit.getAttribute("status");
+    		// ถ้าตีโดนตุ่น ปรับเป็น die
+    		if (status == "mole") {
+    			pit.setAttribute("status","die");
+    			// กดถูกได้คะแนน
+    			score++;
+    			sound('hit');
+    			subTitle.innerText = "You Hit!! score+1 😄";
+
+    		}
+    		// ถ้าตีโดน blank จะกลายเป็น miss
+    		else if(status == "blank"){
+    			pit.setAttribute("status","miss");
+    			// กดิดติดลบ
+    			score--;
+    			sound('miss');
+    			subTitle.innerText = "You Miss!! score-1 👻";
+    		}
+    		// แสดงคะแนนให้คนดู
+    		updatScore();
+    	}
+    }
+
+    // สำรหรับโชว์คะแนน
+    function updatScore(){
+    	// แสดงคะแนนให้คนดู
+    	theScore.innerText = score;
+    }
+
+    //สำหรับโชว์เวลา
+    function updateTime(){
+    	// แสดงเวลา
+    	theTime.innerText = time;
+
+    	// ถ้าหมดเวลา ให้บอก
+    	if (time == 0) {
+    		subTitle.innerHTML = "Time out! <a href='#!' onclick='ready()'>play again</a>";
+    	}
+    }
+
+    function sound(id){
+    	document.getElementById(id).play();
+    }
+    var bgmi = 0;
+    function playbgm(){
+    	if (bgmi==0) {
+    		sound('bgm');
+    		bgm++;
+    	}
+    }
+
+
+   	//สั่งให้หลดไฟล์ทั้งหมดก่อน โหลดเสร็จเกมค่อยเริ่ม
+
+   	window.onload = function(){
+   		subTitle.innerHTML = `<a href='#!' onclick='ready()'>Play Now!</a>`
+   	}
+
+   </script>
+</body>
+</html> 
