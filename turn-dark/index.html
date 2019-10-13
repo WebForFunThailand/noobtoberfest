@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Turn dark</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        min-height: 100vh;
+        background-color: #555555;
+        color: #ffffff;
+        font-size: 16px;
+        margin: 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      #timer {
+        text-align: center;
+        display: none;
+      }
+
+      #game-controller {
+        min-height: 500px;
+        margin: 2em;
+        border: 1px solid #ffffff;
+        display: none;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+      }
+
+      #main-button {
+        display: block;
+        margin: 10px auto;
+        outline: 0;
+        padding: 10px 14px;
+        font-size: 18px;
+        border: 1px solid #ffffff;
+        border-radius: 5px;
+        background: transparent;
+        cursor: pointer;
+        color: yellow;
+      }
+
+      #last-play {
+        padding-top: 1em;
+        display: none;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 2.5em;
+        padding-top: 2em;
+        margin-bottom: 0.5em;
+        border-bottom: 1px solid #ffffff;
+      }
+
+      .main-title {
+        color: #121212;
+      }
+
+      .box-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        border: 1px solid #ffffff;
+      }
+
+      .box-item:before {
+        content: "";
+        display: block;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+      }
+
+      .box-item:active,
+      .box-item:hover {
+        background: #444444;
+      }
+
+      .box-item__light:before {
+        background: yellow;
+      }
+
+      .box-item__dark:before {
+        background: #121212;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Turn <span class="main-title">dark</span></h1>
+      <div>
+        Turn all light to the dark as fast as possible!.
+      </div>
+      <div id="last-play">Best time: 0 seconds</div>
+    </div>
+    <div>
+      <div id="timer">Time: 0 seconds</div>
+      <button id="main-button" onclick="start()">Start Game</button>
+      <div id="game-controller"></div>
+    </div>
+  </body>
+  <script>
+    // 5 rows and 5 columns
+    const GAME_SIZE = 5;
+    const INITIAL_LIGHT_AMOUNT = 10;
+
+    const mainButton = document.getElementById("main-button");
+    const timer = document.getElementById("timer");
+    const lastPlayedElement = document.getElementById("last-play");
+    const gameElement = document.getElementById("game-controller");
+
+    let counterInterval;
+    let duration = 0;
+
+    function updateInterval() {
+      timer.innerText = `Time: ${++duration} seconds`;
+    }
+
+    function getRandomInitialLight() {
+      let initialLightIndexes = [];
+
+      for (let iterator = 0; iterator < INITIAL_LIGHT_AMOUNT; iterator++) {
+        const initialIndex = Math.round(
+          Math.random() * (Math.pow(GAME_SIZE, 2) - 1)
+        );
+
+        initialLightIndexes = [...initialLightIndexes, initialIndex];
+      }
+
+      return initialLightIndexes;
+    }
+
+    function initialBox() {
+      // clear child of game element
+      gameElement.innerHTML = "";
+
+      const initialLightIndexes = getRandomInitialLight();
+
+      for (let row = 1; row <= GAME_SIZE; row++) {
+        for (let column = 1; column <= GAME_SIZE; column++) {
+          const index = (row - 1) * GAME_SIZE + column - 1;
+
+          const appendItem = document.createElement("div");
+
+          // apply to box item
+          appendItem.className = "box-item";
+
+          if (initialLightIndexes.indexOf(index) > -1) {
+            // set to light
+            appendItem.className = `box-item box-item__light`;
+          } else {
+            // set to dark
+            appendItem.className = `box-item box-item__dark`;
+          }
+
+          function toggle(index) {
+            let updateItem = gameElement.children[index];
+
+            // if clicked item is light
+            if (updateItem.className.indexOf("light") > -1) {
+              // turn to dark
+              updateItem.className = `box-item box-item__dark`;
+            }
+
+            // if clicked item is dark
+            else {
+              // turn to light
+              updateItem.className = `box-item box-item__light`;
+            }
+          }
+
+          appendItem.onclick = function() {
+            const index = (row - 1) * GAME_SIZE + column - 1;
+
+            // clicked item
+            toggle(index);
+
+            // not left corner
+            if (index % GAME_SIZE !== 0) {
+              // left
+              toggle(index - 1);
+            }
+
+            // not right corner
+            if (index % GAME_SIZE !== GAME_SIZE - 1) {
+              // right
+              toggle(index + 1);
+            }
+
+            // not top corner
+            if (index > GAME_SIZE) {
+              // top
+              toggle(index - GAME_SIZE);
+            }
+
+            if (index + GAME_SIZE < Math.pow(GAME_SIZE, 2)) {
+              // bottom
+              toggle(index + GAME_SIZE);
+            }
+
+            update();
+          };
+
+          gameElement.append(appendItem);
+        }
+      }
+    }
+
+    function shuffle() {
+      initialBox();
+    }
+
+    function start() {
+      duration = 0;
+      counterInterval = setInterval(updateInterval, 1000);
+
+      mainButton.innerText = "Shuffle";
+      mainButton.onclick = shuffle;
+
+      timer.style.display = "block";
+
+      gameElement.style.display = "grid";
+
+      initialBox();
+    }
+
+    function update() {
+      const lightBoxes = document.getElementsByClassName("box-item__light");
+
+      // if all light box is dark... end game!
+      if (lightBoxes.length === 0) {
+        stop();
+      }
+    }
+
+    function stop() {
+      clearInterval(counterInterval);
+
+      mainButton.innerText = "Play Again";
+      mainButton.onclick = start;
+
+      timer.innerText = `Perfect!! you win within ${duration} seconds`;
+
+      lastPlayedElement.innerText = `Last play: ${duration} seconds`;
+      lastPlayedElement.style.display = "block";
+
+      gameElement.style.display = "none";
+    }
+  </script>
+</html>
