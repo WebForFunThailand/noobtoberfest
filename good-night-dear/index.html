@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>🌙 Good night, dear.</title>
+    <meta name="title" content="🌙 Good night, dear." />
+    <meta
+      name="description"
+      content="Maybe, Skoy bedtime story is not okay for your kids."
+    />
+
+    <!-- OG/Fb -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://noobtoberfest.netlify.com/good-night-dear/"
+    />
+    <meta property="og:title" content="🌙 Good night, dear." />
+    <meta
+      property="og:description"
+      content="Maybe, Skoy bedtime story is not okay for your kids."
+    />
+    <meta
+      property="og:image"
+      content="https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.0-9/72288700_3140672012640713_420079086090584064_n.jpg?_nc_cat=102&_nc_oc=AQnaQlkB7xwT_oZ3JodKCUENs04oJGHVBDrqTpu4MqaWETxAEJCa4pj8xowwdxoY5HA&_nc_ht=scontent.fbkk22-3.fna&oh=dab7b71234429755d4108c01f1a3f404&oe=5E21A7EE"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://noobtoberfest.netlify.com/good-night-dear/"
+    />
+    <meta property="twitter:title" content="🌙 Good night, dear." />
+    <meta
+      property="twitter:description"
+      content="Maybe, Skoy bedtime story is not okay for your kids."
+    />
+    <meta
+      property="twitter:image"
+      content="https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.0-9/72288700_3140672012640713_420079086090584064_n.jpg?_nc_cat=102&_nc_oc=AQnaQlkB7xwT_oZ3JodKCUENs04oJGHVBDrqTpu4MqaWETxAEJCa4pj8xowwdxoY5HA&_nc_ht=scontent.fbkk22-3.fna&oh=dab7b71234429755d4108c01f1a3f404&oe=5E21A7EE"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Mali&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+    <style>
+      html,
+      p,
+      a,
+      button,
+      textarea,
+      h1 {
+        font-family: "Mali", cursive;
+        line-height: 1.7;
+      }
+    </style>
+  </head>
+  <body
+    style="background:url(https://scontent.fbkk22-3.fna.fbcdn.net/v/t1.0-9/72288700_3140672012640713_420079086090584064_n.jpg?_nc_cat=102&_nc_oc=AQnaQlkB7xwT_oZ3JodKCUENs04oJGHVBDrqTpu4MqaWETxAEJCa4pj8xowwdxoY5HA&_nc_ht=scontent.fbkk22-3.fna&oh=dab7b71234429755d4108c01f1a3f404&oe=5E21A7EE) fixed"
+  >
+    <br />
+    <div id="app" class="paper container border border-primary">
+      <!-- HEADER -->
+      <header style="text-align:center">
+        <h1 style="margin:0">🌙 Good night, dear.</h1>
+        <p style="margin:0"
+          >วิธีเล่น: ให้พิมพ์ข้อความบางส่วนจากนิทานภาษาสก๊อยให้เป็นภาษาไทยให้ถูกต้อง</p
+        >
+      </header>
+      <br />
+      <!-- SKOY STORY -->
+      <div class="border border-4 border-primary shadow" style="padding:1rem">{{
+        skoy
+      }}</div>
+      <br />
+      <!-- INPUT -->
+      <textarea
+        placeholder="กาลครั้งหนึ่งนานมาแล้ว..."
+        v-model="translated"
+        rows="3"
+        style="width:100%;resize:none;overflow-y:auto"
+      ></textarea>
+      <br />
+      <!-- BUTTONS -->
+      <div class="row">
+        <div class="sm-6 col" style="padding:0">
+          <button id="changeStory" @click="generateStory">🔄 เปลี่ยนโจทย์</button>
+        </div>
+        <div class="sm-6 col" style="padding:0;text-align:right">
+          <button id="checkStory" @click="checkStory">ตรวจคำตอบ ✅</button>
+        </div>
+      </div>
+      <br />
+      <!-- CREDITS -->
+      <footer>
+        <b>สรรค์สร้างความปวดหัวโดย:</b>
+        <a href="https://github.com/rootEnginear">rootEnginear</a><br />
+        <b>Resources:</b>
+        <ul style="margin:0;padding-left:1rem">
+          <li><a href="https://www.getpapercss.com/">PaperCSS</a></li>
+          <li
+            ><a href="https://fonts.google.com/specimen/Mali">Mali - Google Fonts</a></li
+          >
+          <li><a href="https://vuejs.org/">Vue.js</a></li>
+          <li><a href="https://github.com/kpdecker/jsdiff">jsdiff</a></li>
+          <li><a href="https://github.com/narze/toSkoy">toSkoy</a></li>
+          <li
+            ><a href="https://www.freepik.com/free-photos-vectors/background"
+              >Background vector created by rawpixel.com</a
+            ></li
+          >
+        </ul>
+      </footer>
+      <!-- MODAL -->
+      <input class="modal-state" ref="modal-1" id="modal-1" type="checkbox" />
+      <div class="modal">
+        <div class="modal-bg"></div>
+        <div id="modal-body" class="modal-body border border-3">
+          <div style="font-weight:bold;text-align:center;font-size:2rem"
+            >คุณแปลถูก:
+            <span
+              :style="{color:['red','orange','green','green'][Math.floor(modalPercentage/(100/3))]}"
+              >{{ modalPercentage }}%</span
+            ></div
+          >
+          <div style="font-weight:bold">เนื้อเรื่องจริง:</div>
+          <p id="result" class="modal-text" v-html="modalContentCorrent"></p>
+          <div
+            v-if="modalPercentage !== 0 && modalPercentage !== 100"
+            style="font-weight:bold"
+            >เนื้อเรื่องที่แปล:</div
+          >
+          <p
+            id="result"
+            class="modal-text"
+            v-if="modalPercentage !== 0 && modalPercentage !== 100"
+            v-html="modalContentInput"
+          ></p>
+          <div style="text-align:center">
+            <button id="newStory" @click="newStory">📃 ลองเรื่องใหม่</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jsdiff/4.0.1/diff.min.js"
+      integrity="sha256-xofEpXTFTnsOK+GIsjgJc1ZN0kSE3KsTtZJ2GQaWs3I="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // toSkoyJS: https://github.com/narze/toSkoy
+      (function() {
+        var db = {},
+          maxLength = 0;
+
+        function learnWord(from, to) {
+          if (to.push && to.length) {
+            for (var i = 0; i < to.length; i++) {
+              learnWord(from, to[i]);
+            }
+            return;
+          }
+          var array = db[from] || (db[from] = []);
+          array[array.length] = to;
+          if (to.length > maxLength) maxLength = to.length;
+        }
+
+        function learnPhrase(original, translated) {
+          original = original.split(",");
+          translated = translated.split(",");
+          if (original.length != translated.length) {
+            throw new Error("count mismatch!");
+          }
+          for (var i = 0; i < original.length; i++) {
+            learnWord(original[i], translated[i]);
+          }
+        }
+
+        function learn(obj) {
+          for (var i in obj) {
+            learnWord(i, obj[i]);
+          }
+        }
+
+        function has(str) {
+          return !!db[str];
+        }
+
+        var karans = "ห์,ษ์,ซ์,บ์,ป์,ฌ์".split(",");
+        function karan() {
+          return karans[Math.floor(Math.random() * karans.length)];
+        }
+
+        function get(str) {
+          var c = db[str],
+            result = c[Math.floor(Math.random() * c.length)],
+            endingPattern = /[ก-ฮ]$/;
+          if (result.length > 1) {
+            if (result.match(endingPattern)) {
+              result = result.replace(endingPattern, function(a) {
+                var random = Math.random();
+                if (random < 0.2) return karan() + a;
+                if (random < 0.3) return a + karan();
+                return a;
+              });
+            }
+          }
+          return result;
+        }
+
+        function learnShift(from, to) {
+          learnWord(from, from);
+          learnWord(from, to);
+          learnWord(from, to);
+          learnWord(to, to);
+          learnWord(to, to);
+          learnWord(to, from);
+        }
+
+        learn({
+          "ู": "ุ๊",
+          ะ: "๊",
+          ด: "ฎ",
+          ต: "ฏ",
+          ข: "ฆ",
+          ท: "ธ",
+          "ี": "ิ๊",
+          "้": "๊",
+          า: "๊",
+          ฉ: "ช๋"
+        });
+
+        learn({
+          หนุ: "นุ๊วซ์",
+          อยาก: "ญั๊ข",
+          คะ: "ขร๊",
+          ค่ะ: "ฆร่",
+          "ัน": "ัล",
+          วก: "๊ก",
+          "ัก": "ัข"
+        });
+
+        learnWord("อ", "อ");
+        learnWord("อ", "อ");
+        learnWord("อ", "ฮ");
+
+        learnShift("ม", "ฒ");
+        learnShift("พ", "ภ");
+        learnShift("ภ", "พ");
+        learnShift("น", "ณ");
+        learnShift("น", "ฯ");
+        learnShift("ย", "ญ");
+
+        learnPhrase("ส,มา,คม,นิ,ยม,สก๊อย", "ษ,ม่,ค่ล์ม,นิ๋,ญฒ,สก๊อย");
+
+        learnPhrase(
+          "พวก,คุณ,จะ,ว่า,อะ,ไร,ก็,เชิญ,เลย,นะ,พวก,เรา,ไม่,สน,หรอก",
+          "พ๊ก,คุ๊ล,จ่,ว่,อ่,รั๊ย,ก่,เซิฬ,เร่ย,น๊,พ๊ก,เลา,ไม๊,ส่น,หร่อก"
+        );
+
+        // https://www.facebook.com/sowhateiei/posts/333737343378863
+
+        learnPhrase(
+          /*'หนู*/ "มี,นิ,ทาน,มา,เล่า,ให้,พี่,ฟัง,คะ,นิ,ทาน,เรื่อง,นี้,สอน,ให้,รู้,ว่า,ชาว,นา,กับ,ทะ,เล,ที่,หก",
+          /*'ุ๊ซ์ว*/ "มริ๊,ณิ๊,ธาง์ร,ม่,เฬอ่า,หั๊ล์ย,พริ๊ต์,ฟรั๊ก์ง,ค๊,ณิ๊,ธาถ์ฯ,เฬอื่บ์ลง,ณิ๊,ศั๊ฎ์,ญหั๊ล์,รุ๊ง์ว,ว่,ชั๊ส์ว,ณฆ์า,กั๊ผ,ฑะ,เฬ,ธิ๊ฆ์,หค์ก"
+        );
+        learnPhrase(
+          "กาล,ครั้ง,หนึง,ชาว,นา,กำ,ลัง,หา,ปลา,อยู่,ใน,แต่,ว่า,หา,ยัง,ไง,ก็,ไม่,เจอ,ชาว,นา,ก็,เลย,ไป",
+          "กั๊รฬว์ะ,ฅั๊ฐ์งหสุ์,ณึ่,ชั๊ย์ว,ณฆ์า,กั๊,ร์ฬ,ห๊ษ์า,ปธ์ฬา,ยุ๊ว์ซ,นั๊บ์ย,ต่,ว๊พ์,ห๊ษ์า,ญั๊ล์ง,งั๊,กํ,มรั๊ล์ย,เ๗อ,ชั๊ซ์ว,ณษ์า,ก่,เร่รร,ปั๊บ์ย"
+        );
+        learnPhrase(
+          "ยิน,ดี,ต้อน,รับ,พี่,ทุก,คน,นะ,คะ,พี่,จะ,ด่า,จะ,ว่า,ไง",
+          "ญิร์น,ดลีร์,ตั๊ร์น,รั๊ผ,ผริ๊,ธุ๊ฆ,ฃ๊ล,น๊,ฆ๊,พริ๊,จ่,ฎ่า,จ่,ว๊ร์า,งั๊ย"
+        );
+        learnPhrase(
+          "เดี๋ยว,หนู,ไป,หา,อะไร,กิน,ก่อน,นะ,หิว,แล้ว",
+          "เฎิ๋ญว,หนุ๊,ปั๊บ์ย,ห๊ษ์า,อ่รั๊ย,กิ๊ล,ก่ฮฯ,น๊,ฮิ๋ซ์ว,เร่รฬฬ"
+        );
+        learnPhrase(
+          "มรี,เเฝณ,ฤ,ยัง,ฅิฎ,เถิง,ณะ,ฃอ,เบอล์,หน่อญ",
+          "มี,แฟน,หรือ,ยัง,คิด,ถึง,นะ,ขอ,เบอร์,หน่อย"
+        );
+        // my head exploded. someone else add more phrases plox kthx
+
+        String.prototype.toSkoy = function() {
+          var skoy = "";
+          for (var i = 0; i < this.length; ) {
+            var success = false;
+            for (var l = maxLength; l > 0; l--) {
+              var sub = this.substr(i, l);
+              if (has(sub)) {
+                skoy += get(sub);
+                success = true;
+                i += l;
+                break;
+              }
+            }
+            if (success) continue;
+            skoy += this.charAt(i);
+            i += 1;
+          }
+          return skoy;
+        };
+      })();
+    </script>
+    <script defer>
+      let app = new Vue({
+        el: "#app",
+        mounted: function() {
+          fetch(
+            "https://raw.githubusercontent.com/rootEnginear/thai-aesop-lstm/master/data/aesop/input.txt"
+          )
+            .then(x => x.text())
+            .then(x => {
+              this.data = x.replace(/ ๆ /g, "ๆ ").split(" ");
+              this.generateStory();
+            });
+        },
+        data: function() {
+          return {
+            data: "",
+            text: "กำลังโหลด...",
+            translated: "",
+            modalContentCorrent: "",
+            modalContentInput: "",
+            modalPercentage: 0.0
+          };
+        },
+        computed: {
+          skoy: function() {
+            return this.text.toSkoy();
+          }
+        },
+        methods: {
+          generateStory: function() {
+            let textLength = 5;
+            let index = Math.floor(Math.random() * (3066 - textLength)); //3066 is data length
+            this.text = this.data.slice(index, index + textLength).join(" ");
+            this.translated = "";
+          },
+          toggleModal: function() {
+            this.$refs["modal-1"].click();
+          },
+          checkStory: function() {
+            let formattedInput = this.translated.trim().replace(/\s+/g, " "),
+              diff = Diff.diffChars(this.text, formattedInput),
+              diffReal = "",
+              diffInput = "",
+              charLength = 0,
+              charCorrect = 0;
+            diff.forEach(function(part) {
+              if (part.added) {
+                diffInput += "<span style='color:red'>" + part.value + "</span>";
+              } else if (part.removed) {
+                charLength += part.value.length;
+                diffReal += "<span style='color:green'>" + part.value + "</span>";
+              } else {
+                diffInput += part.value;
+                diffReal += part.value;
+                charCorrect += part.value.length;
+                charLength += part.value.length;
+              }
+            });
+            this.modalContentCorrent = diffReal;
+            this.modalContentInput = diffInput;
+            this.modalPercentage = Math.round((charCorrect / charLength) * 10000) / 100;
+            this.toggleModal();
+          },
+          newStory: function() {
+            this.generateStory();
+            this.toggleModal();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
