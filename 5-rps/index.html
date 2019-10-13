@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width">
+
+    <title>Rock, Paper, Scissors, Spock, Lizard</title>
+
+    <style>
+       *{margin:0;padding:0;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}::selection{background:#fb9fe5;text-shadow:none}a{color:#0088CC;text-decoration:none;outline:0}a:hover{color:#005580}a img{border:none}img{max-width:100%}html{font-size:100%}body{padding:5%;font:300 1.25em/1.6 monospace;background:#fff;color:#000;}h1{font-family:"Helvetica Neue",sans-serif;line-height:1;font-weight:300;margin-bottom:1em;}.game{padding:2em;background:#eee;}
+    </style>
+</head>
+<body>
+  <h1>Rock, Paper, Scissors, Spock, Lizard</h1>
+  <p>Reference from this :</p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Rock_Paper_Scissors_Lizard_Spock_en.svg/400px-Rock_Paper_Scissors_Lizard_Spock_en.svg.png" />
+  <div class="game"></div>
+  <script>
+    var convertChoiceToNumber = function (choice) {
+      if (choice == "rock") {
+        return 0;
+      } else if (choice == "spock") {
+        return 1;
+      } else if (choice == "paper") {
+        return 2;
+      } else if (choice == "lizard") {
+        return 3;
+      } else if (choice == "scissors") {
+        return 4;
+      } else {
+        return "Error";
+      }
+    }
+
+    var convertNumberToChoice = function (number) {
+      if (number == 0) {
+        return "rock";
+      } else if (number == 1) {
+        return "spock";
+      } else if (number == 2) {
+        return "paper";
+      } else if (number == 3) {
+        return "lizard";
+      } else if (number == 4) {
+        return "scissors";
+      } else {
+        return "Error";
+      }
+    }
+
+    var getRandomInt = function (max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    var playerChoice = prompt("Rock, Paper, Scissors, Spock, Lizard").toLowerCase();
+
+    if (!playerChoice) {
+      document.write("<p>Refresh the screen and choose again, coward.</p>");
+    } else {
+      document.write("<p>Player :" + " " + playerChoice + "</p>");
+      playerChoice = convertChoiceToNumber(playerChoice);
+    }
+
+    var computerChoice = getRandomInt(5);
+    document.write("<p>Computer :"+" " + convertNumberToChoice(computerChoice) + "<p>");
+    var difference = Math.abs((playerChoice - computerChoice) % 5);
+    console.log(difference);
+
+    if (difference == 0) {
+      document.write("<br><hr><br>It's tie!");
+    } else if (difference == 1 || difference == 2) {
+      document.write("<br><hr><br>You win!");
+    } else if (difference == 3 || difference == 4) {
+      document.write("<br><hr><br>Computer Wins!");
+    }
+  </script>
+</body>
+</html>
