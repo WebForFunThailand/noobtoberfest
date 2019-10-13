@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BallSpin Roulette</title>
+  <style>
+    td{
+      width: 100px;
+      height: 100px;
+      text-align: center;
+      font-size: 30px;
+    }
+    .red{
+      background: pink;
+    }
+    .green{
+      background: lightgreen;
+    }
+    #spin{
+      width: 100%;
+      height: 100%;
+      font-size: 30px;
+    }
+    .big-btn{
+      height: 50px;
+      font-size: 20px;
+    }
+    p{
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>BallSpin Roulette</h1>
+  <dl>
+    <dt>ผู้เล่นจะต้องกด <strong>"spin"</strong> ให้ "0" (ลูกบอล) ไปหล่นตรงช่อง<span class="green">สีเขียว</span>ให้ได้ <strong>ถึงจะได้ 1 แต้ม</strong></dt>
+    <dt>หากลูกบอลถูก spin ไปลงช่อง<span class="red">สีแดง</span><strong>คะแนนแห่งความพ่ายแพ้จะเพิ่ม 1 แต้ม</strong></dt>
+    <dt>สามารถเช็คตำแหน่งที่ลูกบอลอยู่ได้ด้วยการกดปุ่ม "Check current position" (ตำแหน่งมีตั้งแต่ 0-7)</dt>
+    <dt>สามารถกดเพื่อเลื่อนลูกบอลไป 1 ตำแหน่งได้ กรณีลูกบอลอยู่ตำแหน่งที่ 0</dt>
+
+  </dl>
+  <dt></dt>
+  <table>
+    <tr>
+      <td id="s0" class="red">0</td>
+      <td id="s1" class="green"></td>
+      <td id="s2" class="red"></td>
+    </tr>
+    <tr>
+      <td id="s7" class="green"></td>
+      <td><button id="spin" onclick="roulette.spin()">spin</button></td>
+      <td id="s3" class="green"></td>
+    </tr>
+    <tr>
+      <td id="s6" class="red"></td>
+      <td id="s5" class="green"></td>
+      <td id="s4" class="red"></td>
+    </tr>
+  </table>
+  
+  <p>result: <span id=result></span></p>
+  <p>winscore: <span id=win>0</span></p>
+  <p>losescore: <span id=lose>0</span></p>
+  <button class="big-btn check-btn" onclick="roulette.checkCurrentPosition()">Check current position</button>
+  <button class="big-btn move-btn" onclick="roulette.move(s0,s1,1)">Move position</button>
+  <script>
+    const roulette = (function () {
+      let winScore = 0,
+        loseScore = 0,
+        slots = ['s0','s1','s2','s3','s4','s5','s6','s7']
+
+      function showResult(position){
+        const isLose = position % 2 === 0
+        if (isLose) {
+          loseScore++;
+          lose.innerHTML = loseScore;
+          result.innerHTML = 'lose';
+        } else {
+          winScore++;
+          win.innerHTML = winScore;
+          result.innerHTML = 'win';
+        }
+      }
+
+      return {
+        findCurrentPosition () {
+          return slots.findIndex(slot => document.getElementById(slot).innerText === '0')
+        },
+        checkCurrentPosition () {
+          const currentPosition = this.findCurrentPosition()
+          alert(currentPosition)
+        },
+        spin () {
+          let currentPosition = this.findCurrentPosition()
+          let minRound = 10, maxRound = 20
+          let randomRound = Math.floor(Math.random() * (maxRound - minRound + 1 )) + minRound
+
+          const modNumber = slots.length
+          const spinInterval = setInterval(function(){
+            document.getElementById(slots[currentPosition % modNumber]).innerHTML = ''
+            document.getElementById(slots[(++currentPosition) % modNumber]).innerHTML = '0'
+          }, 100)
+
+          setTimeout(function () {
+            clearInterval(spinInterval)
+            showResult(currentPosition % modNumber)
+          }, randomRound * 100);
+        },
+        move(sourceSlot, destSlot, i){
+          if (sourceSlot.innerText === '0') {
+            sourceSlot.innerHTML = '';
+            destSlot.innerHTML = '0';
+          }
+        }
+      }
+    })()
+  </script>
+</body>
+</html>
+
