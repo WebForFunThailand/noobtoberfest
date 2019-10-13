@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Math Master</title>
+	<meta charset=utf-8>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="Math Master">
+
+	<link rel="apple-touch-icon" href="life.png" >
+	<meta name="msapplication-starturl" content="latest?launchedTest" />
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css?family=Mitr');
+		body {
+			margin: 0;
+			background: black;
+		}
+
+		* {
+			font-family: 'Mitr', sans-serif;
+		}
+
+		#game {
+			width: 100%;
+			max-width: 420px;
+			background: grey;
+			height: 100vh;
+			max-height: 700px;
+			margin: auto;
+			position: relative;
+		}
+
+		inner {
+			width: 100%;
+		}
+
+		.page {
+			top: 0;
+			left: 0;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			background: black;
+			align-items: center;
+		}
+
+		#home {
+			text-align: center;
+			background-image: url(https://jabont.github.io/Game-MathMaster/map.gif);
+			background-position: center;
+			background-size: cover;
+		}
+
+		#play {
+			flex-flow: column;
+			display: none;
+			background-image: url(https://jabont.github.io/Game-MathMaster/map.gif);
+			background-position: center;
+			background-size: cover;
+		}
+
+		#play_control{
+			text-align:center;
+		}
+		#game_logo {}
+
+		#game_name {
+			font-size: 2.75em;
+			color: #fff;
+			padding: 0;
+			margin: 0;
+		}
+
+		#game_number {
+			font-size: 3em;
+			font-weight: 900;
+			width: 80%;
+			margin-bottom: 30px;
+			border: 5px solid white;
+			box-shadow: 0px 1px 1px grey inset;
+			box-sizing: border-box;
+			text-align: center;
+			background: white;
+			color: #2c83bb;
+		}
+
+		#game_start {
+			border: 5px solid #fff;
+			border-radius: 10em;
+			background: #2c83bb;
+			color: white;
+			line-height: 1.75em;
+			font-weight: 900;
+			font-size: 2em;
+			width: 80%;
+			box-sizing: border-box;
+			transition: all .2s;
+			text-shadow: 0px 2px 2px #0008;
+			box-shadow: 0px -.1em 0px #0008 inset;
+		}
+
+		#game_start:hover {
+			box-shadow: 0px -.2em 0px #0008 inset;
+		}
+
+		#play_map {
+			height: 80%;
+			width: 100%;
+			background: #0004;
+			position: relative;
+		}
+
+		#play_control {
+			height: 20%;
+			width: 100%;
+			background: #0006;
+			color: white;
+		}
+
+		master {
+			width: 20%;
+			height: 12.5%;
+			position: absolute;
+			bottom: 12.5%;
+		}
+
+		mon {
+			width: 20%;
+			height: 10%;
+			font-weight: 900;
+			font-size: 3em;
+			text-align: center;
+			color: white;
+			text-shadow: 2px 2px 0px #0003;
+			position: absolute;
+			transition: all .3s;
+		}
+
+		joy {
+			position: absolute;
+			width: 100%;
+			height: 11%;
+			bottom: 0;
+		}
+
+		.warp {
+			transition: scale(1.2);
+		}
+
+		.joy {
+			width: 50%;
+			height: 100%;
+			float: left;
+			font-size: 2em;
+
+			background-image: url(https://jabont.github.io/Game-MathMaster/joy.jpg);
+			background-position: center;
+			border: 0;
+			color: #3b3143;
+			font-weight: bold;
+		}
+
+		/* Position */
+
+		[x="1"] {
+			left: 0%;
+		}
+
+		[x="2"] {
+			left: 20%;
+		}
+
+		[x="3"] {
+			left: 40%;
+		}
+
+		[x="4"] {
+			left: 60%;
+		}
+
+		[x="5"] {
+			left: 80%;
+		}
+
+		[y="1"] {
+			top: 0%;
+		}
+
+		[y="2"] {
+			top: 12.5%;
+		}
+
+		[y="3"] {
+			top: 25%;
+		}
+
+		[y="4"] {
+			top: 37.5%;
+		}
+
+		[y="5"] {
+			top: 50%;
+		}
+
+		[y="6"] {
+			top: 62.5%;
+		}
+
+		[y="7"] {
+			top: 75%;
+			opacity: 0;
+		}
+		[y="8"] {
+			top: 100%;
+			opacity: 0;
+		}
+
+		.moncatch{
+			transform:scale(3);
+			opacity:0;
+		}
+
+
+		.life{
+			width: 25px;
+			animation: life 1s linear infinite;
+		}
+		@keyframes life{
+			from{transform: rotateY(0turn);}
+			to{transform: rotateY(1turn);}
+		}
+		.master-pic{
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<section id="game">
+		<div id="home" class="page">
+			<inner>
+				<img src="https://jabont.github.io/Game-MathMaster/char2.gif" id="game_logo">
+				<h1 id="game_name">Math Master</h1>
+				<input type="tel" id="game_number" value="3"><br>
+				<button id="game_start" onclick="startGame()">
+					Let's Play!
+				</button>
+			</inner>
+		</div>
+		<div id="play" class="page">
+			<div id="play_map">
+				<div id="monster">
+				</div>
+				<master id="m" x="3">
+					<img src="https://jabont.github.io/Game-MathMaster/char2.gif" class="master-pic"> 
+				</master>
+				<joy>
+					<button class="joy left" onclick="walk(-1)" id="btn_left">&lt;</button>
+					<button class="joy right" onclick="walk(1)" id="btn_right">&gt;</button>
+				</joy>
+
+			</div>
+			<div id="play_control">
+				<h1>
+					SCORE : <span id="thescore">0</span>
+				</h1>
+
+				<h2 id="thelife">
+					<img src="https://jabont.github.io/Game-MathMaster/life.png" class="life">
+					<img src="https://jabont.github.io/Game-MathMaster/life.png" class="life">
+					<img src="https://jabont.github.io/Game-MathMaster/life.png" class="life">
+					<img src="https://jabont.github.io/Game-MathMaster/life.png" class="life">
+					<img src="https://jabont.github.io/Game-MathMaster/life.png" class="life">
+				</h2>
+				
+			</div>
+		</div>
+	</section>
+
+	<script>
+		life = 5;
+		score = 0;
+		body = document.getElementsByTagName('body')[0];
+		body.onkeydown = function(e) {
+			if (e.code == "ArrowLeft") {
+				btn_left.click();
+			}
+			if (e.code == "ArrowRight") {
+				btn_right.click();
+			}
+		}
+
+		function startGame() {
+			num = game_number.value;
+			hide(home);
+			play.style.display = 'flex';
+			fallingslowly();
+		}
+
+
+		function hide(box) {
+			box.style.display = 'none';
+		}
+
+		function walk(side) {
+			master_x = parseInt(m.getAttribute('x'));
+			var newwalk = master_x + side;
+			if (newwalk > 0 && newwalk < 6) {
+				m.setAttribute('x', master_x + side);
+			}
+		}
+
+		function ran(max) {
+			return Math.floor(Math.random() * max) + 1;
+		}
+
+		function fallingslowly() {
+			falling = setInterval(function() {
+				birthofmonster();
+				var monster = document.querySelectorAll('mon');
+				for (var i = 0; i < monster.length; i++) {
+					var newy = gravity(monster[i]);
+					if (newy < 9) {
+						monster[i].setAttribute('y', newy);
+					} else {
+						monster[i].outerHTML = "";
+					}
+				}
+				catchMonster();
+			}, 1000);
+		}
+
+
+		function gravity(mon) {
+			var thisy = mon.getAttribute('y');
+			var newy = parseInt(thisy) + 1;
+			return newy;
+		}
+
+		function birthofmonster() {
+			var babymonster = document.createElement("MON");
+			var maxnum = num * 12;
+			babymonster.innerText = ran(maxnum);
+			babymonster.setAttribute('y', 0);
+			babymonster.setAttribute('x', ran(5));
+			monster.appendChild(babymonster);
+		}
+
+		function stopFalling() {
+			clearInterval(falling)
+		}
+
+		function catchMonster() {
+			masterX = parseInt(m.getAttribute('x'));
+			lastMon = document.querySelector('mon[y="7"]');
+			if (lastMon != null) {
+				lastMonX = parseInt(lastMon.getAttribute('x'));
+				if (lastMonX == masterX) {
+					lastMon.classList.add('moncatch');
+					lastMonValue = parseInt(lastMon.innerText);
+					checkScore(lastMonValue);
+				}
+			}
+		}
+
+		function checkScore(theLastMon) {
+			if (theLastMon % num == 0) {
+				correct();
+			} else {
+				wrong();
+			}
+		}
+
+		function wrong(){
+			life = life-1;
+			document.querySelectorAll('.life')[0].outerHTML = "";
+			if(life==0){
+				stopFalling();
+				thelife.innerText = "Game Over."
+			}
+		}
+
+		function correct(){
+			score = score+1;
+			thescore.innerText = score;
+		}
+
+	</script>
+</body>
+</html>
