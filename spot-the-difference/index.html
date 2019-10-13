@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Spot The Difference</title>
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+        color: white;
+        background-color: SlateGrey;
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .title {
+        color: DarkOrange;
+        margin: 0;
+      }
+      .description {
+        margin: 5px 0 15px;
+      }
+      .button {
+        color: DarkOrange;
+        font-size: 25px;
+        border: 2px solid DarkOrange;
+        border-radius: 20px;
+        padding: 10px 30px;
+        outline: none;
+        cursor: pointer;
+      }
+      .button:hover {
+        color: white;
+        background-color: DarkOrange;
+      }
+      .scores {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        text-align: right;
+      }
+      .scores > p {
+        margin: 5px;
+      }
+      .game-wrapper {
+        width: 600px;
+        height: 600px;
+        border: 1px solid white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .row {
+        display: flex;
+      }
+      .character {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+      .character:hover {
+        color: DarkOrange;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title">Spot The Difference</h1>
+    <p id="description" class="description">Find a different character</p>
+    <div class="scores">
+      <p>current score: <span id="current-score">0</span></p>
+      <p>maximum score: <span id="max-score">0</span></p>
+    </div>
+    <div class="game-wrapper">
+      <div id="game"></div>
+      <button id="start-button" class="button" onclick="startGame()">
+        Start Game
+      </button>
+    </div>
+
+    <script>
+      const initialTime = 60
+      const initialSize = 3
+      const maxSize = 20
+
+      let time
+      let size
+      let score
+      let maxScore = 0
+      let counterInteval
+
+      const setOfCharacter = [
+        ['1', '7'],
+        ['5', 'S'],
+        ['u', 'n'],
+        ['l', 'i'],
+        ['p', 'q'],
+        ['D', 'O'],
+        ['M', 'W'],
+        ['Q', 'O'],
+        ['N', 'M'],
+        ['ต', 'ค'],
+        ['ป', 'ฝ'],
+        ['ส', 'ล'],
+        ['บ', 'ษ'],
+      ]
+
+      function startGame() {
+        score = 0
+        time = initialTime
+        size = initialSize
+
+        document.getElementById('current-score').textContent = score
+        document.getElementById('max-score').textContent = maxScore
+        document.getElementById('start-button').style.display = 'none'
+        document.getElementById(
+          'description',
+        ).textContent = `Remain ${initialTime} seconds`
+
+        loadGame()
+
+        counterInteval = setInterval(() => {
+          document.getElementById(
+            'description',
+          ).textContent = `Remain ${--time} seconds`
+          if (time <= 0) endGame()
+        }, 1000)
+      }
+
+      function getRandomInteger(number) {
+        return Math.floor(Math.random() * number)
+      }
+
+      function loadGame() {
+        let elements = ''
+        const set = setOfCharacter[getRandomInteger(setOfCharacter.length)]
+        const role = getRandomInteger(2)
+        const character = {
+          base: role ? set[0] : set[1],
+          special: role ? set[1] : set[0],
+        }
+        const specialPosition = {
+          row: getRandomInteger(size),
+          column: getRandomInteger(size),
+        }
+        for (row = 0; row < size; row++) {
+          elements = elements.concat('<div class="row">')
+          for (column = 0; column < size; column++) {
+            const isSpecial =
+              row === specialPosition.row && column === specialPosition.column
+            elements = elements.concat(
+              `<div class="character" onclick=${
+                isSpecial ? 'correct()' : 'wrong()'
+              }>${isSpecial ? character.special : character.base}</div>`,
+            )
+          }
+          elements = elements.concat('</div>')
+        }
+        document.getElementById('game').innerHTML = elements
+      }
+
+      function correct() {
+        if (size < maxSize) size += 1
+        document.getElementById('current-score').textContent = ++score
+        loadGame()
+      }
+
+      function wrong() {
+        endGame('Wrong')
+      }
+
+      function endGame(message = `Time's up`) {
+        clearInterval(counterInteval)
+        document.getElementById('game').innerHTML = ''
+        document.getElementById(
+          'description',
+        ).textContent = `${message}! You get ${score} scores`
+        document.getElementById('start-button').style.display = 'block'
+        document.getElementById('start-button').textContent = 'Play Again'
+        if (score > maxScore) maxScore = score
+      }
+    </script>
+  </body>
+</html>
