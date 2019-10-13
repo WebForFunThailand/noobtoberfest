@@ -51,8 +51,10 @@
         margin: 5px;
       }
       .game-wrapper {
-        width: 600px;
-        height: 600px;
+        width: calc(100vw - 20px);
+        height: calc(100vw - 20px);
+        max-width: 600px;
+        max-height: 600px;
         border: 1px solid white;
         display: flex;
         flex-direction: column;
@@ -63,15 +65,26 @@
         display: flex;
       }
       .character {
-        width: 30px;
-        height: 30px;
+        width: calc((100vw - 20px) / 20);
+        height: calc((100vw - 20px) / 20);
+        max-width: 30px;
+        max-height: 30px;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
       }
-      .character:hover {
+      html.non-touch .character:hover {
         color: DarkOrange;
+      }
+      @media only screen and (max-width: 768px) {
+        .scores {
+          position: relative;
+          text-align: center;
+          top: 0;
+          right: 0;
+          margin-bottom: 20px;
+        }
       }
     </style>
   </head>
@@ -100,21 +113,42 @@
       let maxScore = 0
       let counterInteval
 
-      const setOfCharacter = [
-        ['1', '7'],
+      const setOfPairCharacters = [
+        ['<', '>'],
+        ['1', 'l'],
         ['5', 'S'],
+        ['6', '9'],
+        ['8', 'S'],
         ['u', 'n'],
         ['l', 'i'],
+        ['t', 'f'],
         ['p', 'q'],
         ['D', 'O'],
+        ['F', 'P'],
+        ['J', 'L'],
         ['M', 'W'],
         ['Q', 'O'],
         ['N', 'M'],
-        ['ต', 'ค'],
+        ['T', 'L'],
+        ['ค', 'ด'],
+        ['ค', 'ศ'],
+        ['ค', 'ต'],
+        ['ด', 'ต'],
         ['ป', 'ฝ'],
         ['ส', 'ล'],
+        ['บ', 'ป'],
         ['บ', 'ษ'],
+        ['น', 'ม'],
       ]
+
+      const touchsupport =
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        navigator.msMaxTouchPoints > 0
+      if (!touchsupport) {
+        // browser doesn't support touch
+        document.documentElement.classList.add('non-touch')
+      }
 
       function startGame() {
         score = 0
@@ -144,11 +178,12 @@
 
       function loadGame() {
         let elements = ''
-        const set = setOfCharacter[getRandomInteger(setOfCharacter.length)]
+        const pairCharacters =
+          setOfPairCharacters[getRandomInteger(setOfPairCharacters.length)]
         const role = getRandomInteger(2)
         const character = {
-          base: role ? set[0] : set[1],
-          special: role ? set[1] : set[0],
+          base: role ? pairCharacters[0] : pairCharacters[1],
+          special: role ? pairCharacters[1] : pairCharacters[0],
         }
         const specialPosition = {
           row: getRandomInteger(size),
