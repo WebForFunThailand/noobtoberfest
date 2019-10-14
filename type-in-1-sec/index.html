@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>type in 1 sec</title>
+</head>
+
+<body>
+    <div id="game-text">Please type 'S' or 's' for start game</div>
+    <div id="target"></div>
+    <div id="counter"></div>
+
+</body>
+
+</html>
+
+<script>
+    let isGameStart = false;
+    let timeCounter = 1;
+    let newKey;
+
+    function endGame() {
+        isGameStart = false;
+        document.getElementById(`game-text`).textContent = `Please type 'S' or 's' for start game`
+        document.getElementById(`counter`).textContent = ``
+        document.getElementById(`target`) = ``
+    }
+
+    function game(key) {
+        if (isGameStart) {
+            if (key.toLocaleLowerCase() === newKey.toLocaleLowerCase() && isGameStart) {
+                console.log('key', key)
+                timeCounter = 1
+                newKey = getNewKey()
+                document.getElementById(`target`).textContent = `Press => ${newKey}`;
+            }
+        } else {
+            let gameInterval = setInterval(() => {
+                document.getElementById(`game-text`).textContent = `Start !`;
+                timeCounter -= (1 / 1000)
+                document.getElementById(`counter`).textContent = `${timeCounter.toFixed(2)} sec`;
+                if (timeCounter <= 0) {
+                    endGame()
+                }
+            }, 1)
+        }
+
+    }
+
+    function getNewKey() {
+        let items = `ABCDEFGHIJKLMNOPQRSTUVWXYZ`.split('')
+        return items[Math.floor(Math.random() * items.length)];
+    }
+
+    document.body.onkeyup = function (e) {
+        let keyCode = e.which || e.keyCode || e.charCode;
+        let key = String.fromCharCode(keyCode);
+        // document.getElementById("target").innerHTML = key;
+        if (key.toLocaleLowerCase() === `s` && !isGameStart) {
+            timeCounter = 1
+            newKey = getNewKey()
+            document.getElementById(`target`).textContent = `Press => ${newKey}`;
+            game(key);
+            isGameStart = true
+        } else {
+            timeCounter = 1
+            newKey = getNewKey()
+            document.getElementById(`target`).textContent = `Press => ${newKey}`;
+        }
+    }
+</script>
