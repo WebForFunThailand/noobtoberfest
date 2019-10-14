@@ -26,18 +26,11 @@
         isGameStart = false;
         document.getElementById(`game-text`).textContent = `Please type 'S' or 's' for start game`
         document.getElementById(`counter`).textContent = ``
-        document.getElementById(`target`) = ``
+        document.getElementById(`target`).textContent = ``
     }
 
     function game(key) {
-        if (isGameStart) {
-            if (key.toLocaleLowerCase() === newKey.toLocaleLowerCase() && isGameStart) {
-                console.log('key', key)
-                timeCounter = 1
-                newKey = getNewKey()
-                document.getElementById(`target`).textContent = `Press => ${newKey}`;
-            }
-        } else {
+        if (!isGameStart) {
             let gameInterval = setInterval(() => {
                 document.getElementById(`game-text`).textContent = `Start !`;
                 timeCounter -= (1 / 1000)
@@ -66,9 +59,13 @@
             game(key);
             isGameStart = true
         } else {
-            timeCounter = 1
-            newKey = getNewKey()
-            document.getElementById(`target`).textContent = `Press => ${newKey}`;
+            if (key.toLocaleLowerCase() === newKey.toLocaleLowerCase() && isGameStart) {
+                console.log('key', key)
+                timeCounter = 1
+                newKey = getNewKey()
+                document.getElementById(`target`).textContent = `Press => ${newKey}`;
+            }
+
         }
     }
 </script>
