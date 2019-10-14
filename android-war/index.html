@@ -2,107 +2,111 @@
 <html>
 <head>
 	<title>
-		Android War!
+		Android War! - Noobtoberfest 2019
 	</title>
 	<meta charset=utf-8>
 	<meta name=description content="">
 	<meta name=viewport content="width=500, initial-scale=1">
+	<meta property="og:url"                content="https://noobtoberfest.netlify.com/android-war/" />
+	<meta property="og:title"              content="Android War! - Noobtoberfest 2019" />
+	<meta property="og:description"        content="Fire the Android for save the humanity!" />
+	<meta property="og:image"              content="https://i.imgur.com/9XdBBwN.png" />
 	<style type="text/css">
-	body {
-		font-family: sans-serif;
-		/*background:hsl(220,100%,10%);*/
-		/*background-image: linear-gradient(hsla(199, 98%, 18%, 1),hsla(187, 100%, 2%, 1));*/
-		background-image: url(https://jabont.github.io/hitthemole/bg.gif);
-		background-size: cover;
-		background-position: center;
-		background-attachment: fixed;
-		animation: bg 1s infinite alternate linear;
-		color: white;
-		text-shadow: 0px 0px 8px #03A9F4;
-		margin: 0;
-		cursor: url(http://www.rw-designer.com/cursor-view/102607.png),auto;
-		touch-action:none;
-	}
-	a{
-		color:hsl(187, 100%, 42%)
-	}
-	h1,h2,h3{
-		text-align:center;
-		text-transform:uppercase;
-	}
-	game{
-		opacity: .2;
-		display:block;
-		margin:2em auto;
-		width:400px;
-		height:400px;
-		position:relative;
-		border-radius:10px;
-		overflow:hidden;
-		border: 2px solid #86d9ff;
-		box-shadow: 0px 0px 20px #03A9F4;
-		cursor: url(http://www.rw-designer.com/cursor-view/102658.gif),auto;
-	}
-	pit{
-		display:block;
-		width:100px;
-		height:100px;
-		position:absolute;
-		left:0px;
-		top:0px;
-		background-position: center;
-		background-size: 100%;
-		transition: transform .5s, background-size .5s;
-		background-repeat: no-repeat;
-	}
+		body {
+			font-family: sans-serif;
+			/*background:hsl(220,100%,10%);*/
+			/*background-image: linear-gradient(hsla(199, 98%, 18%, 1),hsla(187, 100%, 2%, 1));*/
+			background-image: url(https://jabont.github.io/hitthemole/bg.gif);
+			background-size: cover;
+			background-position: center;
+			background-attachment: fixed;
+			animation: bg 1s infinite alternate linear;
+			color: white;
+			text-shadow: 0px 0px 8px #03A9F4;
+			margin: 0;
+			cursor: url(http://www.rw-designer.com/cursor-view/102607.png),auto;
+			touch-action:none;
+		}
+		a{
+			color:hsl(187, 100%, 42%)
+		}
+		h1,h2,h3{
+			text-align:center;
+			text-transform:uppercase;
+		}
+		game{
+			opacity: .2;
+			display:block;
+			margin:2em auto;
+			width:400px;
+			height:400px;
+			position:relative;
+			border-radius:10px;
+			overflow:hidden;
+			border: 2px solid #86d9ff;
+			box-shadow: 0px 0px 20px #03A9F4;
+			cursor: url(http://www.rw-designer.com/cursor-view/102658.gif),auto;
+		}
+		pit{
+			display:block;
+			width:100px;
+			height:100px;
+			position:absolute;
+			left:0px;
+			top:0px;
+			background-position: center;
+			background-size: 100%;
+			transition: transform .5s, background-size .5s;
+			background-repeat: no-repeat;
+		}
 
-	pit:hover{
-		background-color: #fff4;
-	}
+		pit:hover{
+			background-color: #fff4;
+		}
 
 
 
-	/*  แก้เฉพาะด้านล่างเอง */
+		/*  แก้เฉพาะด้านล่างเอง */
 
-	pit[y="1"]{
-		top:100px;
-	}
-	pit[y="2"]{
-		top:200px;
-	}
-	pit[y="3"]{
-		top:300px;
-	}
-	pit[x="1"]{
-		left:100px;
-	}
-	pit[x="2"]{
-		left:200px;
-	}
-	pit[x="3"]{
-		left:300px;
-	}
+		pit[y="1"]{
+			top:100px;
+		}
+		pit[y="2"]{
+			top:200px;
+		}
+		pit[y="3"]{
+			top:300px;
+		}
+		pit[x="1"]{
+			left:100px;
+		}
+		pit[x="2"]{
+			left:200px;
+		}
+		pit[x="3"]{
+			left:300px;
+		}
 
-	pit[status="mole"]{
-		background-image: url(https://jabont.github.io/hitthemole/char.gif);
-	}
-	pit[status="die"]{
-		background-image: url(https://jabont.github.io/hitthemole/char.gif);
-		transform: rotate(2turn);
-		background-size: 0;
-		background-color: transparent;
-	}
-	pit[status="miss"]{
-		background-image: url(https://jabont.github.io/hitthemole/miss.gif);
-	}
-	/*ใส่ภาพแต่ซ่อนไว้ จะได้โหลดภาพก่อน แต่ซ่อนไว*/
-	.preload{
-		width: 1px;
-		height: 1px;
-		opacity: 0;
-	}
+		pit[status="mole"]{
+			background-image: url(https://jabont.github.io/hitthemole/char.gif);
+		}
+		pit[status="die"]{
+			background-image: url(https://jabont.github.io/hitthemole/char.gif);
+			transform: rotate(2turn);
+			background-size: 0;
+			background-color: transparent;
+		}
+		pit[status="miss"]{
+			background-image: url(https://jabont.github.io/hitthemole/miss.gif);
+		}
+		/*ใส่ภาพแต่ซ่อนไว้ จะได้โหลดภาพก่อน แต่ซ่อนไว*/
+		.preload{
+			width: 1px;
+			height: 1px;
+			opacity: 0;
+		}
 
-</style>
+	</style>
 </head>
 <body>
 	<br>
