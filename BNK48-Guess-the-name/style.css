@@ -1,0 +1,36 @@
+html, body {
+   background-color: #CB96C2;
+   width: 100%;
+   height: 100%;
+   padding: 0;
+   margin: 0;
+}
+
+.container {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 70%;
+}
+
+input[type="text"] {
+   width: 240px;
+   font-size: 1.5rem;
+   padding: 4px;
+   text-align: center;
+}
+
+button {
+   background-color: #e053c8;
+   border: none;
+   font-size: 2rem;
+   padding: 5px;
+   border-radius: 5px;
+   color: #fff;
+   cursor: pointer;
+}
+
+.btn-gruop {
+   margin-top: 0.5rem;
+   text-align: center;
+}
