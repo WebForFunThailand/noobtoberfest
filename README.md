@@ -25,6 +25,7 @@ So, If you want to contribute and don't know how to start you can see the "Contr
 3. Send pull request to us.
 4. Done!
 
+&nbsp;
 1. เขียนเกมของคุณด้วยทุกสกิลที่คุณมี
 2. โค้ดทั้งหมด **ต้อง!!** อยู่ในไฟล์ html เพียงหนึ่งไฟล์เท่านั้น
 3. ส่ง Pull Request มาที่เรา
