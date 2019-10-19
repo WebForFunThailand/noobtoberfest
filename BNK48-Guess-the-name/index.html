@@ -491,6 +491,31 @@
             }
 
          })
+         
+         $('#input_aws').keyup(function (event) {
+            if (event.key === 'Enter') {
+               var aws = $('#input_aws').val().toUpperCase()
+
+               if (aws != '') {
+                  if (aws == member[current_member].mem_nickname) {
+                     score += 1
+                  }
+
+                  current_member += 1
+                  $('#score').html(score)
+                  $('#input_aws').focus()
+                  $('#input_aws').val('')
+                  $('#count_mener').html(current_member + 1 + '/' + member.length)
+
+                  if (current_member >= member.length) {
+                     $('.area').html('<h1 style="color: #fff">Your score: ' + score + '/' + member.length + '</h1>')
+                  }
+                  else {
+                     controller(current_member)
+                  }
+               }
+            }
+         })
       }
 
       $(document).ready(function () {
