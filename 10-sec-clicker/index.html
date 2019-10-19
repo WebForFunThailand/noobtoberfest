@@ -19,6 +19,7 @@
         </div>
         <div>
             <button id="start-btn">start</button>
+            <button id="click-btn">click</button>
             <button id="reset-btn">reset point</button>
         </div>
     </main>
@@ -48,6 +49,8 @@
 
     function endGame() {
         isGameStart = false;
+        document.getElementById("start-btn").style.display = ``;
+        document.getElementById("click-btn").style.display = `none`;
         if (counter >= highScore) {
             highScore = counter;
         }
@@ -59,6 +62,8 @@
     const gameStart = () => {
         if (isGameStart) return;
         isGameStart = true;
+        document.getElementById("click-btn").style.display = ``;
+        document.getElementById("start-btn").style.display = `none`;
         counter = 0;
         document.getElementById(`click-counter`).textContent = counter;
         let timeCounter = START_TIME_COUNTER;
@@ -71,9 +76,10 @@
             }
         }, ONE_SEC)
     }
+    document.getElementById("click-btn").style.display = `none`;
     document.getElementById("start-btn").addEventListener('click', gameStart)
     document.getElementById("reset-btn").addEventListener('click', resetScore)
-    document.body.addEventListener('click', clickCounter)
+    document.getElementById("click-btn").addEventListener('click', clickCounter)
 </script>
 
 </html>
