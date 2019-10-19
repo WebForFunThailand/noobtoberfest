@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.20.1/dist/phaser.js"></script>
+</head>
+
+<body>
+
+    <script>
+        const timeLimit = 60;
+
+        let itemList = [
+            { "name": "acorn squash", "fruit": false },
+            { "name": "alfalfa sprout", "fruit": false },
+            { "name": "amaranth", "fruit": false },
+            { "name": "anise", "fruit": false },
+            { "name": "artichoke", "fruit": false },
+            { "name": "arugula", "fruit": false },
+            { "name": "asparagus", "fruit": false },
+            { "name": "aubergine", "fruit": false },
+            { "name": "azuki bean", "fruit": false },
+            { "name": "banana squash", "fruit": false },
+            { "name": "basil", "fruit": false },
+            { "name": "bean sprout", "fruit": false },
+            { "name": "beet", "fruit": false },
+            { "name": "black bean", "fruit": false },
+            { "name": "black-eyed pea", "fruit": false },
+            { "name": "bok choy", "fruit": false },
+            { "name": "borlotti bean", "fruit": false },
+            { "name": "broad beans", "fruit": false },
+            { "name": "broccoflower", "fruit": false },
+            { "name": "broccoli", "fruit": false },
+            { "name": "brussels sprout", "fruit": false },
+            { "name": "butternut squash", "fruit": false },
+            { "name": "cabbage", "fruit": false },
+            { "name": "calabrese", "fruit": false },
+            { "name": "caraway", "fruit": false },
+            { "name": "carrot", "fruit": false },
+            { "name": "cauliflower", "fruit": false },
+            { "name": "cayenne pepper", "fruit": false },
+            { "name": "celeriac", "fruit": false },
+            { "name": "celery", "fruit": false },
+            { "name": "chamomile", "fruit": false },
+            { "name": "chard", "fruit": false },
+            { "name": "chayote", "fruit": false },
+            { "name": "chickpea", "fruit": false },
+            { "name": "chives", "fruit": false },
+            { "name": "cilantro", "fruit": false },
+            { "name": "collard green", "fruit": false },
+            { "name": "corn", "fruit": false },
+            { "name": "corn salad", "fruit": false },
+            { "name": "courgette", "fruit": false },
+            { "name": "cucumber", "fruit": false },
+            { "name": "daikon", "fruit": false },
+            { "name": "delicata", "fruit": false },
+            { "name": "dill", "fruit": false },
+            { "name": "eggplant", "fruit": false },
+            { "name": "endive", "fruit": false },
+            { "name": "fennel", "fruit": false },
+            { "name": "fiddlehead", "fruit": false },
+            { "name": "frisee", "fruit": false },
+            { "name": "garlic", "fruit": false },
+            { "name": "gem squash", "fruit": false },
+            { "name": "ginger", "fruit": false },
+            { "name": "green bean", "fruit": false },
+            { "name": "green pepper", "fruit": false },
+            { "name": "habanero", "fruit": false },
+            { "name": "herbs and spice", "fruit": false },
+            { "name": "horseradish", "fruit": false },
+            { "name": "hubbard squash", "fruit": false },
+            { "name": "jalapeno", "fruit": false },
+            { "name": "jerusalem artichoke", "fruit": false },
+            { "name": "jicama", "fruit": false },
+            { "name": "kale", "fruit": false },
+            { "name": "kidney bean", "fruit": false },
+            { "name": "kohlrabi", "fruit": false },
+            { "name": "lavender", "fruit": false },
+            { "name": "leek ", "fruit": false },
+            { "name": "legume", "fruit": false },
+            { "name": "lemon grass", "fruit": false },
+            { "name": "lentils", "fruit": false },
+            { "name": "lettuce", "fruit": false },
+            { "name": "lima bean", "fruit": false },
+            { "name": "mamey", "fruit": false },
+            { "name": "mangetout", "fruit": false },
+            { "name": "marjoram", "fruit": false },
+            { "name": "mung bean", "fruit": false },
+            { "name": "mushroom", "fruit": false },
+            { "name": "mustard green", "fruit": false },
+            { "name": "navy bean", "fruit": false },
+            { "name": "new zealand spinach", "fruit": false },
+            { "name": "nopale", "fruit": false },
+            { "name": "okra", "fruit": false },
+            { "name": "onion", "fruit": false },
+            { "name": "oregano", "fruit": false },
+            { "name": "paprika", "fruit": false },
+            { "name": "parsley", "fruit": false },
+            { "name": "parsnip", "fruit": false },
+            { "name": "patty pan", "fruit": false },
+            { "name": "pea", "fruit": false },
+            { "name": "pinto bean", "fruit": false },
+            { "name": "potato", "fruit": false },
+            { "name": "pumpkin", "fruit": false },
+            { "name": "radicchio", "fruit": false },
+            { "name": "radish", "fruit": false },
+            { "name": "rhubarb", "fruit": false },
+            { "name": "rosemary", "fruit": false },
+            { "name": "runner bean", "fruit": false },
+            { "name": "rutabaga", "fruit": false },
+            { "name": "sage", "fruit": false },
+            { "name": "scallion", "fruit": false },
+            { "name": "shallot", "fruit": false },
+            { "name": "skirret", "fruit": false },
+            { "name": "snap pea", "fruit": false },
+            { "name": "soy bean", "fruit": false },
+            { "name": "spaghetti squash", "fruit": false },
+            { "name": "spinach", "fruit": false },
+            { "name": "squash ", "fruit": false },
+            { "name": "sweet potato", "fruit": false },
+            { "name": "tabasco pepper", "fruit": false },
+            { "name": "taro", "fruit": false },
+            { "name": "tat soi", "fruit": false },
+            { "name": "thyme", "fruit": false },
+            { "name": "topinambur", "fruit": false },
+            { "name": "tubers", "fruit": false },
+            { "name": "turnip", "fruit": false },
+            { "name": "wasabi", "fruit": false },
+            { "name": "water chestnut", "fruit": false },
+            { "name": "watercress", "fruit": false },
+            { "name": "white radish", "fruit": false },
+            { "name": "yam", "fruit": false },
+            { "name": "zucchini", "fruit": false },
+
+            { "name": "apple", "fruit": true },
+            { "name": "apricot", "fruit": true },
+            { "name": "avocado", "fruit": true },
+            { "name": "banana", "fruit": true },
+            { "name": "bell pepper", "fruit": true },
+            { "name": "bilberry", "fruit": true },
+            { "name": "blackberry", "fruit": true },
+            { "name": "blackcurrant", "fruit": true },
+            { "name": "blood orange", "fruit": true },
+            { "name": "blueberry", "fruit": true },
+            { "name": "boysenberry", "fruit": true },
+            { "name": "breadfruit", "fruit": true },
+            { "name": "canary melon", "fruit": true },
+            { "name": "cantaloupe", "fruit": true },
+            { "name": "cherimoya", "fruit": true },
+            { "name": "cherry", "fruit": true },
+            { "name": "chili pepper", "fruit": true },
+            { "name": "clementine", "fruit": true },
+            { "name": "cloudberry", "fruit": true },
+            { "name": "coconut", "fruit": true },
+            { "name": "cranberry", "fruit": true },
+            { "name": "cucumber", "fruit": true },
+            { "name": "currant", "fruit": true },
+            { "name": "damson", "fruit": true },
+            { "name": "date", "fruit": true },
+            { "name": "dragonfruit", "fruit": true },
+            { "name": "durian", "fruit": true },
+            { "name": "eggplant", "fruit": true },
+            { "name": "elderberry", "fruit": true },
+            { "name": "feijoa", "fruit": true },
+            { "name": "fig", "fruit": true },
+            { "name": "goji berry", "fruit": true },
+            { "name": "gooseberry", "fruit": true },
+            { "name": "grape", "fruit": true },
+            { "name": "grapefruit", "fruit": true },
+            { "name": "guava", "fruit": true },
+            { "name": "honeydew", "fruit": true },
+            { "name": "huckleberry", "fruit": true },
+            { "name": "jackfruit", "fruit": true },
+            { "name": "jambul", "fruit": true },
+            { "name": "jujube", "fruit": true },
+            { "name": "kiwi fruit", "fruit": true },
+            { "name": "kumquat", "fruit": true },
+            { "name": "lemon", "fruit": true },
+            { "name": "lime", "fruit": true },
+            { "name": "loquat", "fruit": true },
+            { "name": "lychee", "fruit": true },
+            { "name": "mandarine", "fruit": true },
+            { "name": "mango", "fruit": true },
+            { "name": "mulberry", "fruit": true },
+            { "name": "nectarine", "fruit": true },
+            { "name": "nut", "fruit": true },
+            { "name": "olive", "fruit": true },
+            { "name": "orange", "fruit": true },
+            { "name": "pamelo", "fruit": true },
+            { "name": "papaya", "fruit": true },
+            { "name": "passionfruit", "fruit": true },
+            { "name": "peach", "fruit": true },
+            { "name": "pear", "fruit": true },
+            { "name": "persimmon", "fruit": true },
+            { "name": "physalis", "fruit": true },
+            { "name": "pineapple", "fruit": true },
+            { "name": "plum", "fruit": true },
+            { "name": "pomegranate", "fruit": true },
+            { "name": "pomelo", "fruit": true },
+            { "name": "purple mangosteen", "fruit": true },
+            { "name": "quince", "fruit": true },
+            { "name": "raisin", "fruit": true },
+            { "name": "rambutan", "fruit": true },
+            { "name": "raspberry", "fruit": true },
+            { "name": "redcurrant", "fruit": true },
+            { "name": "rock melon", "fruit": true },
+            { "name": "salal berry", "fruit": true },
+            { "name": "satsuma", "fruit": true },
+            { "name": "star fruit", "fruit": true },
+            { "name": "strawberry", "fruit": true },
+            { "name": "tamarillo", "fruit": true },
+            { "name": "tangerine", "fruit": true },
+            { "name": "tomato", "fruit": true },
+            { "name": "ugli fruit", "fruit": true },
+            { "name": "watermelon", "fruit": true },
+        ]
+    
+        let txtGameManual;
+        let txtGameHint;
+
+        let timer;
+        let txtTimer;
+
+        let score = 0;
+        let txtScore;
+
+        let currentItem;
+        let txtCurrentItem;
+
+        let gameInProgress = false;
+        let isLeftKeyHolding = false;
+        let isRightKeyHolding = false;
+
+        const gameScene = new Phaser.Scene('Game');
+        const CANVAS_WIDTH = 600;
+        const CANVAS_HEIGHT = 400;
+
+        const config = {
+            type: Phaser.AUTO,
+            width: CANVAS_WIDTH,
+            height: CANVAS_HEIGHT,
+            scene: gameScene
+        };
+
+        const game = new Phaser.Game(config);
+
+        gameScene.preload = function() {
+            cursors = this.input.keyboard.createCursorKeys();
+            enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        }
+
+        gameScene.create = function() {
+            txtTimer = gameScene.add.text(32, 32);
+            txtScore = gameScene.add.text(CANVAS_WIDTH - 200, 32);
+            txtGameManual = gameScene.add.text(32, CANVAS_HEIGHT - 60);
+
+            txtTimer.setText("Press [Enter] to start...");
+            txtGameManual.setText("[How to play] \nPress [Left] or [Right] key to sort item correctly.")
+        }
+
+        gameScene.update = function() {
+            if (!gameInProgress && enterKey.isDown) {
+                gameInProgress = true;
+                gameStart();
+            }
+            
+            if (gameInProgress) {
+                if (cursors.left.isDown && !isLeftKeyHolding) {
+                    currentItem.fruit ? score++ : score--;
+                    currentItem = randomNewItem();
+                    isLeftKeyHolding = true;
+                } else if (cursors.right.isDown && !isRightKeyHolding) {
+                    currentItem.fruit ? score-- : score++;
+                    currentItem = randomNewItem();
+                    isRightKeyHolding = true;
+                }
+
+                if (cursors.left.isUp) {
+                    isLeftKeyHolding = false;
+                }
+
+                if (cursors.right.isUp) {
+                    isRightKeyHolding = false;
+                }
+
+                txtTimer.setText('Time: ' + Math.floor((timeLimit*1000 - timer.getElapsed()) / 1000).toString());
+                txtCurrentItem.setText(currentItem.name);
+            }
+
+            txtScore.setText('Score: ' + score);
+        }
+        
+        function gameStart() {
+            score = 0;
+            timer = gameScene.time.delayedCall(1000 * timeLimit, gameOver, this);
+
+            txtGameHint = gameScene.add.text(60, CANVAS_HEIGHT/2);
+            txtGameHint.setText("Fruit 🡄                          🡆 Vegetable");
+            
+            currentItem = randomNewItem();
+            txtCurrentItem = gameScene.add.text(160, CANVAS_HEIGHT/2, { align: 'center' });
+        }
+
+        function gameOver() {
+            gameInProgress = false;
+            txtGameHint.destroy();
+            txtCurrentItem.destroy();
+            txtTimer.setText("GAME OVER! \nPress [Enter] to play again...");
+        }
+
+        function randomNewItem() {
+            return itemList[Math.floor(Math.random()*itemList.length)];
+        }
+    </script>
+
+</body>
+
+</html>
