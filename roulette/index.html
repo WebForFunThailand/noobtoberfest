@@ -64,7 +64,7 @@
   <p>winscore: <span id=win>0</span></p>
   <p>losescore: <span id=lose>0</span></p>
   <button class="big-btn check-btn" onclick="roulette.checkCurrentPosition()">Check current position</button>
-  <button class="big-btn move-btn" onclick="roulette.move(s0,s1,1)">Move position</button>
+  <button class="big-btn move-btn" onclick="roulette.move()">Move position</button>
   <script>
     const roulette = (function () {
       let winScore = 0,
@@ -108,11 +108,12 @@
             showResult(currentPosition % modNumber)
           }, randomRound * 100);
         },
-        move(sourceSlot, destSlot, i){
-          if (sourceSlot.innerText === '0') {
-            sourceSlot.innerHTML = '';
-            destSlot.innerHTML = '0';
-          }
+        move(){
+            let currentPosition2 = this.findCurrentPosition()
+            const modNumber = slots.length
+
+            document.getElementById(slots[currentPosition2 % modNumber]).innerHTML = ''
+            document.getElementById(slots[(++currentPosition2) % modNumber]).innerHTML = '0'
         }
       }
     })()

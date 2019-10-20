@@ -11,7 +11,11 @@
 <body>
     <main>
         <div>
-            How many click that you can do in <span id="time-counter">10</span> sec.
+            How many seconds do you want to play? (Default is 10 sec) : 
+            <input type="text" id="seconds-amount" onchange="assignTimeCounter()"><br>
+        </div>
+        <div>
+            How many click that you can do in <span id="time-counter"> <a id="secondcount"></a></span> sec.
         </div>
         <div>
             <div>Click : <span id="click-counter">0</span></div>
@@ -26,10 +30,15 @@
 </body>
 <script>
     const ONE_SEC = 1000;
-    const START_TIME_COUNTER = 10; // 10 sec
     let isGameStart = false;
     let counter = 0;
     let highScore = 0;
+    let START_TIME_COUNTER = 10;
+
+    function assignTimeCounter() {
+        START_TIME_COUNTER = document.getElementById("seconds-amount").value;
+        document.getElementById("secondcount").innerHTML = START_TIME_COUNTER;
+    }
 
     function resetScore() {
         highScore = 0;
