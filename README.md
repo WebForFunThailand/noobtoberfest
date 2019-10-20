@@ -64,14 +64,14 @@ For more information visit 👉 [Facebook Event](https://www.facebook.com/events
 
 Hacktoberfest BKK 2019 community ticket. We have only 7 tickets so do your best.
 
-### 🏆 How do we judge who is suite for ticket?
+### 🏆 How do we judge who is suitable for ticket?
 
 We have 2 factors to judge your work
 
 1. *UI*: Your game have stunning interface. That's all.
-2. *Game mechanic*: Stunning graphic but worse story and hard to understand WTF is going on, huh?
+2. *Game mechanic*: Stunning graphic but bad story and hard to understand WTF is going on, huh?
 
-Anyway, Don't care too much about those 2 factors. Just make your idea fun and sharing how amazing your game was with us.
+Anyway, Don't care too much about those 2 factors, just make your idea is fun and share how amazing your game was with us.
 
 We'll announce the winner on 14 Oct 2019, on this repo and Facebook event, and send you a coupon code to your email after then.
 
