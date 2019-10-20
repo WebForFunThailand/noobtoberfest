@@ -1,0 +1,397 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ปลูกดอกรัก</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .dream-time,
+        .material-side,
+        .output-side,
+        .d-input-box,
+        .d-mix-box,
+        .d-plant-box,
+        .d-input-box .d-store,
+        .d-input-box .d-store .mat,
+        .d-mix-box .mix,
+        .plant {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+        }
+        .material-side,
+        .output-side {
+            flex: 1;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+        .d-input-box,
+        .d-mix-box,
+        .d-plant-box,
+        .d-input-box .d-store,
+        .d-input-box .d-store .mat,
+        .d-mix-box .mix,
+        .plant {
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+        .d-input-box h4,
+        .d-input-box .d-store .mat {
+            font-family: "Tahoma";
+        }
+        .d-input-box .d-store .mat {
+            height: 40px;
+            cursor: pointer;
+            color: white;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+        }
+        .d-input-box .d-store .mat.water {
+            background: rgb(1, 137, 253);
+        }
+        .d-input-box .d-store .mat.fertilizer {
+            background: rgb(76, 61, 50);
+        }
+        .d-input-box .d-store .mat.light {
+            background: rgb(255, 221, 0);
+        }
+        .d-input-box,
+        .d-mix-box {
+            width: 60%;
+        }
+        .d-input-box .d-store {
+            width: 90%;
+        }
+        .d-mix-box {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .d-mix-box .mix,
+        .d-input-box {
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+        .d-mix-box .mix {
+            position: relative;
+        }
+        .plant {
+            position: absolute;
+            top: 40%;
+            left: 30%;
+            width: 40%;
+            height: 20%;
+            visibility: hidden;
+            color: white;
+            background: rgb(187, 109, 8);
+            cursor: pointer;
+            z-index: 2;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+
+            -webkit-animation-name: bounce;
+            animation-name: bounce;
+
+            -webkit-animation-duration: 0.5s;
+            animation-duration: 0.5s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+            -webkit-animation-timing-function: linear;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            -webkit-animation-iteration-count: infinite;
+        }
+        .d-input-box .d-store .mat {
+            width: 100px;
+            margin: 1px;
+            text-transform: capitalize;
+        }
+        .bottom-top {
+            margin-bottom: -9px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            border-left: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+            z-index: 2;
+        }
+        .bottom-body {
+            border: 1px solid #e0e0e0;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            -webkit-box-shadow: inset 0px -20px 21px -15px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: inset 0px -20px 21px -15px rgba(0, 0, 0, 0.75);
+            box-shadow: inset 0px -20px 21px -15px rgba(0, 0, 0, 0.75);
+
+            background: linear-gradient(to top, rgba(255, 177, 0, 0.75) 0%, white 0%);
+            z-index: 0;
+        }
+        @-webkit-keyframes bounce {
+            0%,
+            100% {
+                -webkit-transform: translateY(0);
+            }
+            50% {
+                -webkit-transform: translateY(-5px);
+            }
+        }
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        .d-inner {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+        .d-inner .d-item {
+            position: absolute;
+            width: 30%;
+            height: 30%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            background-image: radial-gradient(white, pink, red);
+        }
+        .d-inner.four .d-item:nth-child(1) {
+            top: 0;
+            left: 35%;
+        }
+        .d-inner.four .d-item:nth-child(2) {
+            top: 35%;
+            left: 0;
+        }
+        .d-inner.four .d-item:nth-child(3) {
+            top: 35%;
+            right: 0;
+        }
+        .d-inner.four .d-item:nth-child(4) {
+            bottom: 0;
+            left: 35%;
+        }
+        .d-inner.five .d-item:nth-child(1) {
+            top: 0;
+            left: 35%;
+        }
+        .d-inner.five .d-item:nth-child(2) {
+            top: 26%;
+            left: 4px;
+        }
+        .d-inner.five .d-item:nth-child(3) {
+            top: 26%;
+            right: 4px;
+        }
+        .d-inner.five .d-item:nth-child(4) {
+            bottom: 22px;
+            left: 14%;
+        }
+        .d-inner.five .d-item:nth-child(5) {
+            bottom: 22px;
+            right: 14%;
+        }
+        .d-inner.six .d-item:nth-child(1) {
+            top: 0;
+            left: 35%;
+        }
+        .d-inner.six .d-item:nth-child(2) {
+            top: 55px;
+            left: 5%;
+        }
+        .d-inner.six .d-item:nth-child(3) {
+            top: 55px;
+            right: 5%;
+        }
+        .d-inner.six .d-item:nth-child(4) {
+            bottom: 55px;
+            left: 5%;
+        }
+        .d-inner.six .d-item:nth-child(5) {
+            bottom: 55px;
+            right: 5%;
+        }
+        .d-inner.six .d-item:nth-child(6) {
+            bottom: 0;
+            left: 35%;
+        }
+        @media (max-width: 767px) {
+            .dream-time {
+                -webkit-flex-direction: column;
+                -ms-flex-direction: column;
+                flex-direction: column;
+            }
+            .material-side,
+            .output-side {
+                -webkit-align-items: center;
+                align-items: center;
+            }
+            .material-side {
+                border: none;
+            }
+            .d-input-box,
+            .d-mix-box,
+            .d-input-box .d-store {
+                width: 90%;
+            }
+        }
+        @media (min-width: 768px) {
+            .dream-time {
+                -webkit-flex-direction: row;
+                -ms-flex-direction: row;
+                flex-direction: row;
+            }
+            .material-side {
+                -webkit-align-items: flex-end;
+                align-items: flex-end;
+
+                border-right: 1px solid white;
+            }
+            .output-side {
+                -webkit-align-items: flex-start;
+                align-items: flex-start;
+
+                padding-top: 40px;
+                padding-left: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body onload="genMaterial()">
+    <div class="dream-time">
+        <div class="material-side">
+            <div class="d-input-box">
+                <h4>มาปลูกดอกรักกันเถอะ เลือกส่วนผสมของคุณเลย</h4>
+                <div class="d-store" id="d_store"></div>
+            </div>
+
+            <div class="d-mix-box">
+                <div class="mix" id="mix">
+                    <div class="plant" id="plant" onclick="plantFlower()">Plant</div>
+                    <div class="bottom-top" id="bottom_lid"></div>
+                    <div class="bottom-body" id="bottom_body"></div>
+                </div>
+            </div>
+        </div>
+        <div class="output-side">
+            <div class="d-plant-box">
+                <div class="d-inner" id="d_inner"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var material = [{ name: 'water', value: 1, count: 0 },
+        { name: 'fertilizer', value: 1, count: 0 },
+        { name: 'light', value: 1, count: 0 }];
+        var lidWidth = 80;
+        var lidHeight = 15;
+        var mixWidth = 200;
+        var mixHeight = 200;
+        var mixDiv = document.getElementById('mix');
+        var bottomLid = document.getElementById('bottom_lid');
+        var bottomBody = document.getElementById('bottom_body');
+        var plant = document.getElementById('plant');
+        var dInner = document.getElementById('d_inner');
+
+        var mix = 0;
+        var percent = 0;
+
+        bottomBody.style.width = mixWidth + 'px';
+        bottomBody.style.height = mixHeight + 'px';
+        bottomLid.style.width = lidWidth + 'px';
+        bottomLid.style.height = lidHeight + 'px';
+
+        function genMaterial() {
+            let obj = {};
+            const dStore = document.getElementById('d_store');
+            let html = '';
+            let matName = '';
+
+            for (var key in material) {
+                obj = material[key];
+                matName = (obj.name == 'water') ? 'น้ำ' : obj.name;
+                matName = (obj.name == 'fertilizer') ? 'ปุ๋ย' : matName;
+                matName = (obj.name == 'light') ? 'แสงแดด' : matName;
+                html += '<div class="mat ' + obj.name + '" onclick="addToMix(\'' + obj.name + '\')">' + matName + '</div>';
+            }
+
+            dStore.innerHTML = html;
+        }
+
+        function addToMix(key) {
+            if (material.length > 0 && key != '') {
+                for (let i = 0; i < material.length; i++) {
+                    if (key == material[i].name) {
+                        mix += material[i].value;
+                    }
+                }
+
+                percent = Math.ceil((mix * 6500) / mixHeight);
+                mixMaterial();
+            }
+        }
+
+        function mixMaterial() {
+            if (percent > 0) {
+                plant.style.visibility = 'visible';
+
+                if (percent >= 95) {
+                    bottomLid.style.background = 'rgba(255, 177, 0)';
+                }
+            } else {
+                bottomLid.style.background = 'white';
+                plant.style.visibility = 'hidden';
+            }
+
+            bottomBody.style.background = 'linear-gradient(to top, rgba(255, 177, 0) ' + percent + '%, white 0%)';
+        }
+
+        function plantFlower() {
+            let petal = 0;
+            dInner.className = 'd-inner';
+
+            if (percent <= 33) {
+                dInner.classList.add('four');
+                petal = 4;
+            }
+            if (percent > 33 && percent <= 66) {
+                dInner.classList.add('five');
+                petal = 5;
+            }
+            if (percent > 66) {
+                dInner.classList.add('six');
+                petal = 6;
+            }
+
+            let petalHtml = '';
+
+            if (petal > 0) {
+                for (let i = 0; i < petal; i++) {
+                    petalHtml += '<div class="d-item"></div>';
+                }
+            }
+
+            dInner.innerHTML = petalHtml;
+
+            mix = 0;
+            percent = 0;
+            mixMaterial();
+        }
+    </script>
+</body>
+
+</html>
