@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Predict Number</title>
+</head>
+<body onload="count()">
+    <h2>
+        Predict Number
+    </h2>
+    <div id="main-counter">COUNTER START : 
+        <span id="counter"></span>
+    </div>
+    <p>
+        Enter nearby number
+        <input type="number" id="input-predict" value="" onfocus="clearText()" onkeyup="handleSubmit(event)" >
+        <!-- <button id="submit" onclick="handleSubmit()">submit</button> -->
+    </p>
+    <div id="dialog"></div>
+    <script>
+        let couter = 0
+        const display_counter = document.getElementById("counter")
+        const main_conuter = document.getElementById("main-counter")
+        const input_predict = document.getElementById("input-predict")
+        const dialog = document.getElementById("dialog")
+        function count() {
+            return setInterval(()=>{
+                couter++ 
+                if (couter <= 5) {
+                    display_counter.innerText = couter
+                    input_predict.disabled = true
+                }
+                if (couter == 6) {
+                    main_conuter.removeChild(display_counter)
+                    input_predict.disabled = false
+                }
+                // display_counter.innerText = couter
+            },1000)
+            // console.log(couter)
+        }
+        function clearText() {
+            input_predict.value = ""
+            // dialog.innerText  = ""
+        }
+        function isCheck(num) {
+            return num == couter -1 || num == couter  + 1 || num == couter -2 || num == couter  + 2
+        }
+        function Checker(num){
+            if(isCheck(num)) {
+                dialog.innerText  = "Great"
+                setTimeout(()=>{
+                    dialog.innerText  = ""
+                },2000)
+            }else {
+                dialog.innerText  = "Try again"
+                setTimeout(()=>{
+                    dialog.innerText  = ""
+                },2000)
+            }
+        }
+        function handleSubmit(event) {
+
+            const predict_value  = input_predict.value
+
+            if (event.keyCode === 13) {
+
+                event.preventDefault();
+                Checker(predict_value)
+                
+            }
+            Checker(predict_value)
+
+            
+        }
+      
+    </script>
+</body>
+</html>
