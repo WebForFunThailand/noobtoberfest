@@ -4,7 +4,7 @@ const path = require('path')
 const excludes = ['.git', '.idea', 'node_modules']
 const directories = []
 
-const { years, title } = require('./config')
+const { years, title, banner } = require('./config')
 
 fs.readdirSync(path.join(__dirname)).forEach(file => {
   if (fs.lstatSync(path.join(__dirname, file)).isDirectory()) {
@@ -63,6 +63,11 @@ let htmlTemplate = fs
   .readFileSync(path.join(__dirname, 'template.html'))
   .toString()
 
+htmlTemplate = htmlTemplate.replace('#include-banner-title', banner.title)
+htmlTemplate = htmlTemplate.replace(
+  '#include-banner-description',
+  banner.description
+)
 htmlTemplate = htmlTemplate.replace('#include-template', totalTemplate)
 htmlTemplate = htmlTemplate.replace('#include-title', title)
 
