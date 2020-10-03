@@ -15,19 +15,26 @@ fs.readdirSync(path.join(__dirname)).forEach(file => {
 })
 
 let gameTemplateMap = {}
-
+let isBttonExist = false
 for (const { year, header, description } of years) {
   gameTemplateMap[year] = `
-    <div class="topic">
-        <h1 class="heading">${header}</h1>
-        <p class="desc">${description}</p>
-        <a
-        class="hacking"
-        href="https://github.com/chunza2542/noobtoberfest"
-        target="_blank"
-        >START HACKING</a>
+    <div class="topic-container">
+        <div class="topic">
+            <h1 class="heading">${header}</h1>
+            <p class="desc">${description}</p>
+            ${
+              isBttonExist
+                ? ''
+                : `<a
+            class="hacking"
+            href="https://github.com/chunza2542/noobtoberfest"
+            target="_blank"
+            >START HACKING</a>`
+            }
+        </div>
     </div>
     `
+  isBttonExist = true
 }
 
 directories.forEach(directory => {
@@ -35,22 +42,22 @@ directories.forEach(directory => {
   info = JSON.parse(info.toString())
 
   const template = `
-        <div class="game">
-            <a class="head" href="/${directory}" target="_blank">
-            <h3 class="play-keyword">Play - </h3>
-            <h3>${info.name}</h3>
-            </a>
-            <p style="color: #ccc">${info.description}</p>
-            <a href="${info.facebook}" target="_blank" class="author">${info.author}</a>
-        </div>`
+        <div class="main-container">
+            <div class="game">
+                <a class="head" href="/${directory}" target="_blank">
+                <h3 class="play-keyword">Play - </h3>
+                <h3>${info.name}</h3>
+                </a>
+                <p style="color: #57606f">${info.description}</p>
+                <a href="${info.facebook}" target="_blank" class="author">${info.author}</a>
+            </div>
+        </div>
+        `
 
   gameTemplateMap[info.year] += template
 })
 
-const totalTemplate = years
-  .map(({ year }) => gameTemplateMap[year])
-
-  .join()
+const totalTemplate = years.map(({ year }) => gameTemplateMap[year]).join('')
 
 let htmlTemplate = fs
   .readFileSync(path.join(__dirname, 'template.html'))

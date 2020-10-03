@@ -18,14 +18,14 @@
     <style>
       body,
       html {
-        background: #152145;
+        color: #2c3e50;
+        background-color: #f1f2f6;
       }
 
       .main-container {
         max-width: 1000px;
         width: 100%;
         position: relative;
-        padding-top: 100px;
         padding-right: 100px;
         padding-left: 100px;
       }
@@ -33,73 +33,96 @@
       .container-centerer {
         width: 100%;
         display: flex;
-        justify-content: center;
+        align-items: center;
+        flex-direction: column;
       }
 
       @media screen and (max-width: 1000px) {
         .main-container {
-          padding: 0px 60px;
+          padding-right: 60px;
+          padding-left: 60px;
         }
       }
 
       @media screen and (max-width: 600px) {
         .main-container {
-          padding: 0px 30px;
+          padding-right: 30px;
+          padding-left: 30px;
         }
       }
 
+      .topic-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 40px;
+      }
+
       .topic {
-        margin-bottom: 60px;
+        padding: 30px;
+        width: 100%;
+        max-width: 1000px;
       }
 
       .topic > .heading {
-        color: white;
-        font-weight: lighter;
         word-break: break-word;
       }
       .desc {
-        color: white;
+        margin-top: 5px;
         margin: 10px 0;
+        color: #57606f;
       }
       a.hacking {
-        color: #fff922;
+        color: #ee1264;
         font-weight: bold;
         text-decoration: none;
         display: inline-block;
+        margin-bottom: 2px;
+        margin-top: 10px;
       }
       a.hacking:hover {
-        color: #fff922;
         text-decoration: none;
-        border-bottom: 2px solid #fff922;
+        border-bottom: 2px solid #ee1264;
       }
       .credit {
-        color: #ccc;
-        margin-top: 30px;
-        margin-bottom: 30px;
+        color: #fff;
+        width: 100%;
+        padding: 20px 0px;
+        display: flex;
+        justify-content: center;
+        background-color: #2c3e50;
       }
 
       .game {
         margin-bottom: 40px;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px;
       }
       .game .author {
-        color: deepskyblue;
+        color: #ee1264;
       }
       .game h3 {
-        color: #fff922;
+        color: #2c3e50;
         text-decoration: none;
         display: inline-block;
       }
-      .game h3:hover {
-        color: #b9b279;
-      }
       .game .head {
         display: flex;
-        margin-bottom: 5px;
+        margin-bottom: 2px;
+        width: 100%;
+        max-width: max-content;
+
+        word-break: break-word;
       }
       .game > .head:hover {
-        border-bottom: 2px solid #fff922;
         text-decoration: none;
-        margin-bottom: 3px;
+        margin-bottom: 0px;
+      }
+
+      .game p {
+        margin-top: 5px;
       }
 
       .game > .head:hover .play-keyword {
@@ -117,14 +140,8 @@
     </style>
   </head>
   <body>
-    <div class="container-centerer">
-      <div class="main-container">
-        #include-template
-        <div class="credit">
-          Made with ❤️ by NoobProgrammer Thailand Community
-        </div>
-      </div>
-    </div>
+    <div class="container-centerer">#include-template</div>
+    <div class="credit">Made with ❤️ by NoobProgrammer Thailand Community</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script></script>
   </body>
