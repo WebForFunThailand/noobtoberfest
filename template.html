@@ -22,6 +22,11 @@
         background-color: #f1f2f6;
       }
 
+      /* width */
+      ::-webkit-scrollbar {
+        width: 0px;
+      }
+
       .main-container {
         max-width: 1000px;
         width: 100%;
@@ -137,12 +142,32 @@
         display: inline-block;
         font-weight: 500;
       }
+
+      #scroll-progress-bar {
+        height: 5px;
+        background-color: #1168f8;
+        position: fixed;
+        top: 0px;
+      }
     </style>
   </head>
   <body>
     <div class="container-centerer">#include-template</div>
     <div class="credit">Made with ❤️ by NoobProgrammer Thailand Community</div>
+    <div id="scroll-progress-bar"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script></script>
+    <script>
+      const documentInstance = $(document)
+      const windowInstance = $(window)
+      const scrollInstace = $('#scroll-progress-bar')
+      documentInstance.ready(() => {
+        documentInstance.scroll(e => {
+          const scrollProgress =
+            documentInstance.scrollTop() /
+            (documentInstance.height() - windowInstance.height())
+          scrollInstace.css('width', windowInstance.width() * scrollProgress)
+        })
+      })
+    </script>
   </body>
 </html>
