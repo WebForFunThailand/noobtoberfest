@@ -1,111 +1,131 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Noobtoberfest 2019</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>#include-title</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
 
-	<style>
-		body, html {
-			background: #152145;
-		}
-		.main-container	{
-			width: 600px;
-			margin: 20px auto;
-		}
-		@media screen and (max-width: 600px) {
-			.main-container {
-				width: 100%;
-				padding: 15px;
-				position:relative;
-				overflow: hidden;
-			}
-		}
-		.heading {
-			color: white;
-			font-weight: lighter;
-			margin-top: 42vh;
-		}
-		.desc {
-			color: white;
-			margin: 10px 0;
-		}
-		a.hacking {
-			color: #fff922;
-			font-weight: bold;
-			text-decoration: none;
-			display: inline-block;
-		}
-		a.hacking:hover {
-			color: #fff922;
-			text-decoration: none;
-			border-bottom: 2px solid #fff922;
-		}
-		.credit {
-			color: #ccc;
-			margin-top: 30px;
-			margin-bottom: 40vh;
-		}
+    <style>
+      body,
+      html {
+        background: #152145;
+      }
 
-		.game {
-			margin-bottom: 40px;
-		}
-		.game .author {
-			color: deepskyblue;
-		}
-		.game h3 {
-			color: #fff922;
-			text-decoration: none;
-		}
-		.game h3:hover {
-			color: #b9b279;
-		}
-		.game > .head:hover {
-			border-bottom: 2px solid #fff922;
-			text-decoration: none;
-		}
-	</style>
-</head>
-<body>
-	<div class="main-container">
-		<div>
-			<h1 class="heading">Noobtoberfest 2019</h1>
-			<p class="desc">Game-coding challenge for everyone who wants to contribute to an open-source project for Hacktoberfest 2019</p>
-			<a class="hacking" href="https://github.com/chunza2542/noobtoberfest" target="_blank">START HACKING</a>
-		</div>
-		<br>
-		<hr>
+      .main-container {
+        max-width: 1000px;
+        width: 100%;
+        position: relative;
+        padding-top: 100px;
+        padding-right: 100px;
+        padding-left: 100px;
+      }
 
-		#include-template
+      .container-centerer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
 
-		<div class="credit">Made with ❤️ by NoobProgrammer Thailand Community</div>
-	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script>
-		$(document).ready(function() {
-		    const height = screen.height - 200;
-		    const middle = height / 2;
+      @media screen and (max-width: 1000px) {
+        .main-container {
+          padding: 0px 60px;
+        }
+      }
 
-		    const childs = [...$(".main-container").children()];
+      @media screen and (max-width: 600px) {
+        .main-container {
+          padding: 0px 30px;
+        }
+      }
 
-		    function render() {
-			    childs.forEach(child => {
-                	const top = child.getBoundingClientRect().top;
-                	const offset = middle - top;
-                	const deg = offset / height * 30;
+      .topic {
+        margin-bottom: 60px;
+      }
 
-                	child.style.transform = `translateX(${deg * 10}px)`;
-			    });
-		    }
+      .topic > .heading {
+        color: white;
+        font-weight: lighter;
+        word-break: break-word;
+      }
+      .desc {
+        color: white;
+        margin: 10px 0;
+      }
+      a.hacking {
+        color: #fff922;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+      }
+      a.hacking:hover {
+        color: #fff922;
+        text-decoration: none;
+        border-bottom: 2px solid #fff922;
+      }
+      .credit {
+        color: #ccc;
+        margin-top: 30px;
+        margin-bottom: 30px;
+      }
 
-			$(window).scroll(function() {
-			    render()
-			});
+      .game {
+        margin-bottom: 40px;
+      }
+      .game .author {
+        color: deepskyblue;
+      }
+      .game h3 {
+        color: #fff922;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .game h3:hover {
+        color: #b9b279;
+      }
+      .game .head {
+        display: flex;
+        margin-bottom: 5px;
+      }
+      .game > .head:hover {
+        border-bottom: 2px solid #fff922;
+        text-decoration: none;
+        margin-bottom: 3px;
+      }
 
-		    render()
-        });
-	</script>
-</body>
+      .game > .head:hover .play-keyword {
+        width: 80px;
+      }
+
+      .game > .head .play-keyword {
+        white-space: nowrap;
+        width: 0px;
+        transition: 0.3s;
+        overflow: hidden;
+        display: inline-block;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-centerer">
+      <div class="main-container">
+        #include-template
+        <div class="credit">
+          Made with ❤️ by NoobProgrammer Thailand Community
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script></script>
+  </body>
 </html>
