@@ -1,4 +1,5 @@
 module.exports = {
+  title: 'Noobtoberfest 2020',
   years: [
     {
       year: 2020,

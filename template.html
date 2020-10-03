@@ -7,7 +7,7 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Noobtoberfest 2019</title>
+    <title>#include-title</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -20,15 +20,24 @@
       html {
         background: #152145;
       }
+
       .main-container {
-        width: 1000px;
-        padding: 0px 100px;
+        max-width: 1000px;
+        width: 100%;
+        position: relative;
+        padding-top: 100px;
+        padding-right: 100px;
+        padding-left: 100px;
+      }
+
+      .container-centerer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
       }
 
       @media screen and (max-width: 1000px) {
         .main-container {
-          width: 100%;
-          position: relative;
           padding: 0px 60px;
         }
       }
@@ -39,10 +48,13 @@
         }
       }
 
-      .heading {
+      .topic {
+        margin-bottom: 60px;
+      }
+
+      .topic > .heading {
         color: white;
         font-weight: lighter;
-        margin-top: 100px;
         word-break: break-word;
       }
       .desc {
@@ -75,21 +87,42 @@
       .game h3 {
         color: #fff922;
         text-decoration: none;
+        display: inline-block;
       }
       .game h3:hover {
         color: #b9b279;
       }
+      .game .head {
+        display: flex;
+        margin-bottom: 5px;
+      }
       .game > .head:hover {
         border-bottom: 2px solid #fff922;
         text-decoration: none;
+        margin-bottom: 3px;
+      }
+
+      .game > .head:hover .play-keyword {
+        width: 80px;
+      }
+
+      .game > .head .play-keyword {
+        white-space: nowrap;
+        width: 0px;
+        transition: 0.3s;
+        overflow: hidden;
+        display: inline-block;
+        font-weight: 500;
       }
     </style>
   </head>
   <body>
-    <div class="main-container">
-      #include-template
-      <div class="credit">
-        Made with ❤️ by NoobProgrammer Thailand Community
+    <div class="container-centerer">
+      <div class="main-container">
+        #include-template
+        <div class="credit">
+          Made with ❤️ by NoobProgrammer Thailand Community
+        </div>
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
