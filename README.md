@@ -5,6 +5,8 @@ The main objective of this repo is to help everyone get started with contributin
 
 กิจกรรมเขียนโค้ดเกมสำหรับทุก ๆ คนที่ต้องการ contribute ให้กับโปรเจค open-source ของ Hacktoberfest 2020 โดยวัตถุประสงค์หลักของ Repo นี้คือการให้ทุก ๆ คนได้เริ่มต้น contribute ให้กับโปรเจค open-souce และเราหวังว่าคุณจะสนุกไปกับการเขียนโค้ด และเรียนรู้อะไรต่างๆไม่มากก็น้อยในช่วงของกิจกรรม Hacktoberfest 2020
 
+🤪 Fun Fact: We called this project "Noobtoberfest" because our old organization named "NoobProgrammer Thailand Community"
+
 ## 🤝 How to Contribute - วิธีการ Contribute
 We want contributing to this repo to be fun, enjoyable and educational for everyone. All contributions are welcome not only to submit your game but you can also help us improve the document, fixes typo and anything else.
 
