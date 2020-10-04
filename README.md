@@ -21,7 +21,6 @@ So, If you want to contribute and don't know how to start you can see the "Contr
 
 After we merge, your work will be displayed at [https://noobtoberfest.webforfun.dev](https://noobtoberfest.webforfun.dev/)
 
-&nbsp;
 1. เขียนเกมของคุณด้วยทุกสกิลที่คุณมี
 2. โค้ดทั้งหมด **ต้อง!!** อยู่ในไฟล์ `index.html` เพียงหนึ่งไฟล์เท่านั้น
 3. ส่ง Pull Request มาที่เรา
@@ -29,21 +28,21 @@ After we merge, your work will be displayed at [https://noobtoberfest.webforfun.
 
 หลังจากที่เรา Merge เรียบร้อยแล้ว, ผลงานของคุณจะถูกแสดงที่ [https://noobtoberfest.webforfun.dev](https://noobtoberfest.webforfun.dev/)
 
-### 🤖 ‍Contribution Guide for Submitting Game
+### 🤖 ‍Contribution Guide
 1. Fork this repo to your account.
-2. Create a new folder for your game, name `your-game-name`.
+2. Create a new folder for your game, e.g. `mariokart`.
 3. Create `index.html` file in your folder and code your game there.
-4. Create file `info.json` in your folder and put this JSON into it.
+4. Create file `info.json` in your folder and copy this JSON into it. (Don't forget to edit!)
 	```json
 	{
-		"name": "Your game name",
-		"description": "Tell about your game",
+		"name": "Your gaming name...",
+		"description": "Tell people about your game...",
 		"author": "Who created this game?",
-		"facebook": "Put your facebook link here"
+		"facebook": "Put your facebook link here (You can also put your website or Github link instead)"
 	}
 	```
-5. Open pull request (PR) and send to us.
-6. Done~ After we merge, your work will be displayed on our site.
+5. Open pull request (PR) to us.
+6. That's it~ After we merge, your work will be displayed on our site.
 
 ---
 
