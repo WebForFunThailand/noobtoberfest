@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const excludes = ['.git', '.idea', 'node_modules']
+const excludes = ['.git', '.idea', 'node_modules', '.netlify']
 const directories = []
 
 const { years, title, banner } = require('./config')
