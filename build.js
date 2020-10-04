@@ -18,7 +18,7 @@ let gameTemplateMap = {}
 let isBttonExist = false
 for (const { year, header, description } of years) {
   gameTemplateMap[year] = `
-    <div class="topic-container">
+    <div class="main-container">
         <div class="topic">
             <h1 class="heading">${header}</h1>
             <p class="desc">${description}</p>
