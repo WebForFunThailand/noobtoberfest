@@ -29,16 +29,33 @@
         background-color: red;
         color: white;
     }
-    li.attack {
+    #attack {
         background-color: red;
     }
-    li.skill {
+    #skill {
         background-color: yellow;
         color:rgb(55, 55, 55);
     }
-    li.ultimate {
+    #ultimate {
         background-color: white;
         color: rgb(55, 55, 55);
+    }
+    #ultimate.ready {
+        color: white;
+        animation-name: ultimate;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-direction: alternate;
+    }
+
+    @keyframes ultimate {
+        0% {
+            background-color: red;
+        }
+        100% {
+            background-color: blue;
+        }
     }
 
     </style>
@@ -50,15 +67,74 @@
         <span class="boss">😼</span>
     </div>
     <div class="battle-menu">
-        <h2>Josuke</h2>
-        <span>200</span> / <span>200</span>
+        <h2 id="name">Josuke</h2>
+        <span id="health">2000</span> / <span id="full-health">2000</span>
+        Atk: <span id="atk">20</span>
+        Def: <span id="def">20</span>
         <ul class="menu-list">
-            <li class="attack">Attack</li>
-            <li class="skill">Skill</li>
-            <li class="ultimate">Ultimate</li>
+            <li id="attack">Attack</li>
+            <li id="skill">Skill</li>
+            <li id="ultimate" >Ultimate</li>
         </ul>
     </div>
-    <script></script>
+    <script>
+        var playerHealth = 2000
+        var playerAtk = 300
+        var playerDef = 300
+        var bossHealth = 1500
+        var bossAtk = 400
+        var bossDef = 100
+        var btnAttack = document.getElementById("attack")
+        var btnSkill = document.getElementById("skill")
+        var btnUltimate = document.getElementById("ultimate")
+        var playerHealthBar = document.getElementById("health")
+        var playerAtkStatus = document.getElementById("atk")
+        var playerDefStatus = document.getElementById("def")
+        function updateState(state, value) {
+            switch (state) {
+                case 'playerHealth':
+                    playerHealthBar.innerText = value
+                    break
+                case 'playerAtk':
+                    playerAtkStatus.innerHTML = value
+                    break
+                case 'playerDef':
+                    playerDefStatus.innerHTML = value
+                    
+
+            }
+
+        }
+        function checkWin() {
+            if (bossHealth <= 0) {
+                console.log("You win.")
+            }
+        }
+        function checkLose() {
+            if (playerHealth <= 0) {
+                console.log("You lose.")
+            }
+        }
+        function playerAttack() {
+            bossHealth -= playerAtk - bossDef
+            checkWin()
+        }
+        function bossAttack() {
+            updateState('playerHealth',playerHealth -= bossAtk - playerDef)
+            checkLose()
+        }
+        function playerSkill() {
+            updateState('playerHealth',playerHealth += 150)
+        }
+        function playerUltimate() {
+            bossHealth -= playerAtk * 3
+            updateState('playerAtk', playerAtk *= 2)
+            checkWin()
+        }
+        btnAttack.addEventListener('click', playerAttack)
+        btnSkill.addEventListener('click', playerSkill)
+        
+    </script>
 
     
 </body>
