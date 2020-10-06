@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    html, body {
+        font-family: "Quicksand", sans-serif;
+        text-align: center;
+    }
+    .title, .battle-menu {
+        font-family: "Press Start 2P", sans-serif;
+    }
+    .boss {
+        font-size: 360px;
+    }
+    .menu-list {
+        display: block;
+        list-style: none;
+        border: 1px solid black;
+        width: 50%;
+        margin: auto;
+        margin-top: 2rem;
+        padding-left: 0;
+    }
+    .menu-list li {
+        padding: 1rem;
+        background-color: red;
+        color: white;
+    }
+    li.attack {
+        background-color: red;
+    }
+    li.skill {
+        background-color: yellow;
+        color:rgb(55, 55, 55);
+    }
+    li.ultimate {
+        background-color: white;
+        color: rgb(55, 55, 55);
+    }
+
+    </style>
+    <title>Boss Battle</title>
+</head>
+<body>
+    <h1 class="title">Boss</h1>
+    <div class="battle-scene">
+        <span class="boss">😼</span>
+    </div>
+    <div class="battle-menu">
+        <h2>Josuke</h2>
+        <span>200</span> / <span>200</span>
+        <ul class="menu-list">
+            <li class="attack">Attack</li>
+            <li class="skill">Skill</li>
+            <li class="ultimate">Ultimate</li>
+        </ul>
+    </div>
+    <script></script>
+
+    
+</body>
+</html>
