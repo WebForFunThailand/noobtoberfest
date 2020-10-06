@@ -27,7 +27,7 @@ for (const { year, header, description } of years) {
                 ? ''
                 : `<a
             class="hacking"
-            href="https://github.com/chunza2542/noobtoberfest"
+            href="https://github.com/WebForFunThailand/noobtoberfest"
             target="_blank"
             >START HACKING</a>`
             }
