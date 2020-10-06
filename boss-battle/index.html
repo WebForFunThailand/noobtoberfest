@@ -81,6 +81,7 @@
         var playerHealth = 2000
         var playerAtk = 300
         var playerDef = 300
+        var playerUltimatePoint = 0
         var bossHealth = 1500
         var bossAtk = 400
         var bossDef = 100
@@ -100,8 +101,11 @@
                     break
                 case 'playerDef':
                     playerDefStatus.innerHTML = value
-                    
-
+                    break
+                case 'playerUltimatePoint':
+                    if (playerUltimatePoint >= 20) {
+                        btnUltimate.classList.toggle('ready')
+                    }
             }
 
         }
@@ -117,22 +121,29 @@
         }
         function playerAttack() {
             bossHealth -= playerAtk - bossDef
+            updateState('playerUltimatePoint', playerUltimatePoint += 2)
             checkWin()
+            bossAttack()
         }
         function bossAttack() {
             updateState('playerHealth',playerHealth -= bossAtk - playerDef)
+            updateState('playerUltimatePoint', playerUltimatePoint += 2)
             checkLose()
         }
         function playerSkill() {
             updateState('playerHealth',playerHealth += 150)
+            bossAttack()
         }
         function playerUltimate() {
             bossHealth -= playerAtk * 3
             updateState('playerAtk', playerAtk *= 2)
+            playerUltimatePoint = 0
+            btnUltimate.classList.toggle('ready')
             checkWin()
         }
         btnAttack.addEventListener('click', playerAttack)
         btnSkill.addEventListener('click', playerSkill)
+        btnUltimate.addEventListener('click', playerUltimate)
         
     </script>
 
