@@ -49,7 +49,7 @@ directories.forEach(directory => {
                 <h3>${info.name}</h3>
                 </a>
                 <p style="color: #57606f">${info.description}</p>
-                <a href="${info.facebook}" target="_blank" class="author">${info.author}</a>
+                👉 <a href="${info.facebook}" target="_blank" class="author">${info.author}</a>
             </div>
         </div>
         `
