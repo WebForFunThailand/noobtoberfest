@@ -92,6 +92,8 @@
         var bossHealth = 1500
         var bossAtk = 400
         var bossDef = 100
+        var possiblePlayerNames = ["Yusuke", "Mark", "Max", "Gun"]
+        var possibleBossNames = ["Cleaner Queen", "Prince Crimson", "Mark (Impostor)"]
         // DOM Element
         var btnAttack = document.getElementById("attack")
         var btnSkill = document.getElementById("skill")
@@ -103,7 +105,7 @@
         var combatLog = document.getElementById("combat-log")
         function random(min, max) {
             // Credit: https://www.geeksforgeeks.org/how-to-select-a-random-element-from-array-in-javascript/
-            return Math.random() * (max - min) + min
+            return Math.floor(Math.random() * (max - min) + min)
         }
         function updateState(state, value) {
             switch (state) {
@@ -160,8 +162,8 @@
         function initGame() {
             var playerNameElement = document.getElementById("player-name")
             var bossNameElement = document.getElementById("boss-name")
-            playerNameElement.innerText = "Yusike"
-            bossNameElement.innerText = "Cleaner Queen"
+            playerNameElement.innerText = possiblePlayerNames[random(0, possiblePlayerNames.length)]
+            bossNameElement.innerText = possibleBossNames[random(0, possibleBossNames.length)]
         }
         btnAttack.addEventListener('click', playerAttack)
         btnSkill.addEventListener('click', playerSkill)
