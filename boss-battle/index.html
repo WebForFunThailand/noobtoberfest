@@ -48,6 +48,10 @@
         animation-timing-function: linear;
         animation-direction: alternate;
     }
+    #status {
+        margin-top: 1rem;
+        display: block;
+    }
 
     @keyframes ultimate {
         0% {
@@ -76,6 +80,7 @@
             <li id="skill">Skill</li>
             <li id="ultimate" >Ultimate</li>
         </ul>
+        <span id="status"></span>
     </div>
     <script>
         var playerHealth = 2000
@@ -91,6 +96,7 @@
         var playerHealthBar = document.getElementById("health")
         var playerAtkStatus = document.getElementById("atk")
         var playerDefStatus = document.getElementById("def")
+        var playerStatus = document.getElementById("status")
         function updateState(state, value) {
             switch (state) {
                 case 'playerHealth':
@@ -112,11 +118,13 @@
         function checkWin() {
             if (bossHealth <= 0) {
                 console.log("You win.")
+                playerStatus.innerText = "You win."
             }
         }
         function checkLose() {
             if (playerHealth <= 0) {
                 console.log("You lose.")
+                playerStatus.innerText = "You lose."
             }
         }
         function playerAttack() {
@@ -135,8 +143,8 @@
             bossAttack()
         }
         function playerUltimate() {
-            bossHealth -= playerAtk * 3
-            updateState('playerAtk', playerAtk *= 2)
+            bossHealth -= playerAtk * 1.2
+            updateState('playerAtk', playerAtk *= 1.2)
             playerUltimatePoint = 0
             btnUltimate.classList.toggle('ready')
             checkWin()
