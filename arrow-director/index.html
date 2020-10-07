@@ -52,12 +52,12 @@
         }
       };
 
-      const createGame = (oldround = 0) => {
+      const createGame = (oldround = 1, directionNum = 2) => {
         return new Promise(function (resolve, reject) {
           gameDirectionTab.innerHTML = "";
-          roundTab.innerHTML = `Round: ${oldround}`;
+          roundTab.innerHTML = `Stage: ${oldround}`;
 
-          const genereatedDirection = generateDirection(4);
+          const genereatedDirection = generateDirection(directionNum);
 
           let timeCount = 3000;
           const counter = setInterval(() => {
@@ -89,7 +89,7 @@
                 "green";
               if (!genereatedDirection.length) {
                 clearInterval(counter);
-                resolve(await createGame(oldround + 1));
+                resolve(await createGame(oldround + 1, directionNum + 1));
               }
             } else {
               clearInterval(counter);
@@ -104,7 +104,7 @@
           gameDirectionTab.innerHTML = "";
           roundTab.innerHTML = "";
           timeTab.innerHTML = "";
-          resultTab.innerHTML += `Game Over <br/> Rounds: ${round} <br/> Press any key to start`;
+          resultTab.innerHTML += `Game Over <br/> Stages: ${round} <br/> Press any key to start`;
           document.addEventListener("keydown", (event) => {
             resultTab.innerHTML = "";
             resolve();
