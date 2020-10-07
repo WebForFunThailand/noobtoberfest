@@ -84,6 +84,7 @@
         <textarea readonly id="combat-log"></textarea>
     </div>
     <script>
+        // Game variable
         var playerHealth = 2000
         var playerAtk = 300
         var playerDef = 300
@@ -91,6 +92,7 @@
         var bossHealth = 1500
         var bossAtk = 400
         var bossDef = 100
+        // DOM Element
         var btnAttack = document.getElementById("attack")
         var btnSkill = document.getElementById("skill")
         var btnUltimate = document.getElementById("ultimate")
@@ -98,6 +100,11 @@
         var playerAtkStatus = document.getElementById("atk")
         var playerDefStatus = document.getElementById("def")
         var playerStatus = document.getElementById("status")
+        var combatLog = document.getElementById("combat-log")
+        function random(min, max) {
+            // Credit: https://www.geeksforgeeks.org/how-to-select-a-random-element-from-array-in-javascript/
+            return Math.random() * (max - min) + min
+        }
         function updateState(state, value) {
             switch (state) {
                 case 'playerHealth':
