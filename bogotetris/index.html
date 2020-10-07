@@ -1,0 +1,852 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>TETRIS v0.2</title>
+<script language="javascript">
+
+//////////////Config//////////////////////
+var nRow=19;
+var nCol=9;
+var time=750;
+
+var color0 = "white";
+var color1 = "blue";
+var color2 = "violet";
+var color3 = "lightblue";
+var color4 = "pink";
+var color5 = "purple";
+var color6 = "yellow";
+var color7 = "brown";
+var color8 = "gray";
+
+//////////////Var///////////////////////////
+
+var i = 0;
+var j = 0;
+
+var bRow = 1;
+var bCol = 1;
+var cRow = 1;
+var cCol = 1;
+var iRow = 1;
+var iCol = 1;
+var rRow = 1;
+var rCol = 1;
+var lRow = 1;
+var lCol = 1;
+var tRow = 1;
+var tCol = 1;
+var uRow = 1;
+var uCol = 1;
+
+var check = false;
+var check2 = false;
+var checkRow = true;
+var checkMove = false;
+var playing = false;
+var timeout = time;
+var scoreRow = 0;
+var score = 0;
+var randNext = 0;
+var randNo = 0;
+var timePause = 0;
+var pause = false;
+
+var box = new Array(25)
+for (i = 0; i < 25; i++)
+    box[i] = new Array(25)
+
+var run = new Array(25)
+for (i = 0; i < 25; i++)
+    run[i] = new Array(25)
+
+//////////////Set Default///////////////////////////
+
+function newGame() {
+    timeout = time;
+    clearBox();
+    clearRun();
+    getNew();
+    timer();
+    pause = false;
+    playing = true;
+    scoreRow = 0;
+    score = 0;
+    document.getElementById('scoreRow').value = scoreRow;
+    document.getElementById('pause').disabled = false;
+    document.getElementById('start').disabled = true;
+}
+
+function gamePause() {
+    if (pause == false) {
+        document.getElementById('pause').value = "RESUME"
+        document.getElementById('buttonLeft').disabled = true;
+        document.getElementById('buttonRight').disabled = true;
+        document.getElementById('buttonUp').disabled = true;
+        document.getElementById('buttonDown').disabled = true;
+        pause = true;
+    } else {
+        document.getElementById('pause').value = "PAUSE"
+        document.getElementById('buttonLeft').disabled = false;
+        document.getElementById('buttonRight').disabled = false;
+        document.getElementById('buttonUp').disabled = false;
+        document.getElementById('buttonDown').disabled = false;
+        pause = false;
+        walk();
+    }
+}
+
+
+//////////////Key Listener///////////////////////////
+document.onkeydown = keyListener;
+
+function keyListener(e) {
+    if (playing == true && pause == false) {
+        if (!e) {
+            e = window.event;
+        }
+        if (e.keyCode == 37) {
+            moveLeft();
+        }
+        if (e.keyCode == 38) {
+            //Key Up
+            moveUp();
+        }
+        if (e.keyCode == 40) {
+            moveDown();
+        }
+        if (e.keyCode == 39) {
+            moveRight();
+        }
+    }
+}
+
+function moveUp() {
+    checkMove = false;
+    for (uRow = 1; uRow <= nRow; uRow++) {
+        for (uCol = 1; uCol <= nCol; uCol++) {
+            if (run[uRow][uCol] == 1 && checkMove == false) {
+                //###
+                //      #
+                turn1();
+            } else if (run[uRow][uCol] == 2 && checkMove == false) {
+                //###
+                //#
+                turn2();
+            } else if (run[uRow][uCol] == 3 && checkMove == false) {
+                //   ##
+                //  ##
+                turn3();
+            } else if (run[uRow][uCol] == 4 && checkMove == false) {
+                //##
+                //    ##
+                turn4();
+            } else if (run[uRow][uCol] == 5 && checkMove == false) {
+                //####
+                turn5();
+            } else if (run[uRow][uCol] == 6 && checkMove == false) {
+                //###
+                //    #
+                turn6();
+            } else if (run[uRow][uCol] == 7 && checkMove == false) {
+                //##
+                //##
+            }
+            if (checkMove == true) {
+                break;
+            }
+        }
+
+        if (checkMove == true) {
+            break;
+        }
+    }
+
+    setColor();
+}
+
+function turn1() {
+    if (run[uRow][uCol] != 0 && run[uRow][uCol + 1] != 0 && run[uRow][uCol + 2] != 0 && run[uRow + 1][uCol + 2] != 0)
+    //###
+    //      #
+    {
+        if (run[uRow + 1][uCol + 1] == 0 && box[uRow + 1][uCol + 1] == 0 && run[uRow - 1][uCol + 2] == 0 && box[uRow - 1][uCol + 2] == 0) {
+            run[uRow - 1][uCol + 2] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            run[uRow + 1][uCol + 1] = run[uRow][uCol + 1];
+            run[uRow][uCol + 1] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 2][uCol] != 0 && run[uRow + 2][uCol - 1] != 0)
+    //   #
+    //   #
+    //  ##
+    {
+        if (run[uRow + 1][uCol - 1] == 0 && box[uRow + 1][uCol - 1] == 0 && run[uRow + 2][uCol + 1] == 0 && box[uRow + 2][uCol + 1] == 0) {
+            run[uRow + 1][uCol - 1] = run[uRow + 1][uCol];
+            run[uRow + 1][uCol] = 0;
+            run[uRow + 2][uCol + 1] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 1][uCol + 1] != 0 && run[uRow + 1][uCol + 2] != 0)
+    //#
+    //###
+    {
+        if (run[uRow][uCol + 1] == 0 && box[uRow][uCol + 1] == 0 && run[uRow + 2][uCol] == 0 && box[uRow + 2][uCol] == 0) {
+            run[uRow][uCol + 1] = run[uRow + 1][uCol + 1];
+            run[uRow + 1][uCol + 1] = 0;
+            run[uRow + 2][uCol] = run[uRow + 1][uCol + 2];
+            run[uRow + 1][uCol + 2] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow][uCol + 1] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 2][uCol] != 0)
+    //##
+    //#
+    //#
+    {
+        if (run[uRow + 1][uCol + 1] == 0 && box[uRow + 1][uCol + 1] == 0 && run[uRow][uCol - 1] == 0 && box[uRow][uCol - 1] == 0) {
+            run[uRow + 1][uCol + 1] = run[uRow + 1][uCol];
+            run[uRow + 1][uCol] = 0;
+            run[uRow][uCol - 1] = run[uRow + 2][uCol];
+            run[uRow + 2][uCol] = 0;
+            checkMove = true;
+        }
+    }
+}
+
+function turn2() {
+    if (run[uRow][uCol] != 0 && run[uRow][uCol + 1] != 0 && run[uRow][uCol + 2] != 0 && run[uRow + 1][uCol] != 0)
+    //###
+    //#
+    {
+        if (run[uRow + 1][uCol + 1] == 0 && box[uRow + 1][uCol + 1] == 0 && run[uRow + 2][uCol + 1] == 0 && box[uRow + 2][uCol + 1] == 0) {
+            run[uRow + 1][uCol + 1] = run[uRow + 1][uCol];
+            run[uRow + 1][uCol] = 0;
+            run[uRow + 2][uCol + 1] = run[uRow][uCol + 2];
+            run[uRow][uCol + 2] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow][uCol + 1] != 0 && run[uRow + 1][uCol + 1] != 0 && run[uRow + 2][uCol + 1] != 0)
+    //##
+    //  #
+    //  #
+    {
+        if (run[uRow + 1][uCol] == 0 && box[uRow + 1][uCol] == 0 && run[uRow + 1][uCol - 1] == 0 && box[uRow + 1][uCol - 1] == 0) {
+            run[uRow + 1][uCol] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            run[uRow + 1][uCol - 1] = run[uRow + 2][uCol + 1];
+            run[uRow + 2][uCol + 1] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol - 2] != 0 && run[uRow + 1][uCol - 1] != 0 && run[uRow + 1][uCol] != 0)
+    //     #
+    //###
+    {
+        if (run[uRow][uCol - 1] == 0 && box[uRow][uCol - 1] == 0 && run[uRow - 1][uCol - 1] == 0 && box[uRow - 1][uCol - 1] == 0) {
+            run[uRow][uCol - 1] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            run[uRow - 1][uCol - 1] = run[uRow + 1][uCol - 2];
+            run[uRow + 1][uCol - 2] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 2][uCol] != 0 && run[uRow + 2][uCol + 1] != 0)
+    //#
+    //#
+    //##
+    {
+        if (run[uRow + 1][uCol + 1] == 0 && box[uRow + 1][uCol + 1] == 0 && run[uRow + 1][uCol + 2] == 0 && box[uRow + 1][uCol + 2] == 0) {
+            run[uRow + 1][uCol + 1] = run[uRow + 2][uCol + 1];
+            run[uRow + 2][uCol + 1] = 0;
+            run[uRow + 1][uCol + 2] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            checkMove = true;
+        }
+    }
+}
+
+function turn3() {
+    if (run[uRow][uCol] != 0 && run[uRow][uCol + 1] != 0 && run[uRow + 1][uCol - 1] != 0 && run[uRow + 1][uCol] != 0)
+    //   ##
+    //  ##
+    {
+        if (run[uRow][uCol - 1] == 0 && box[uRow][uCol - 1] == 0 && run[uRow - 1][uCol - 1] == 0 && box[uRow - 1][uCol - 1] == 0) {
+            run[uRow][uCol - 1] = run[uRow][uCol + 1];
+            run[uRow][uCol + 1] = 0;
+            run[uRow - 1][uCol - 1] = run[uRow + 1][uCol - 1];
+            run[uRow + 1][uCol - 1] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 1][uCol + 1] != 0 && run[uRow + 2][uCol + 1] != 0)
+    //#
+    //##
+    //  #
+    {
+        if (run[uRow + 2][uCol] == 0 && box[uRow + 2][uCol] == 0 && run[uRow + 1][uCol + 2] == 0 && box[uRow + 1][uCol + 2] == 0) {
+            run[uRow + 2][uCol] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            run[uRow + 1][uCol + 2] = run[uRow + 1][uCol];
+            run[uRow + 1][uCol] = 0;
+            checkMove = true;
+        }
+    }
+}
+
+function turn4() {
+    if (run[uRow][uCol] != 0 && run[uRow][uCol + 1] != 0 && run[uRow + 1][uCol + 1] != 0 && run[uRow + 1][uCol + 2] != 0)
+    //##
+    //  ##
+    {
+        if (run[uRow + 1][uCol] == 0 && box[uRow + 1][uCol] == 0 && run[uRow - 1][uCol + 1] == 0 && box[uRow - 1][uCol + 1] == 0) {
+            run[uRow + 1][uCol] = run[uRow + 1][uCol + 2];
+            run[uRow + 1][uCol + 2] = 0;
+            run[uRow - 1][uCol + 1] = run[uRow + 1][uCol + 1];
+            run[uRow + 1][uCol + 1] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol - 1] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 2][uCol - 1] != 0)
+    //  #
+    //##
+    //#
+    {
+        if (run[uRow + 2][uCol] == 0 && box[uRow + 2][uCol] == 0 && run[uRow + 2][uCol + 1] == 0 && box[uRow + 2][uCol + 1] == 0) {
+            run[uRow + 2][uCol] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            run[uRow + 2][uCol + 1] = run[uRow + 2][uCol - 1];
+            run[uRow + 2][uCol - 1] = 0;
+            checkMove = true;
+        }
+    }
+}
+
+function turn5() {
+    if (run[uRow][uCol] != 0 && run[uRow][uCol + 1] != 0 && run[uRow][uCol + 2] != 0 && run[uRow][uCol + 3] != 0)
+    //####
+    {
+        if (run[uRow + 1][uCol + 1] == 0 && box[uRow + 1][uCol + 1] == 0 && run[uRow - 1][uCol + 1] == 0 && box[uRow - 1][uCol + 1] == 0 && run[uRow - 2][uCol + 1] == 0 && box[uRow - 1][uCol + 1] == 0) {
+            run[uRow + 1][uCol + 1] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            run[uRow - 1][uCol + 1] = run[uRow][uCol + 2];
+            run[uRow][uCol + 2] = 0;
+            run[uRow - 2][uCol + 1] = run[uRow][uCol + 3];
+            run[uRow][uCol + 3] = 0;
+            checkMove = true;
+        } else if (run[uRow + 1][uCol + 1] == 0 && box[uRow + 1][uCol + 1] == 0 && run[uRow - 1][uCol + 1] == 0 && box[uRow - 1][uCol + 1] == 0 && run[uRow + 2][uCol + 1] == 0 && box[uRow + 2][uCol + 1] == 0) {
+            run[uRow + 1][uCol + 1] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            run[uRow - 1][uCol + 1] = run[uRow][uCol + 2];
+            run[uRow][uCol + 2] = 0;
+            run[uRow + 2][uCol + 1] = run[uRow][uCol + 3];
+            run[uRow][uCol + 3] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 2][uCol] != 0 && run[uRow + 3][uCol] != 0)
+    //#
+    //#
+    //#
+    //#
+    {
+
+        if (run[uRow + 1][uCol - 1] == 0 && box[uRow + 1][uCol - 1] == 0 && run[uRow + 1][uCol + 1] == 0 && box[uRow + 1][uCol + 1] == 0 && run[uRow + 1][uCol + 2] == 0 && box[uRow + 1][uCol + 2] == 0) {
+            run[uRow + 1][uCol - 1] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+
+            run[uRow + 1][uCol + 1] = run[uRow + 2][uCol];
+            run[uRow + 2][uCol] = 0;
+
+            run[uRow + 1][uCol + 2] = run[uRow + 3][uCol];
+            run[uRow + 3][uCol] = 0;
+            moveDown();
+            checkMove = true;
+        } else if (run[uRow + 2][uCol - 2] == 0 && box[uRow + 2][uCol - 2] == 0 && run[uRow + 2][uCol + 1] == 0 && box[uRow + 2][uCol + 1] == 0 && run[uRow + 2][uCol - 1] == 0 && box[uRow + 2][uCol - 1] == 0) {
+            run[uRow + 2][uCol - 2] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+
+            run[uRow + 2][uCol + 1] = run[uRow + 1][uCol];
+            run[uRow + 1][uCol] = 0;
+
+            run[uRow + 2][uCol - 1] = run[uRow + 3][uCol];
+            run[uRow + 3][uCol] = 0;
+            checkMove = true;
+        } else if (run[uRow + 2][uCol + 1] == 0 && box[uRow + 2][uCol + 1] == 0 && run[uRow + 2][uCol + 2] == 0 && box[uRow + 2][uCol + 2] == 0 && run[uRow + 2][uCol + 3] == 0 && box[uRow + 2][uCol + 3] == 0) {
+            run[uRow + 2][uCol + 1] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            run[uRow + 2][uCol + 2] = run[uRow + 1][uCol];
+            run[uRow + 1][uCol] = 0;
+            run[uRow + 2][uCol + 3] = run[uRow + 3][uCol];
+            run[uRow + 3][uCol] = 0;
+            checkMove = true;
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////
+        else if (run[tRow + 3][tCol - 3] == 0 && box[tRow + 3][tCol - 3] == 0 && run[tRow + 3][tCol - 2] == 0 && box[tRow + 3][tCol - 2] == 0 && run[tRow + 3][tCol - 1] == 0 && box[tRow + 3][tCol - 1] == 0) {
+            alert("x");
+            run[tRow + 3][tCol - 3] = run[tRow][tCol];
+            run[tRow][tCol] = 0;
+
+            run[tRow + 3][tCol - 2] = run[tRow + 1][tCol];
+            run[tRow + 1][tCol] = 0;
+
+            run[tRow + 3][tCol - 1] = run[tRow + 2][tCol];
+            run[tRow + 2][tCol] = 0;
+            checkMove = true;
+        }
+        /////////////////////////////////////////////////////////////////////////////////////
+    }
+}
+
+function turn6() {
+    if (run[uRow][uCol] != 0 && run[uRow][uCol + 1] != 0 && run[uRow][uCol + 2] != 0 && run[uRow + 1][uCol + 1] != 0)
+    // ###
+    //   #
+    {
+        if (run[uRow - 1][uCol + 1] == 0 && box[uRow - 1][uCol + 1] == 0) {
+            run[uRow - 1][uCol + 1] = run[uRow][uCol + 2];
+            run[uRow][uCol + 2] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol - 1] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 2][uCol] != 0)
+    //   #
+    // ##
+    //   #
+    {
+        if (run[uRow + 1][uCol + 1] == 0 && box[uRow + 1][uCol + 1] == 0) {
+            run[uRow + 1][uCol + 1] = run[uRow + 2][uCol];
+            run[uRow + 2][uCol] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol - 1] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 1][uCol + 1] != 0)
+    //   #
+    // ###  
+    {
+        if (run[uRow + 2][uCol] == 0 && box[uRow + 2][uCol] == 0) {
+            run[uRow + 2][uCol] = run[uRow + 1][uCol - 1];
+            run[uRow + 1][uCol - 1] = 0;
+            checkMove = true;
+        }
+    } else if (run[uRow][uCol] != 0 && run[uRow + 1][uCol] != 0 && run[uRow + 2][uCol] != 0 && run[uRow + 1][uCol + 1] != 0)
+    // #
+    // ##
+    // #
+    {
+        if (run[uRow + 1][uCol - 1] == 0 && box[uRow + 1][uCol - 1] == 0) {
+            run[uRow + 1][uCol - 1] = run[uRow][uCol];
+            run[uRow][uCol] = 0;
+            checkMove = true;
+        }
+    }
+}
+
+
+function moveLeft() {
+    checkMove = false;
+    for (lRow = 1; lRow <= nRow; lRow++) {
+        for (lCol = 1; lCol <= nCol; lCol++) {
+            if (run[lRow][lCol] != 0) {
+                if (box[lRow][lCol - 1] != 0) {
+                    checkMove = true;
+                }
+            }
+        }
+    }
+    if (checkMove == false) {
+        for (lRow = 1; lRow <= nRow; lRow++) {
+            for (lCol = 1; lCol <= nCol; lCol++) {
+                if (run[lRow][lCol] != 0) {
+                    run[lRow][lCol - 1] = run[lRow][lCol];
+                    run[lRow][lCol] = 0;
+                }
+            }
+        }
+    }
+    setColor();
+}
+
+function moveRight() {
+    checkMove = false;
+    for (rRow = 1; rRow <= nRow; rRow++) {
+        for (rCol = nCol; rCol >= 1; rCol--) {
+            if (run[rRow][rCol] != 0) {
+                if (box[rRow][rCol + 1] != 0) {
+                    checkMove = true;
+                }
+            }
+        }
+    }
+
+
+    if (checkMove == false) {
+        for (rRow = 1; rRow <= nRow; rRow++) {
+            for (rCol = nCol; rCol >= 1; rCol--) {
+                if (run[rRow][rCol] != 0) {
+                    run[rRow][rCol + 1] = run[rRow][rCol];
+                    run[rRow][rCol] = 0;
+                }
+            }
+        }
+    }
+
+    setColor();
+}
+
+
+
+function moveDown() {
+    check = false;
+    for (dRow = nRow; dRow >= 1; dRow--) {
+        for (dCol = 1; dCol <= nCol; dCol++) {
+
+            if (run[dRow][dCol] != 0) {
+                if (box[dRow + 1][dCol] != 0) {
+                    check = true;
+                    break;
+                }
+            }
+
+        }
+
+        if (check == true) {
+            break;
+        }
+    }
+
+
+    if (check == false) {
+        for (dRow = nRow; dRow >= 1; dRow--) {
+            for (dCol = 1; dCol <= nCol; dCol++) {
+                if (run[dRow][dCol] != 0 && box[dRow + 1][dCol] == 0 && run[dRow + 1][dCol] == 0) {
+                    run[dRow + 1][dCol] = run[dRow][dCol];
+                    run[dRow][dCol] = 0;
+                }
+            }
+        }
+    }
+
+    setColor();
+}
+
+//////////////Function///////////////////////////
+
+function timer() {
+    if (pause == false) {
+        setTimeout("walk();", timeout);
+    }
+}
+
+function getNew() {
+    if (randNo == 0) {
+        randNext = Math.ceil(Math.random() * 7);
+    }
+    randNo = randNext;
+
+    randNext = Math.ceil(Math.random() * 13);
+    if (randNext > 7) {
+        randNext = randNext - 7;
+    }
+    showNext();
+
+    if (randNo == 1) {
+        //###
+        //      #
+        run[1][4] = 1;
+        run[1][5] = 1;
+        run[1][6] = 1;
+        run[2][6] = 1;
+    } else if (randNo == 2) {
+        //###
+        //#
+        run[2][4] = 2;
+        run[1][4] = 2;
+        run[1][5] = 2;
+        run[1][6] = 2;
+    } else if (randNo == 3) {
+        //   ##
+        //  ##
+        run[1][5] = 3;
+        run[1][6] = 3;
+        run[2][4] = 3;
+        run[2][5] = 3;
+    } else if (randNo == 4) {
+        //##
+        //    ##
+        run[1][4] = 4;
+        run[2][5] = 4;
+        run[1][5] = 4;
+        run[2][6] = 4;
+    } else if (randNo == 5) {
+        //####
+        run[1][4] = 5;
+        run[1][5] = 5;
+        run[1][6] = 5;
+        run[1][7] = 5;
+    } else if (randNo == 6) {
+        //###
+        //    #
+        run[1][4] = 6;
+        run[1][5] = 6;
+        run[2][5] = 6;
+        run[1][6] = 6;
+    } else if (randNo == 7) {
+        //##
+        //##
+        run[1][4] = 7;
+        run[1][5] = 7;
+        run[2][5] = 7;
+        run[2][4] = 7;
+    }
+    setColor();
+}
+
+function showNext() {
+    var nextEle = "";
+    for (i = 1; i <= 4; i++) {
+        for (j = 1; j <= 4; j++) {
+            nextEle = 'n' + i + '-' + j;
+            document.getElementById(nextEle).style.background = color0;
+        }
+    }
+    if (randNext == 1) {
+        document.getElementById('n2-1').style.background = color1;
+        document.getElementById('n2-2').style.background = color1;
+        document.getElementById('n2-3').style.background = color1;
+        document.getElementById('n3-3').style.background = color1;
+    } else if (randNext == 2) {
+        document.getElementById('n2-1').style.background = color2;
+        document.getElementById('n2-2').style.background = color2;
+        document.getElementById('n2-3').style.background = color2;
+        document.getElementById('n3-1').style.background = color2;
+    } else if (randNext == 3) {
+        document.getElementById('n2-2').style.background = color3;
+        document.getElementById('n2-3').style.background = color3;
+        document.getElementById('n3-1').style.background = color3;
+        document.getElementById('n3-2').style.background = color3;
+    } else if (randNext == 4) {
+        document.getElementById('n2-1').style.background = color4;
+        document.getElementById('n2-2').style.background = color4;
+        document.getElementById('n3-2').style.background = color4;
+        document.getElementById('n3-3').style.background = color4;
+    } else if (randNext == 5) {
+        document.getElementById('n2-1').style.background = color5;
+        document.getElementById('n2-2').style.background = color5;
+        document.getElementById('n2-3').style.background = color5;
+        document.getElementById('n2-4').style.background = color5;
+    } else if (randNext == 6) {
+        document.getElementById('n2-1').style.background = color6;
+        document.getElementById('n2-2').style.background = color6;
+        document.getElementById('n2-3').style.background = color6;
+        document.getElementById('n3-2').style.background = color6;
+    } else if (randNext == 7) {
+        document.getElementById('n2-2').style.background = color7;
+        document.getElementById('n2-3').style.background = color7;
+        document.getElementById('n3-2').style.background = color7;
+        document.getElementById('n3-3').style.background = color7;
+    }
+}
+
+function walk() {
+    check = false;
+    for (wRow = nRow; wRow >= 1; wRow--) {
+        for (wCol = 1; wCol <= nCol; wCol++) {
+
+            if (run[wRow][wCol] != 0) {
+                if (box[wRow + 1][wCol] != 0) {
+                    check = true;
+                    break;
+                }
+            }
+        }
+
+        if (check == true) {
+            break;
+        }
+    }
+
+
+    if (check == true) {
+        setTimeout("setBox();", timeout);
+    } else {
+        for (wRow = nRow; wRow >= 1; wRow--) {
+            for (wCol = 1; wCol <= nCol; wCol++) {
+
+                if (run[wRow][wCol] != 0 && box[wRow + 1][wCol] == 0 && run[wRow + 1][wCol] == 0) {
+                    run[wRow + 1][wCol] = run[wRow][wCol];
+                    run[wRow][wCol] = 0;
+                }
+            }
+
+        }
+        timer();
+    }
+
+    setColor();
+}
+
+
+
+
+function setBox() {
+    moveDown();
+    moveDown();
+    moveDown();
+    moveDown();
+    moveDown();
+    for (sRow = 1; sRow <= nRow; sRow++) {
+        for (sCol = 1; sCol <= nCol; sCol++) {
+            box[sRow][sCol] = box[sRow][sCol] + run[sRow][sCol];
+        }
+    }
+    clearRun()
+    checkBox();
+    getNew();
+    checkGameOver();
+}
+
+
+function setColor() {
+    for (cRow = 1; cRow <= nRow; cRow++) {
+        for (cCol = 1; cCol <= nCol; cCol++) {
+            var ele = "b" + cRow + "-" + cCol;
+            if (box[cRow][cCol] == 0 && run[cRow][cCol] == 0) {
+                document.getElementById(ele).style.background = color0;
+            } else if (box[cRow][cCol] == 1 || run[cRow][cCol] == 1) {
+                document.getElementById(ele).style.background = color1;
+            } else if (box[cRow][cCol] == 2 || run[cRow][cCol] == 2) {
+                document.getElementById(ele).style.background = color2;
+            } else if (box[cRow][cCol] == 3 || run[cRow][cCol] == 3) {
+                document.getElementById(ele).style.background = color3;
+            } else if (box[cRow][cCol] == 4 || run[cRow][cCol] == 4) {
+                document.getElementById(ele).style.background = color4;
+            } else if (box[cRow][cCol] == 5 || run[cRow][cCol] == 5) {
+                document.getElementById(ele).style.background = color5;
+            } else if (box[cRow][cCol] == 6 || run[cRow][cCol] == 6) {
+                document.getElementById(ele).style.background = color6;
+            } else if (box[cRow][cCol] == 7 || run[cRow][cCol] == 7) {
+                document.getElementById(ele).style.background = color7;
+            } else if (box[cRow][cCol] == 8 || run[cRow][cCol] == 8) {
+                document.getElementById(ele).style.background = color8;
+            } else {
+                alert("Oop! got a giant bug!")
+                box[cRow][cCol] == 0;
+            }
+        }
+    }
+}
+
+function checkBox() {
+
+    var bRow2 = 0;
+    for (bRow = nRow; bRow >= 1; bRow--) {
+        checkRow = true;
+        for (bCol = 1; bCol <= nCol; bCol++) {
+            if (box[bRow][bCol] == 0) {
+                checkRow = false;
+            }
+        }
+
+        if (checkRow == true) {
+            for (bRow2 = bRow - 1; bRow2 >= 1; bRow2--) {
+                for (bCol = 1; bCol <= nCol; bCol++) {
+                    box[bRow2 + 1][bCol] = box[bRow2][bCol];
+                    box[bRow2][bCol] = 0;
+                }
+            }
+            addScoreRow();
+            bRow++;
+        }
+
+    }
+}
+
+function addScoreRow() {
+    scoreRow++;
+    if (timeout > 75) {
+        timeout = time - (scoreRow * 10);
+    }
+    document.getElementById('scoreRow').value = scoreRow;
+}
+
+
+function clearBox() {
+    for (iRow = 1; iRow <= nRow; iRow++) {
+        for (iCol = 1; iCol <= nCol; iCol++) {
+            box[iRow][iCol] = 0
+        }
+    }
+}
+
+function clearRun() {
+    for (iRow = 1; iRow <= nRow; iRow++) {
+        for (iCol = 1; iCol <= nCol; iCol++) {
+            run[iRow][iCol] = 0
+        }
+    }
+}
+
+function checkGameOver() {
+    if (box[1][4] != 0 || box[1][5] != 0) {
+        gameOver();
+        playing = false;
+        document.getElementById('start').disabled = false;
+        document.getElementById('pause').disabled = true;
+    } else timer();
+}
+
+function gameOver() {
+    for (i = nRow; i >= 1; i--) {
+        for (j = 1; j <= nCol; j++) {
+            if (box[i][j] != 0) {
+                box[i][j] = 8;
+            }
+        }
+    }
+    setColor();
+}
+</script>
+
+</head>
+
+<body>
+    <form id="form" name="form" method="post" action="">
+        <center>
+            <table border="0">
+                <tr>
+                    <td valign="top" style="border-color:black; border-style:solid; border-width:15px">
+                    <script language="javascript">
+                        for (iRow=1; iRow<=nRow; iRow++) {
+                            for (iCol=1; iCol<=nCol; iCol++) {
+                                document.write('<input readonly type="text" id="b' + iRow + '-' + iCol + '"  style="width:20; height:20; border-color:white; border-style:solid; border-width:1px" />');
+                            }
+                            document.write('<br />');
+                        }
+                    </script>
+                    </td>
+                    <td valign="top" align="center" width="200">
+                        <script language="javascript">
+                            for (iRow=1; iRow<=4; iRow++) {
+                                for (iCol=1; iCol<=4; iCol++) {
+                                    document.write('<input readonly type="text" id="n' + iRow + '-' + iCol + '"  style="width:20; height:20; border-color:white; border-style:solid; border-width:1px"/>');
+                                }
+                                document.write('<br />');
+                            }
+                        </script>
+                        <br />
+                        <div style="font-family:tahoma; font-size:2em; font-weight:bold">SCORE</div>
+                        <input readonly type="text" id="scoreRow" value="0" style="width:100; text-align:center; font-size:2em; border-width:0px; font-weight:bold">
+                        <br /><br />
+                        <input type="button" value="▲" id="buttonUp" onclick="moveUp()" style="width:40; height:40" /><br />
+                        <input type="button" value="◄" id="buttonLeft" onclick="moveLeft()" style="width:40; height:40" />
+                        <input type="button" value="▼" id="buttonDown" onclick="moveDown()" style="width:40; height:40" />
+                        <input type="button" value="►" id="buttonRight" onclick="moveRight()" style="width:40; height:40" />
+                        <br /><br />
+                        <input type="button" disabled value="PAUSE" id="pause" style="width:120; height:30; font-weight:bold" onclick="gamePause();" />
+                        <br />
+                        <input type="button" value="START" id="start" style="width:120; height:80; font-weight:bold; font-size:1.5em" onclick="newGame();" />
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </form>
+
+</body>
+</html>
