@@ -125,31 +125,38 @@
             }
 
         }
+        function logCombat(message) {
+            combatLog.value = combatLog.value + message + "\n"
+            console.log(combatLog.innerText)
+        }
         function checkWin() {
             if (bossHealth <= 0) {
-                console.log("You win.")
+                logCombat("You win.")
                 playerStatus.innerText = "You win."
             }
         }
         function checkLose() {
             if (playerHealth <= 0) {
-                console.log("You lose.")
+                logCombat("You lose.")
                 playerStatus.innerText = "You lose."
             }
         }
         function playerAttack() {
             bossHealth -= playerAtk - bossDef
             updateState('playerUltimatePoint', playerUltimatePoint += 2)
+            logCombat("You attacked the boss")
             checkWin()
             bossAttack()
         }
         function bossAttack() {
             updateState('playerHealth',playerHealth -= bossAtk - playerDef)
             updateState('playerUltimatePoint', playerUltimatePoint += 2)
+            logCombat("The boss attacked you.")
             checkLose()
         }
         function playerSkill() {
             updateState('playerHealth',playerHealth += 150)
+            logCombat("You heal yourself.")
             bossAttack()
         }
         function playerUltimate() {
@@ -157,6 +164,7 @@
             updateState('playerAtk', playerAtk *= 1.2)
             playerUltimatePoint = 0
             btnUltimate.classList.toggle('ready')
+            logCombat("You unleashed the ultimate techique.")
             checkWin()
         }
         function initGame() {
