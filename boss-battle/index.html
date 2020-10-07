@@ -141,6 +141,12 @@
             btnUltimate.classList.toggle('ready')
             checkWin()
         }
+        function initGame() {
+            var playerNameElement = document.getElementById("player-name")
+            var bossNameElement = document.getElementById("boss-name")
+            playerNameElement.innerText = "Yusike"
+            bossNameElement.innerText = "Cleaner Queen"
+        }
         btnAttack.addEventListener('click', playerAttack)
         btnSkill.addEventListener('click', playerSkill)
         btnUltimate.addEventListener('click', function() {
@@ -148,6 +154,8 @@
                 playerUltimate()
             }
         })
+        initGame();
+        
         
     </script>
 
