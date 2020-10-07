@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arrow Director</title>
+  </head>
+  <body>
+    <div style="display: block">
+      <h3>Arrow Director</h3>
+      <div id="resultTab" style="display: flex"></div>
+      <div id="roundTab" style="display: flex"></div>
+      <div id="comboTab" style="display: flex"></div>
+      <div id="gameDirectionTab" style="display: flex; font-size: 36px"></div>
+      <div id="timeTab" style="display: flex"></div>
+    </div>
+    <script>
+      const directionsMaps = {
+        37: {
+          value: 37,
+          direction: "left",
+          emoji: "←",
+        },
+        38: {
+          value: 38,
+          direction: "up",
+          emoji: "↑",
+        },
+        39: {
+          value: 39,
+          direction: "right",
+          emoji: "→",
+        },
+        40: {
+          value: 37,
+          direction: "down",
+          emoji: "↓",
+        },
+      };
+
+      const gameDirectionTab = document.getElementById("gameDirectionTab");
+      const resultTab = document.getElementById("resultTab");
+      const roundTab = document.getElementById("roundTab");
+      const comboTab = document.getElementById("comboTab");
+      const timeTab = document.getElementById("timeTab");
+
+      const startGame = async () => {
+        await main();
+        while (true) {
+          const round = await createGame();
+          await overGame(round);
+        }
+      };
+
+      const createGame = (oldround = 1, directionNum = 2) => {
+        return new Promise(function (resolve, reject) {
+          gameDirectionTab.innerHTML = "";
+          roundTab.innerHTML = `Stage: ${oldround}`;
+
+          const genereatedDirection = generateDirection(directionNum);
+
+          let timeCount = 3000;
+          const counter = setInterval(() => {
+            timeTab.innerHTML = `Time: ${timeCount / 1000}`;
+            if (timeCount <= 0) {
+              clearInterval(counter);
+              resolve(oldround);
+            }
+            timeCount -= 100;
+          }, 100);
+
+          genereatedDirection.forEach((elem) => {
+            const newNode = document.createElement("div");
+            newNode.id = elem.id;
+            newNode.innerHTML = elem.emoji;
+            gameDirectionTab.appendChild(newNode);
+          });
+
+          document.addEventListener("keydown", async (event) => {
+            if (genereatedDirection.length <= 0) {
+              return;
+            }
+            if (event.keyCode < 37 || event.keyCode > 40) {
+              return;
+            }
+            const direct = genereatedDirection.shift();
+            if (direct.value == event.keyCode) {
+              document.getElementById(direct.id).style.backgroundColor =
+                "green";
+              if (!genereatedDirection.length) {
+                clearInterval(counter);
+                resolve(await createGame(oldround + 1, directionNum + 1));
+              }
+            } else {
+              clearInterval(counter);
+              resolve(oldround);
+            }
+          });
+        });
+      };
+
+      const overGame = (round) => {
+        return new Promise(function (resolve, reject) {
+          gameDirectionTab.innerHTML = "";
+          roundTab.innerHTML = "";
+          timeTab.innerHTML = "";
+          resultTab.innerHTML += `Game Over <br/> Stages: ${round} <br/> Press any key to start`;
+          document.addEventListener("keydown", (event) => {
+            resultTab.innerHTML = "";
+            resolve();
+          });
+        });
+      };
+
+      const main = () => {
+        return new Promise(function (resolve, reject) {
+          resultTab.innerHTML = `Press any key to start`;
+          document.addEventListener("keydown", (event) => {
+            resultTab.innerHTML = "";
+            resolve();
+          });
+        });
+      };
+
+      const generateDirection = (num) => {
+        let directions = [];
+        for (let i = 0; i < num; i++) {
+          directions.push({
+            id: i,
+            ...directionsMaps[Math.floor(Math.random() * 3) + 37],
+          });
+        }
+        return directions;
+      };
+
+      startGame();
+    </script>
+  </body>
+</html>
