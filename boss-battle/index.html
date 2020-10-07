@@ -143,7 +143,11 @@
         }
         btnAttack.addEventListener('click', playerAttack)
         btnSkill.addEventListener('click', playerSkill)
-        btnUltimate.addEventListener('click', playerUltimate)
+        btnUltimate.addEventListener('click', function() {
+            if (playerUltimatePoint >= 20) {
+                playerUltimate()
+            }
+        })
         
     </script>
 
