@@ -50,20 +50,21 @@ After we merge, your work will be displayed at [https://noobtoberfest.webforfun.
 5. Open pull request (PR) to us.
 6. That's it~ After we merge, your work will be displayed on our site.
 
-1. Fork ไปยังบัญชี Github
-2. สร้าง folder ตามชื่อเกม เช่น `mariokart`
-3. สร้างไฟล์ `index.html` ใน folder และเขียนโค้ดในไฟล์นั้น
-4. สร้่างไฟล์ `info.json` ใน folder และเนื้อหาด้านล่างเข้าไป (อย่าลืมแก้ไขนะ!)
+&nbsp;
+1. Fork Repo นี้ไปยังบัญชี Github ของคุณ
+2. สร้าง Folder ตามชื่อเกม เช่น `mariokart`
+3. สร้างไฟล์ `index.html` ใน Folder และเขียนโค้ดในไฟล์นั้น
+4. สร้่างไฟล์ `info.json` ใน Folder และเนื้อหาด้านล่างเข้าไป (อย่าลืมแก้ไขนะ!)
 	```json
 	{
 		"name": "ชื่อเกม",
 		"description": "เล่าอะไรสักอย่างเกี่ยวกับเกมของคุณ",
 		"author": "ชื่อคนที่สร้างเกมนี้",
-		"facebook": "ชื่อ Facebook, GitHub หรือเว็บไซต์ของคุณ"
+		"facebook": "Link Facebook, GitHub หรือเว็บไซต์ของคุณ"
 	}
 	```
-5. เปิด pull request (PR) หาเรา
-6. เรียบร้อบ! หลังจากที่เรา merge งานของคุณจะอยู่บนเว็บของพวกเรา
+5. เปิด Pull Request (PR) มาหาเรา
+6. เรียบร้อย! หลังจากที่เรา Merge งานของคุณจะถูกนำขึ้นไปแสดงบนเว็บไซต์
 ---
 
 Made with ❤️ by [Web For Fun Hackathon](https://webforfun.dev/) and [NoobProgrammer Thailand Community](https://www.facebook.com/groups/noobprogrammer/)
