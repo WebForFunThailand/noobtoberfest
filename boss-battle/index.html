@@ -164,11 +164,8 @@
             checkLose()
         }
         function bossAction() {
-            action = random(0, 4)
+            action = random(0, 12)
             switch (action) {
-                case 0:
-                    bossAttack()
-                    break
                 case 1:
                     bossAtk *= 1.2
                     logCombat("The boss boosted their attack.")
@@ -184,7 +181,8 @@
                     logCombat("The boss healed themselve.")
                     break
                 default:
-                    logCombat("The boss stood menacingly.")
+                    bossAttack()
+                    break
             }
         }
         function playerSkill() {
