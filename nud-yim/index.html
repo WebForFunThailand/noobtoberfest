@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+  <title>นัดยิ้ม</title>
+
+
+  <script src="https://kittinan.github.io/files/js/face-api.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+
+  <style>
+    #inputVideo,
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      max-width: 100%;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    #fps-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #ff0000;
+      font-size: 11px;
+      color: #ffffff;
+    }
+
+    #video-container {
+
+      position: relative;
+      width: 640px;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    #game-container {
+      display: none;
+    }
+
+    #how-to {
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container">
+      <div class="brand-logo center">นัดยิ้ม</div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div id="loader" class="center">
+      <br />
+      <div>Loading Model</div>
+      <br />
+      <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="game-container">
+      <h3 class="center">
+        <div id="how-to" class="center">เพียงแค่คุณยิ้ม</div>
+        <span id="score">0</span> คะแนน
+      </h3>
+
+      <div id="video-container">
+
+        <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
+        <canvas id="overlay"></canvas>
+
+        <div id="fps-container">FPS: <span id="fps">0</span></div>
+      </div>
+    </div>
+
+</body>
+
+<script>
+  let face_type_expressions = ["angry", "disgusted", "fearful", "happy", "neutral", "sad", "surprised"]
+  let forwardTimes = []
+  let currentScore = 0;
+  let isReady = false;
+
+  function getCurrentFaceDetectionNet() {
+
+    return faceapi.nets.tinyFaceDetector
+  }
+
+  function isFaceDetectionModelLoaded() {
+    return !!getCurrentFaceDetectionNet().params
+  }
+
+  function updateTimeStats(timeInMs) {
+    forwardTimes = [timeInMs].concat(forwardTimes).slice(0, 30)
+    const avgTimeInMs = forwardTimes.reduce((total, t) => total + t) / forwardTimes.length
+    //$('#time').text(`${Math.round(avgTimeInMs)} ms`)
+    const fps = parseInt(faceapi.utils.round(1000 / avgTimeInMs));
+    $('#fps').text(`${fps}`)
+  }
+
+  async function onPlay() {
+
+    if (!isReady) {
+      $('#loader').hide()
+      $('#game-container').show();
+      isReady = true;
+    }
+
+    const videoEl = $('#inputVideo').get(0)
+
+    let inputSize = 512
+    let scoreThreshold = 0.5
+
+    if (videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded())
+      return setTimeout(() => onPlay())
+
+
+    const options = new faceapi.TinyFaceDetectorOptions({
+      inputSize,
+      scoreThreshold,
+    })
+
+    const ts = Date.now()
+
+    const result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks(true).withFaceExpressions()
+
+    updateTimeStats(Date.now() - ts)
+
+    const canvas = document.getElementById('overlay')
+
+    if (result) {
+
+      const dims = faceapi.matchDimensions(canvas, videoEl, true)
+
+      const resizedResult = faceapi.resizeResults(result, dims)
+
+      let option = new faceapi.draw.DrawFaceLandmarksOptions({
+        drawLines: true,
+        drawPoints: false,
+        lineColor: '#ff0000',
+        lineWidth: 1,
+      });
+
+      new faceapi.draw.DrawFaceLandmarks(resizedResult.landmarks, option).draw(canvas)
+
+      if (result.expressions.happy > 0.9) {
+        currentScore += 1;
+        $('#score').text(currentScore)
+      }
+    } else {
+      const context = canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    setTimeout(() => onPlay())
+  }
+
+  async function run() {
+
+    if (!isFaceDetectionModelLoaded()) {
+      await getCurrentFaceDetectionNet().load(
+        'https://kittinan.github.io/files/weights/tiny_face_detector_model-weights_manifest.json')
+      await faceapi.loadFaceExpressionModel(
+        'https://kittinan.github.io/files/weights/face_expression_model-weights_manifest.json')
+      await faceapi.loadFaceLandmarkTinyModel(
+        'https://kittinan.github.io/files/weights/face_landmark_68_tiny_model-weights_manifest.json')
+
+    }
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: {}
+    })
+    const videoEl = $('#inputVideo').get(0)
+    videoEl.srcObject = stream
+  }
+
+  $(document).ready(function () {
+    run()
+  })
+</script>
+</body>
+
+</html>
