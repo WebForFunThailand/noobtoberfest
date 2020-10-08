@@ -155,7 +155,7 @@
             updateState('playerUltimatePoint', playerUltimatePoint += 2)
             logCombat("You attacked the boss")
             checkWin()
-            bossAttack()
+            bossAction()
         }
         function bossAttack() {
             updateState('playerHealth',playerHealth -= bossAtk - playerDef)
@@ -163,10 +163,34 @@
             logCombat("The boss attacked you.")
             checkLose()
         }
+        function bossAction() {
+            action = random(0, 4)
+            switch (action) {
+                case 0:
+                    bossAttack()
+                    break
+                case 1:
+                    bossAtk *= 1.2
+                    logCombat("The boss boosted their attack.")
+                    bossAttack()
+                    break
+                case 2:
+                    bossDef *= 1.3
+                    logCombat("The boss increase their guard.")
+                    bossAttack()
+                    break
+                case 3:
+                    bossHealth += 300
+                    logCombat("The boss healed themselve.")
+                    break
+                default:
+                    logCombat("The boss stood menacingly.")
+            }
+        }
         function playerSkill() {
             updateState('playerHealth',playerHealth += 150)
             logCombat("You heal yourself.")
-            bossAttack()
+            bossAction()
         }
         function playerUltimate() {
             bossHealth -= playerAtk * 1.2
