@@ -6,15 +6,25 @@
     <title>Which Color !?</title>
   </head>
   <body>
-    <div>
+    <div id="game">
       <h3>Which Color !?</h3>
       <div id="levelTab" style="display: flex"></div>
       <div id="timeTab" style="display: flex"></div>
       <div id="resultTab" style="display: flex"></div>
       <table id="gameArea"></table>
     </div>
+    <style>
+      @keyframes background-warning-fade {
+        0% {
+          background-color: red;
+        }
+        100% {
+          background-color: none;
+        }
+      }
+    </style>
     <script>
-      const timeDuration = 7000; //ms
+      const timeDuration = 8000; //ms
       const minBlock = 2;
       const maxBlock = 10;
       const gameArea = document.getElementById("gameArea");
@@ -32,7 +42,7 @@
           const correctY = Math.floor(Math.random() * num);
           const correctXY = `${correctX}${correctY}`;
 
-          const diff = Math.floor(Math.random() * (30 - 10) + 10);
+          const diff = Math.floor(Math.random() * (25 - 10) + 10) - num / 2;
           const r = Math.floor(Math.random() * (235 - 20) + 20);
           const g = Math.floor(Math.random() * (235 - 20) + 20);
           const b = Math.floor(Math.random() * (235 - 20) + 20);
@@ -64,7 +74,12 @@
                   clearInterval(counter);
                   resolve(await newGame(num + 1, level + 1));
                 }
-                timeCount -= 700;
+                timeCount -= 800;
+                gameArea.style.cssText =
+                  "animation: background-warning-fade 0.3s";
+                gameArea.addEventListener("animationend", () => {
+                  gameArea.style.cssText = "";
+                });
               };
               cell.appendChild(newNode);
             }
