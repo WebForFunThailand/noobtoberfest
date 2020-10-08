@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Which Color !?</title>
+  </head>
+  <body>
+    <div>
+      <h3>Which Color !?</h3>
+      <div id="levelTab" style="display: flex"></div>
+      <div id="timeTab" style="display: flex"></div>
+      <div id="resultTab" style="display: flex"></div>
+      <table id="gameArea"></table>
+    </div>
+    <script>
+      const timeDuration = 7000; //ms
+      const minBlock = 2;
+      const maxBlock = 10;
+      const gameArea = document.getElementById("gameArea");
+      const timeTab = document.getElementById("timeTab");
+      const levelTab = document.getElementById("levelTab");
+      const resultTab = document.getElementById("resultTab");
+
+      const newGame = (num = minBlock, level = 1) => {
+        return new Promise(function (resolve, reject) {
+          levelTab.innerHTML = `Level: ${level}`;
+          num = num > maxBlock ? maxBlock : num;
+          gameArea.innerHTML = "";
+
+          const correctX = Math.floor(Math.random() * num);
+          const correctY = Math.floor(Math.random() * num);
+          const correctXY = `${correctX}${correctY}`;
+
+          const diff = Math.floor(Math.random() * (30 - 10) + 10);
+          const r = Math.floor(Math.random() * (235 - 20) + 20);
+          const g = Math.floor(Math.random() * (235 - 20) + 20);
+          const b = Math.floor(Math.random() * (235 - 20) + 20);
+          const mainColor = `rgb(${r}, ${g}, ${b})`;
+          const subColor = `rgb(${r + diff}, ${g + diff}, ${b + diff})`;
+
+          let timeCount = timeDuration;
+          const counter = setInterval(() => {
+            timeTab.innerHTML = `Time: ${timeCount / 1000}`;
+            if (timeCount <= 0) {
+              clearInterval(counter);
+              resolve(level);
+            }
+            timeCount -= 100;
+          }, 100);
+
+          for (let r = 0; r < num; r++) {
+            const row = gameArea.insertRow();
+            for (var c = 0; c < num; c++) {
+              var cell = row.insertCell();
+              const newNode = document.createElement("div");
+              newNode.id = `${r}${c}`;
+              newNode.style.backgroundColor =
+                newNode.id === correctXY ? subColor : mainColor;
+              newNode.style.width = `${41 / num}vw`;
+              newNode.style.height = `${41 / num}vw`;
+              newNode.onclick = async (e) => {
+                if (newNode.id === correctXY) {
+                  clearInterval(counter);
+                  resolve(await newGame(num + 1, level + 1));
+                }
+                timeCount -= 700;
+              };
+              cell.appendChild(newNode);
+            }
+          }
+        });
+      };
+
+      const startGame = async () => {
+        await main();
+        while (true) {
+          const resultLevel = await newGame();
+          await overGame(resultLevel);
+        }
+      };
+
+      const overGame = (round) => {
+        return new Promise(function (resolve, reject) {
+          gameArea.innerHTML = "";
+          levelTab.innerHTML = "";
+          timeTab.innerHTML = "";
+          resultTab.innerHTML += `Game Over <br/> Level: ${round} <br/> Press any key or click to start`;
+          resultTab.onclick = () => {
+            resultTab.innerHTML = "";
+            resolve();
+          };
+          document.addEventListener("keydown", (event) => {
+            resultTab.innerHTML = "";
+            resolve();
+          });
+        });
+      };
+
+      const main = () => {
+        return new Promise(function (resolve, reject) {
+          resultTab.innerHTML = `Can you spot the different color?  <br/> <br/> Press any key or click to start`;
+          resultTab.onclick = () => {
+            resultTab.innerHTML = "";
+            resolve();
+          };
+          document.addEventListener("keydown", (event) => {
+            resultTab.innerHTML = "";
+            resolve();
+          });
+        });
+      };
+
+      startGame();
+    </script>
+  </body>
+</html>
