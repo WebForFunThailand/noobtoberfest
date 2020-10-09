@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REMEMBER ME</title>
+    <style>
+        .myDiv {
+            background-color: #FFB4B8;
+            text-align: center;
+            width: 200px;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<main class="center">
+    <div class="myDiv">
+        <div>time remaining :
+            <span id="counter"></span>
+        </div>
+        <div id="main-random">
+            REMEMBER ME : <span id="random-number"></span>
+        </div>
+        <div id="div-answer">
+            ??? : <input type="text" id="answer" onfocus="clearInput()"><br>
+        </div>
+        <div>
+            <div>Score : <span id="score">0</span></div>
+        </div>
+        <div>
+            <div>High Score : <span id="high-score">0</span></div>
+        </div>
+        <button id="random-btn" onclick="playGame()">START</button>
+    </div>
+</main>
+</body>
+<script>
+    const display_counter = document.getElementById("counter")
+    const input_answer = document.getElementById("answer")
+    const score = document.getElementById("score")
+    const remember_number = document.getElementById("main-random")
+    const high_score = document.getElementById("high-score")
+    const div_answer = document.getElementById("div-answer")
+    const random_button = document.getElementById("random-btn")
+    let Interval = ""
+    let randomNumber = null
+    let TIME_LEFT = 10;
+    let combo = 0;
+    let highScore = 0;
+
+    input_answer.disabled = true;
+
+    function playGame() {
+        TIME_LEFT = 10;
+        random()
+        clearInterval(Interval);
+        remember_number.hidden = false;
+        div_answer.hidden = true;
+        Interval = setInterval(function () {
+            display_counter.textContent = TIME_LEFT;
+            if (TIME_LEFT == 5) {
+                div_answer.hidden = false;
+                input_answer.disabled = false;
+                input_answer.focus();
+            }
+            if (TIME_LEFT == 7) {
+                remember_number.hidden = true;
+            }
+            if (TIME_LEFT <= 0 || combo <= -1) {
+                clearInterval(Interval);
+                input_answer.disabled = true;
+                display_counter.innerText = "Times up!";
+                random_button.style.display = ``;
+                alert("Game Over");
+                reGame();
+            }
+            TIME_LEFT--;
+        }, 1000);
+    }
+
+    function checkAnswer() {
+        input_answer.disabled = true;
+        TIME_LEFT = 10;
+        let input = input_answer.value;
+
+        if (randomNumber == input) {
+            combo = ++combo
+            if (combo > highScore) {
+                highScore = combo;
+                high_score.innerText = highScore;
+            }
+        } else {
+            combo = --combo
+        }
+        score.innerText = combo;
+        clearInput();
+        playGame();
+    }
+
+    function reGame() {
+        TIME_LEFT = 0;
+        random_button.style.display = ``;
+        randomNumber = null;
+        combo = 0;
+        score.innerText = 0;
+        display_counter.innerText = 10;
+    }
+
+    function random() {
+
+        randomNumber = Math.floor(Math.random() * 90000) + 10000;
+        document.getElementById("random-number").innerHTML = randomNumber;
+        random_button.style.display = `none`;
+    }
+
+    document.getElementById("answer").addEventListener('keypress', function (event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            checkAnswer();
+        }
+    });
+
+    function clearInput() {
+        input_answer.value = "";
+    }
+
+</script>
+</html>
