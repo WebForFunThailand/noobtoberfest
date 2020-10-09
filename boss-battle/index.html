@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    html, body {
+        font-family: "Quicksand", sans-serif;
+        text-align: center;
+    }
+    .title, .battle-menu {
+        font-family: "Press Start 2P", sans-serif;
+    }
+    .boss {
+        font-size: 360px;
+    }
+    .menu-list {
+        display: block;
+        list-style: none;
+        border: 1px solid black;
+        width: 50%;
+        margin: auto;
+        margin-top: 2rem;
+        padding-left: 0;
+    }
+    .menu-list li {
+        padding: 1rem;
+        background-color: red;
+        color: white;
+    }
+    #attack {
+        background-color: red;
+    }
+    #skill {
+        background-color: yellow;
+        color:rgb(55, 55, 55);
+    }
+    #ultimate {
+        background-color: white;
+        color: rgb(55, 55, 55);
+    }
+    #ultimate.ready {
+        color: white;
+        animation-name: ultimate;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-direction: alternate;
+    }
+    #status {
+        margin-top: 1rem;
+        display: block;
+    }
+
+    #combat-log {
+        margin-top: 1rem;
+        font-family: "Press Start 2P", sans-serif;
+        font-size: 1rem;
+        line-height: 1.5;
+        width: 50%;
+        padding: 1rem 0.5rem;
+    }
+
+    @keyframes ultimate {
+        0% {
+            background-color: red;
+        }
+        100% {
+            background-color: blue;
+        }
+    }
+
+    </style>
+    <title>Boss Battle</title>
+</head>
+<body>
+    <h1 class="title" id="boss-name">Boss</h1>
+    <div class="battle-scene">
+        <span class="boss">😼</span>
+    </div>
+    <div class="battle-menu">
+        <h2 id="player-name">Josuke</h2>
+        <span id="health">2000</span> / <span id="full-health">2000</span>
+        Atk: <span id="atk">20</span>
+        Def: <span id="def">20</span>
+        <ul class="menu-list">
+            <li id="attack">Attack</li>
+            <li id="skill">Skill</li>
+            <li id="ultimate" >Ultimate</li>
+        </ul>
+        <span id="status"></span>
+        <textarea readonly id="combat-log"></textarea>
+    </div>
+    <script>
+        // Game variable
+        var playerHealth = 2000
+        var playerAtk = 300
+        var playerDef = 300
+        var playerUltimatePoint = 0
+        var bossHealth = 1500
+        var bossAtk = 400
+        var bossDef = 100
+        var possiblePlayerNames = ["Yusuke", "Mark", "Max", "Gun"]
+        var possibleBossNames = ["Cleaner Queen", "Prince Crimson", "Mark (Impostor)"]
+        // DOM Element
+        var btnAttack = document.getElementById("attack")
+        var btnSkill = document.getElementById("skill")
+        var btnUltimate = document.getElementById("ultimate")
+        var playerHealthBar = document.getElementById("health")
+        var playerAtkStatus = document.getElementById("atk")
+        var playerDefStatus = document.getElementById("def")
+        var playerStatus = document.getElementById("status")
+        var combatLog = document.getElementById("combat-log")
+        function random(min, max) {
+            // Credit: https://www.geeksforgeeks.org/how-to-select-a-random-element-from-array-in-javascript/
+            return Math.floor(Math.random() * (max - min) + min)
+        }
+        function updateState(state, value) {
+            switch (state) {
+                case 'playerHealth':
+                    playerHealthBar.innerText = value
+                    break
+                case 'playerAtk':
+                    playerAtkStatus.innerHTML = value
+                    break
+                case 'playerDef':
+                    playerDefStatus.innerHTML = value
+                    break
+                case 'playerUltimatePoint':
+                    if (playerUltimatePoint >= 20) {
+                        btnUltimate.classList.toggle('ready')
+                    }
+            }
+
+        }
+        function logCombat(message) {
+            combatLog.value = combatLog.value + message + "\n"
+            console.log(combatLog.innerText)
+        }
+        function checkWin() {
+            if (bossHealth <= 0) {
+                logCombat("You win.")
+                playerStatus.innerText = "You win."
+            }
+        }
+        function checkLose() {
+            if (playerHealth <= 0) {
+                logCombat("You lose.")
+                playerStatus.innerText = "You lose."
+            }
+        }
+        function playerAttack() {
+            bossHealth -= playerAtk - bossDef
+            updateState('playerUltimatePoint', playerUltimatePoint += 2)
+            logCombat("You attacked the boss")
+            checkWin()
+            bossAction()
+        }
+        function bossAttack() {
+            updateState('playerHealth',playerHealth -= bossAtk - playerDef)
+            updateState('playerUltimatePoint', playerUltimatePoint += 2)
+            logCombat("The boss attacked you.")
+            checkLose()
+        }
+        function bossAction() {
+            action = random(0, 12)
+            switch (action) {
+                case 1:
+                    bossAtk *= 1.2
+                    logCombat("The boss boosted their attack.")
+                    bossAttack()
+                    break
+                case 2:
+                    bossDef *= 1.3
+                    logCombat("The boss increase their guard.")
+                    bossAttack()
+                    break
+                case 3:
+                    bossHealth += 300
+                    logCombat("The boss healed themselve.")
+                    break
+                default:
+                    bossAttack()
+                    break
+            }
+        }
+        function playerSkill() {
+            updateState('playerHealth',playerHealth += 150)
+            logCombat("You heal yourself.")
+            bossAction()
+        }
+        function playerUltimate() {
+            bossHealth -= playerAtk * 1.2
+            updateState('playerAtk', playerAtk *= 1.2)
+            playerUltimatePoint = 0
+            btnUltimate.classList.toggle('ready')
+            logCombat("You unleashed the ultimate techique.")
+            checkWin()
+        }
+        function initGame() {
+            var playerNameElement = document.getElementById("player-name")
+            var bossNameElement = document.getElementById("boss-name")
+            playerNameElement.innerText = possiblePlayerNames[random(0, possiblePlayerNames.length)]
+            bossNameElement.innerText = possibleBossNames[random(0, possibleBossNames.length)]
+        }
+        btnAttack.addEventListener('click', playerAttack)
+        btnSkill.addEventListener('click', playerSkill)
+        btnUltimate.addEventListener('click', function() {
+            if (playerUltimatePoint >= 20) {
+                playerUltimate()
+            }
+        })
+        initGame();
+        
+        
+    </script>
+
+    
+</body>
+</html>
