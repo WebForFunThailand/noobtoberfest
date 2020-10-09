@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧑‍🎨 Color Matcher</title>
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
+
+    <style>
+        body { 
+            font-family: 'Comfortaa', cursive;
+            background: black;
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        .title { 
+            font-family: 'Archivo Black', sans-serif;
+        }
+        .sub-title { 
+            font-size: 20px;
+        }
+        .white { 
+            color: white;
+        }
+        .text-center { text-align:  center }
+        .glow {
+            font-size: 5vw;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 0 5px #fff, 0 0 15px #e60073, 0 0 30px #e60073, 0 0 40px #e60073;
+        }
+        .h-100 {height: 100%}
+        .d-flex { 
+            display: flex;
+        }
+        .align-items-center { 
+            align-items: center !important;
+        }
+        .justify-content-center { 
+            justify-content: center;
+        }
+        .flex-column {
+            flex-direction: column;
+        }
+        .btn__start{ 
+            min-width: 200px;
+            padding: 20px;
+            color: white;
+            background:#e60073;
+            border-radius: 8px;
+            font-size: 30px;
+            margin-top: 20px;
+        }
+        .btn {
+            border: 0;
+            cursor: pointer;
+            transition: .5s all ease;
+        }
+        .btn:hover { 
+            opacity: .6;
+        }
+        .question { 
+            min-height: 200px;
+            min-width: 300px;
+        }
+
+        .choice { 
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .choice__item { 
+
+            flex: 1;
+            height: 150px;
+            transition: .8s ease all;
+            cursor: pointer;
+            min-width: 150px;
+        }
+        .choice__item:hover{ 
+            transform: scale(1.3);
+        }
+        .point { 
+            font-weight: bold;
+            font-size: 40px;
+        }
+    </style>
+
+</head>
+<body>
+    <section class="d-flex align-items-center flex-column h-100 justify-content-center" id="start">
+        <h1 class="title text-center glow" style="margin-bottom: 25px">
+            Color Matcher
+        </h1>
+        <h3 class="sub-title white text-center" >Match Color Game.</h3>
+        <button class="btn title btn__start" onclick="game.startBtn()">
+            START
+        </button>
+    </section>
+
+    <section class="d-flex align-items-center flex-column" id="game">
+        <div>
+
+            <h1 class="title text-center glow" style="font-size: 3vw;">
+                Color Matcher 
+            </h1>
+            <h2 style="margin-left: 20px;">
+                POINT : <span id="point" class="point">0</span>
+            </h2>
+            <h2 style="margin-left: 20px;">LIFE: <span id="heart">❤️ ❤️ ❤️</span></h2>
+        </div>
+
+        <div class="question" id="question"></div>
+
+        <p class="text-center">Select color that match above color.</p>
+        
+        <div class="choice" id="choice">
+
+        </div>
+    </section>
+</body>
+<script>
+    var SECTION_START = document.getElementById("start");
+    var SECTION_GAME = document.getElementById("game");
+    var POINT = 0;
+    var HEART = 3;
+    var game = { 
+        startBtn: function () { 
+            SECTION_START.style.display = "none";
+            this.startGame();
+        },
+        startGame: function() { 
+
+            SECTION_GAME.style.display = "block";
+            var questionElem = document.getElementById("question");
+            var color_r = getRandomColorCode(0,255);
+            var color_g = getRandomColorCode(0,255);
+            var color_b = getRandomColorCode(0,255);
+
+            questionElem.style.backgroundColor = `rgb(${color_r}, ${color_g}, ${color_b})`;
+
+            this.setChoice(color_r,color_g,color_b);
+        },
+        setChoice: function(R,G,B) { 
+            
+            var choiceElem = document.getElementById('choice');
+                choiceElem.innerHTML = "";
+            // 8 number of choices.
+            var arrColor = [];
+            for ( var i = 0 ; i < 8 ; i++) { 
+                var check = true;
+                while (check === true) {
+                    var randomR = getRandomColorCode(-50, 50) + R;
+                    var randomG = getRandomColorCode(-50, 50) + G;
+                    var randomB = getRandomColorCode(-50, 50) + B;
+                    if( randomR <= 255 && randomR >= 0 ) {
+                        if( randomG <= 255 && randomG >= 0 ) {
+                            if( randomB <= 255 && randomB >= 0 ) {
+
+                                arrColor.push(randomR + "," + randomG + "," + randomB); 
+                                check = false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            var answerIdx = getRandomColorCode(0,8);
+            arrColor[answerIdx] = R + "," + G + "," + B;
+            for(var i in arrColor) { 
+
+                if( i === answerIdx.toString())  { 
+                    choiceElem.innerHTML += `<div class="choice__item" onclick="game.countPoint(1)" style="background-color: rgb(${arrColor[i]})"></div>`
+                }else { 
+                    choiceElem.innerHTML += `<div class="choice__item" onclick="game.countPoint(0)" style="background-color: rgb(${arrColor[i]})"></div>`
+                }
+            }
+        },
+        countPoint: function(point) { 
+            POINT += (point * 10);
+            var heartElem = document.getElementById('heart');
+            var pointElem = document.getElementById('point');
+                pointElem.innerHTML = POINT;
+            
+            if(point === 0) { 
+                HEART = HEART - 1;
+                switch (HEART) {
+                    case 2:
+                        heartElem.innerHTML = "❤️ ❤️";
+                        break;
+                    case 1: 
+                        heartElem.innerHTML = "❤️";
+                        break;
+                    default:
+                        alert("GAMEOVER !!! Your score = " + POINT);
+                        location.reload();
+                        break;
+                }
+               
+            }
+            this.startGame();
+        }
+    }
+
+    function init() { 
+        SECTION_GAME.style.display = "none";
+    }
+
+    function getRandomColorCode(min, max) {
+        return Math.floor(Math.random() * (max - min) ) + min;
+    }
+
+
+    init();
+</script>
+</html>
