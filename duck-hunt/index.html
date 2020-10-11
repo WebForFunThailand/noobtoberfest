@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Duck Hunt</title>
+    <style>
+        body {
+            background: #64b0ff url('https://docs.google.com/uc?id=1qaoQSxRG8X3QrFQ7f5ejCExJDIaOJVvI') repeat-x fixed bottom;
+
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .winning {
+            color: #FFF;
+            font-size: 6em;;
+            text-transform: uppercase;
+            opacity: 0;
+        }
+
+        .replay{
+            position: absolute;
+            top: 450px;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            width: 60px;
+            height: 20px;
+            opacity: 0;
+            cursor: crosshair;
+        }
+
+        .duck {
+            background-repeat: no-repeat;
+            background-size: contain;
+            cursor: crosshair;
+
+            position: absolute;
+            height: 120px;
+            width: 120px;
+        }
+
+    </style>
+    <body>
+      <h1 class="winning">You Win!</h1>
+      <div class="replay">Replay!</div>
+      <script>
+          (() => {
+            // เริ่มเขียนโค้ด
+            function random(min, max){
+                return Math.floor(Math.random() * (max - min + 1))+min;
+            }
+            function createDucks(){
+                return ducks = [...Array(5)].map(()=>{
+                return{
+                    x: random(0, window.innerWidth),
+                    y: window.innerHeight,
+                    speedX: random(-50, 50),
+                    speedY: random(5, 10)
+                }
+                });
+            }
+
+            function setupDuckElement(duck){
+                const duckElem = document.createElement("div");
+                duckElem.className = "duck";
+                duckElem.style.left = `${duck.x}px`;
+                duckElem.style.top = `${duck.y}px`;
+                duckElem.style.backgroundImage = `url('https://docs.google.com/uc?id=1Gps7RElRBQYGY7aJNbx8OQzI3BQgg3CU')`
+                document.body.appendChild(duckElem);
+
+                return { duck, duckElem }
+            }
+
+            function getDuckBackgroundImage(duck, duckElem){
+                const leftDown = "https://docs.google.com/uc?id=1Gps7RElRBQYGY7aJNbx8OQzI3BQgg3CU";
+                const leftTop = "https://docs.google.com/uc?id=1yFIajWX1QehbDN6H1ISoFlKcfrx7qUrE";
+                const rightTop = "https://docs.google.com/uc?id=1-z7kmcdOc7pOldF_AWVupaoTenxG73nB";
+                const rightDown = "https://docs.google.com/uc?id=1KfagFMYkAmGS-jri4gIU2bo-lFsXIO1m";
+
+                const direction = duck.speedX > 0 ? "right" : "left";
+                console.log(duckElem.style.backgroundImage);
+                if(direction == "right") {
+                    return duckElem.style.backgroundImage.indexOf("G73nB") !== -1 ? `url('${rightDown}')` : `url('${rightTop}')`;
+                } else {
+                    return duckElem.style.backgroundImage.indexOf("gg3CU") !== -1 ? `url('${leftTop}')` : `url('${leftDown}')`;
+                }
+            }
+
+            function moveDuck(duckElem, duck){
+                const { left, top } = duckElem.getBoundingClientRect();
+                const outOfBoundX = duck.x < 0 || duck.x > window.innerWidth;
+                const outOfBoundY = duck.y < 0 || duck.y > window.innerHeight;
+
+                if(outOfBoundX){
+                    duck.speedX *= -1;
+                }
+
+                if(outOfBoundY){
+                    duck.speedY *= -1;
+                }
+
+                duck.x = left + duck.speedX;
+                duck.y = top - duck.speedY;
+                duckElem.style.left = `${duck.x}px`;
+                duckElem.style.top = `${duck.y}px`;
+                
+                duckElem.style.backgroundImage = getDuckBackgroundImage(duck, duckElem);
+            }
+
+            function shootDuck(e){
+                const duckElem = e.target;
+                duckElem.style.transition = 'top 2s';
+                duckElem.style.top = `${window.innerHeight}px`;
+
+                clearInterval(duckElem.interval);
+                setTimeout(()=>{
+                    document.body.removeChild(duckElem);
+                    const duck = document.querySelector('.duck');
+                    if(!duck){
+                        const winnerElem = document.querySelector('.winning');
+                        const replayElem = document.querySelector('.replay');
+                        winnerElem.style.opacity = 1;
+                        replayElem.style.opacity = 1;
+                    }
+                }, 2000)
+            }
+
+            function onReplay(){
+                const winnerElem = document.querySelector('.winning');
+                const replayElem = document.querySelector('.replay');
+                winnerElem.style.opacity = 0;
+                replayElem.style.opacity = 0;
+                run();
+            }
+
+            function run(){
+                const ducks = createDucks();
+                const duckElems = ducks.map(setupDuckElement)
+                const replay = document.querySelector(".replay")
+
+                duckElems.forEach(({ duck, duckElem }) =>{
+                    duckElem.interval = setInterval(()=> moveDuck(duckElem, duck), 100);
+                    duckElem.addEventListener('click', shootDuck);
+                    replay.addEventListener('click', onReplay);
+                })
+            }
+
+            run();
+        })();
+      </script>
+    </body>
+  </head>
+</html>
