@@ -91,10 +91,6 @@
         </ul>
         <span id="status"></span>
         <textarea readonly id="combat-log"></textarea>
-        <div style="margin: 40px;">
-            <button id="btn-reset" onclick="onReset()">Reset</button>
-        </div>
-        </div>
     </div>
     <script>
         // Game variable
@@ -116,11 +112,6 @@
         var playerDefStatus = document.getElementById("def")
         var playerStatus = document.getElementById("status")
         var combatLog = document.getElementById("combat-log")
-        // var btnReset = document.getElementById("btn-reset")
-        function onReset() {
-            // updateState(playerHealth, 2000);
-            playerHealthBar.innerText = 2000;
-        }
         function random(min, max) {
             // Credit: https://www.geeksforgeeks.org/how-to-select-a-random-element-from-array-in-javascript/
             return Math.floor(Math.random() * (max - min) + min)
@@ -215,7 +206,6 @@
         }
         btnAttack.addEventListener('click', playerAttack)
         btnSkill.addEventListener('click', playerSkill)
-        // btnReset.addEventListener('click', onReset)
         btnUltimate.addEventListener('click', function() {
             if (playerUltimatePoint >= 20) {
                 playerUltimate()
