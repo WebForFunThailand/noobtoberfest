@@ -94,6 +94,9 @@
         </ul>
         <span id="status"></span>
         <textarea readonly id="combat-log"></textarea>
+        <div style="margin: 40px;">
+        <button id="btn-reset" onclick="onReset()">Reset</button>
+        </div>
     </div>
     <script>
         // Game variable
@@ -115,6 +118,9 @@
         var playerDefStatus = document.getElementById("def")
         var playerStatus = document.getElementById("status")
         var combatLog = document.getElementById("combat-log")
+        function onReset() {
+            playerHealthBar.innerText = 2000
+        }
         function random(min, max) {
             // Credit: https://www.geeksforgeeks.org/how-to-select-a-random-element-from-array-in-javascript/
             return Math.floor(Math.random() * (max - min) + min)
