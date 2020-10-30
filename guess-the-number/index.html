@@ -1,0 +1,241 @@
+<!-- TODO: -->
+<!-- - add number in congrats and failed screen -->
+<!-- - add style -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      display: flex;
+      flex: 1;
+    }
+    /* select level screen */
+    #level-screen {
+
+    }
+    /* game screen */
+    #game-screen {
+      flex: 1;
+      flex-direction: column;
+      display: none;
+    }
+    #game-screen #warning {
+      display: none;
+    }
+    /* congrats screen */
+    #congrats-screen {
+      display: none;
+    }
+    /* failed screen */
+    #failed-screen {
+      display: none;
+    }
+
+    /* animation */
+    .blink-once {
+      animation: blinker 0.5s linear infinite;
+    }
+    @keyframes blinker {
+      50% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- choose level -->
+  <div id="level-screen">
+    <div class="level-select-window">
+      <button type="button" value="0" onclick="handleSelectLevel(this)">0-10</button>
+      <button type="button" value="1" onclick="handleSelectLevel(this)">0-100</button>
+      <button type="button" value="2" onclick="handleSelectLevel(this)">0-500</button>
+      <button type="button" value="3" onclick="handleSelectLevel(this)">0-1000</button>
+    </div>
+  </div>
+  <div id="game-screen">
+    <div>
+      You have <span id="chance"></span> times to guess the number!
+    </div>
+    <div>
+      <label for="guess-input">
+        [<span id="min-number"></span>-
+          <span id="max-number"></span>]
+      </label>
+      <input name="guess-input" id="guess-input" type="number" onkeypress="handleTextChange(this)">
+      <span id="hint"></span>
+    </div>
+    <div>
+      <p>
+        Last guess: <span id="last-guess"></span>
+      </p>
+      <p>
+        <span id="warning">Please change the number!</span>
+      </p>
+    </div>
+  </div>
+  <div id="congrats-screen">
+    <p>Congratulations! The correct number is <span class="correct-number"></span>.</p>
+    <p>You guess just <span id="guess-count"></span> times to get it! 🎉</p>
+    <button type="button" onclick="handleRestart()">Restart?</button>
+  </div>
+  <div id="failed-screen">
+    <p>The correct number is <span class="correct-number"></span> 😬</p>
+    <button type="button" onclick="handleRestart()">Try again?</button>
+  </div>
+
+  <script>
+    const chanceMap = {
+      0: 3,
+      1: 6,
+      2: 9,
+      3: 12,
+    };
+
+    let chanceLeft;
+    let answerNumber;
+    let lastGuess = [];
+
+    function handleSelectLevel(elem) {
+      let level = elem.value;
+      let [min, max] = elem.innerText.split('-');
+      chanceLeft = chanceMap[level];
+
+      controlScreen('level-screen', 'hide');
+      controlScreen('game-screen', 'show');
+      findId('chance').innerText = chanceLeft;
+      findId('min-number').innerText = min;
+      findId('max-number').innerText = max;
+
+      answerNumber = Math.ceil(Math.random() * max);
+    }
+
+    function handleTextChange(elem) {
+      if (!lastGuess.includes(Number(elem.value))) {
+        findId('warning').style.display = "none";
+      }
+    }
+
+    function handleSubmit() {
+      let userGuess = Number(findId('guess-input').value);
+
+      if (lastGuess.includes(userGuess)) {
+        findId('warning').style.display = "block";
+        return;
+      }
+
+      // console.log(userGuess, userGuess);
+      // console.log(answerNumber, answerNumber);
+
+      lastGuess.push(userGuess);
+      chanceLeft -= 1;
+
+      findId('last-guess').innerText = lastGuess.join(', ');
+      findId('chance').innerText = chanceLeft;
+
+      if (userGuess === answerNumber) {
+        handleShowSummaryScreen('congrats-screen');
+
+        return;
+      } else {
+        findId('guess-input').value = '';
+
+        blinkElement('hint');
+
+        if (userGuess > answerNumber) {
+          findId('hint').innerHTML = 'Too high!';
+        } else {
+          findId('hint').innerHTML = 'Too low!';
+        }
+      }
+
+      if (chanceLeft === 0) {
+        handleShowSummaryScreen('failed-screen');
+      }
+    }
+
+    /**
+     * handleShowSummaryScreen
+     * @param {('congrats-screen'|'failed-screen')} screenToGo
+     */
+    function handleShowSummaryScreen(screenToGo) {
+      controlScreen('game-screen', 'hide');
+      controlScreen(screenToGo, 'show');
+
+      findAllQuery('.correct-number').forEach((x) => {
+        x.innerText = answerNumber;
+      })
+
+      if (screenToGo === 'congrats-screen') {
+        findId('guess-count').innerText = lastGuess.length;
+      }
+    }
+
+    function handleRestart() {
+      lastGuess = [];
+      findId('last-guess').innerText = lastGuess.join(', ');
+      findId('guess-input').value = '';
+
+      controlScreen('congrats-screen', 'hide');
+      controlScreen('failed-screen', 'hide');
+      controlScreen('level-screen', 'show');
+    }
+
+    // ---- document loaded script
+    // https://stackoverflow.com/a/9899701/4010864
+    (function() {
+      findId('guess-input').addEventListener("keyup", (e) => {
+        if (e.key !== "Enter") return;
+
+        handleSubmit();
+
+        e.preventDefault();
+      })
+    })();
+
+    // ---- helpers functions
+    function findAllQuery(elementQuery) {
+      return document.querySelectorAll(elementQuery);
+    }
+
+    function findQuery(elementQuery) {
+      return document.querySelector(elementQuery);
+    }
+
+    function findId(elementId) {
+      return document.getElementById(elementId);
+    }
+
+    function blinkElement(elementIdOrQuery) {
+      let element = findId(elementIdOrQuery) || findQuery(elementIdOrQuery);
+
+      if (!element) {
+        return;
+      }
+
+      // blink
+      element.classList.add('blink-once');
+      // and stop after 750ms
+      setTimeout(() => {
+        element.classList.remove('blink-once');
+      }, 750);
+    }
+
+    /**
+     * controlScreen
+     * @param {('level-screen'|'game-screen'|'congrats-screen'|'failed-screen')} screenName
+     * @param {('hide'|'show')} action
+     */
+    function controlScreen(screenName, action) {
+      if (action === 'hide') {
+        findId(screenName).style.display = 'none';
+      } else {
+        findId(screenName).style.display = 'flex';
+      }
+    }
+  </script>
+</body>
+</html>
