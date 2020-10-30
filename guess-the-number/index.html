@@ -139,6 +139,31 @@
 
       margin: 0;
     }
+    .common-summary {
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--bg-color);
+    }
+    .common-summary p {
+      color: var(--font-color);
+      font-size: 2em;
+      padding: 0 15px;
+      margin: 0;
+    }
+    .common-summary p:last-of-type {
+      margin-bottom: 25px;
+    }
+    .common-summary p .correct-number,
+    .common-summary p #guess-count {
+      font-size:  1.25em;
+      font-weight: 500;
+    }
+    .common-summary button {
+      font-size: 1.5em;
+      font-weight: 500;
+    }
     /* congrats screen */
     #congrats-screen {
       display: none;
@@ -199,12 +224,12 @@
       </p>
     </div>
   </div>
-  <div id="congrats-screen">
+  <div id="congrats-screen" class="common-summary">
     <p>Congratulations! The correct number is <span class="correct-number"></span>.</p>
     <p>You guess just <span id="guess-count"></span> times to get it! 🎉</p>
     <button type="button" onclick="handleRestart()">Restart?</button>
   </div>
-  <div id="failed-screen">
+  <div id="failed-screen" class="common-summary">
     <p>The correct number is <span class="correct-number"></span> 😬</p>
     <button type="button" onclick="handleRestart()">Try again?</button>
   </div>
