@@ -231,6 +231,7 @@
   </div>
 
   <script>
+    // -- CONSTANTS
     const chanceMap = {
       0: 3,
       1: 6,
@@ -238,10 +239,12 @@
       3: 12,
     };
 
+    // -- GLOBAL VARIABLES
     let chanceLeft;
     let answerNumber;
     let lastGuess = [];
 
+    // -- HANDLER FUNCTIONS
     function handleSelectLevel(elem) {
       let level = elem.value;
       let [min, max] = elem.innerText.split('-');
@@ -342,7 +345,7 @@
       controlScreen('level-screen', 'show');
     }
 
-    // ---- document loaded script
+    // ---- MAIN
     // https://stackoverflow.com/a/9899701/4010864
     (function() {
       findId('guess-input').addEventListener("keyup", (e) => {
@@ -354,7 +357,7 @@
       })
     })();
 
-    // ---- helpers functions
+    // ---- HELPER FUNCTIONS
     function findAllQuery(elementQuery) {
       return document.querySelectorAll(elementQuery);
     }
@@ -376,7 +379,7 @@
 
       // blink
       element.classList.add('blink-once');
-      // and stop after 750ms
+      // and stop after 1400ms
       setTimeout(() => {
         element.classList.remove('blink-once');
       }, 1400);
