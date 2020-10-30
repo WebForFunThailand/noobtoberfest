@@ -9,13 +9,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>Document</title>
   <style>
-    body {
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap');
+
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+    html {
+      height: 100vh;
       display: flex;
+    }
+    body {
       flex: 1;
+      display: flex;
+      margin: 0;
     }
     /* select level screen */
     #level-screen {
-
+      flex: 1;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #333;
+    }
+    #level-screen .label {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 500;
+      margin: 0;
+      margin-bottom: 15px;
+    }
+    #level-screen .level-select-window {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      width: 320px;
+    }
+    #level-screen .level-select-window button {
+      width: 150px;
+      height: 60px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      background-color: rgba(50, 255, 255, 0.6);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
     }
     /* game screen */
     #game-screen {
@@ -49,6 +88,7 @@
 <body>
   <!-- choose level -->
   <div id="level-screen">
+    <p class="label">Select number range..</p>
     <div class="level-select-window">
       <button type="button" value="0" onclick="handleSelectLevel(this)">0-10</button>
       <button type="button" value="1" onclick="handleSelectLevel(this)">0-100</button>
