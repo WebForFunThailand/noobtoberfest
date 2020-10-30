@@ -11,6 +11,16 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap');
 
+    /* variables */
+    :root {
+      --font-color: #fff;
+      --accent-color: rgba(50, 255, 255, 0.6);
+      --bg-color: #333;
+      --too-high-color: rgb(244, 50, 97);
+      --too-low-color:rgb(49, 198, 64);
+      --warning-color: rgb(252, 179, 1);
+    }
+    /* global styles */
     * {
       font-family: 'Poppins', sans-serif;
     }
@@ -23,6 +33,16 @@
       display: flex;
       margin: 0;
     }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
     /* select level screen */
     #level-screen {
       flex: 1;
@@ -30,12 +50,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #333;
+
+      background-color: var(--bg-color);
     }
     #level-screen .label {
-      color: #fff;
       font-size: 24px;
       font-weight: 500;
+      color: var(--font-color);
+
       margin: 0;
       margin-bottom: 15px;
     }
@@ -51,19 +73,71 @@
       font-size: 16px;
       font-weight: bold;
       margin-bottom: 8px;
-      background-color: rgba(50, 255, 255, 0.6);
+      background-color: var(--accent-color);
       color: #fff;
       border: none;
       border-radius: 14px;
     }
     /* game screen */
     #game-screen {
+      position: relative;
       flex: 1;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      color: var(--font-color);
+      background-color: var(--bg-color);
+
+      /* hide on load */
       display: none;
     }
-    #game-screen #warning {
+    #game-screen .label {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+    #game-screen .label p {
+      text-align: center;
+      padding: 0 5px;
+      margin: 0;
+    }
+    #game-screen .label #chance {
+      font-size: 24px;
+      font-weight: 500;
+    }
+    #game-screen #guess-input {
+      font-size: 4.5em;
+      max-width: 320px;
+      text-align: center;
+
+      color: var(--accent-color);
+      background-color: rgba(255, 255, 255, 0.2);
+
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+    #game-screen #hint-container {
+      position: absolute;
+      bottom: 40px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 320px;
+      height: 220px;
+      border-radius: 10px;
+
       display: none;
+    }
+    #game-screen #hint-container p {
+      font-size: 2.5em;
+      font-weight: 500;
+      line-height: 1em;
+      color: var(--bg-color);
+      text-align: center;
+
+      margin: 0;
     }
     /* congrats screen */
     #congrats-screen {
@@ -76,11 +150,11 @@
 
     /* animation */
     .blink-once {
-      animation: blinker 0.5s linear infinite;
+      animation: blinker 0.75s linear infinite;
     }
     @keyframes blinker {
       50% {
-        opacity: 0;
+        opacity: 0.35;
       }
     }
   </style>
@@ -97,23 +171,31 @@
     </div>
   </div>
   <div id="game-screen">
-    <div>
-      You have <span id="chance"></span> times to guess the number!
+    <div class="label">
+      <p>
+        You have <span id="chance"></span> times to guess the number!
+      </p>
+      <p>
+        [<span id="min-number"></span> -
+          <span id="max-number"></span>]
+      </p>
+    </div>
+    <div id="hint-container">
+      <p class="hint"></p>
     </div>
     <div>
-      <label for="guess-input">
-        [<span id="min-number"></span>-
-          <span id="max-number"></span>]
-      </label>
-      <input name="guess-input" id="guess-input" type="number" onkeypress="handleTextChange(this)">
-      <span id="hint"></span>
+      <input
+        type="number"
+        name="guess-input"
+        id="guess-input"
+        oninput="handleTextChange(this)"
+        min="0"
+        max="10000"
+      >
     </div>
     <div>
       <p>
         Last guess: <span id="last-guess"></span>
-      </p>
-      <p>
-        <span id="warning">Please change the number!</span>
       </p>
     </div>
   </div>
@@ -151,11 +233,13 @@
       findId('max-number').innerText = max;
 
       answerNumber = Math.ceil(Math.random() * max);
+
+      findId('guess-input').focus();
     }
 
     function handleTextChange(elem) {
-      if (!lastGuess.includes(Number(elem.value))) {
-        findId('warning').style.display = "none";
+      if (Number(elem.value) > 10000) {
+        findId('guess-input').value = 10000;
       }
     }
 
@@ -163,7 +247,12 @@
       let userGuess = Number(findId('guess-input').value);
 
       if (lastGuess.includes(userGuess)) {
-        findId('warning').style.display = "block";
+        toastify(
+          'hint-container',
+          'You have guessed this number, try changing it!',
+          'var(--font-color)',
+          'var(--warning-color)',
+        );
         return;
       }
 
@@ -183,12 +272,20 @@
       } else {
         findId('guess-input').value = '';
 
-        blinkElement('hint');
-
         if (userGuess > answerNumber) {
-          findId('hint').innerHTML = 'Too high!';
+          toastify(
+            'hint-container',
+            'Too high!',
+            'var(--font-color)',
+            'var(--too-high-color)'
+          );
         } else {
-          findId('hint').innerHTML = 'Too low!';
+          toastify(
+            'hint-container',
+            'Too low!',
+            'var(--font-color)',
+            'var(--too-low-color)'
+          );
         }
       }
 
@@ -261,7 +358,24 @@
       // and stop after 750ms
       setTimeout(() => {
         element.classList.remove('blink-once');
-      }, 750);
+      }, 1400);
+    }
+
+    function toastify(elementId, text, textColor, bgColor) {
+      let element = findId(elementId);
+      element.style.backgroundColor = bgColor;
+
+      let child = element.firstElementChild;
+      child.innerHTML = text;
+      child.style.color = textColor;
+
+      element.style.display = 'flex';
+
+      blinkElement(elementId);
+
+      setTimeout(() => {
+        element.style.display = 'none';
+      }, 1400);
     }
 
     /**
