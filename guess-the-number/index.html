@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Guess the number</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap');
+
+    /* variables */
+    :root {
+      --font-color: #fff;
+      --accent-color: rgba(50, 255, 255, 0.6);
+      --bg-color: #333;
+      --too-high-color: rgb(244, 50, 97);
+      --too-low-color:rgb(49, 198, 64);
+      --warning-color: rgb(252, 179, 1);
+    }
+    /* global styles */
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+    html {
+      height: 100vh;
+      display: flex;
+    }
+    body {
+      flex: 1;
+      display: flex;
+      margin: 0;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+    /* select level screen */
+    #level-screen {
+      flex: 1;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background-color: var(--bg-color);
+    }
+    #level-screen .label {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--font-color);
+
+      margin: 0;
+      margin-bottom: 15px;
+    }
+    #level-screen .level-select-window {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      width: 320px;
+    }
+    #level-screen .level-select-window button {
+      width: 150px;
+      height: 60px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+    }
+    /* game screen */
+    #game-screen {
+      position: relative;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      color: var(--font-color);
+      background-color: var(--bg-color);
+
+      /* hide on load */
+      display: none;
+    }
+    #game-screen .label {
+      margin: 0;
+      margin-bottom: 15px;
+    }
+    #game-screen .label p {
+      text-align: center;
+      padding: 0 5px;
+      margin: 0;
+    }
+    #game-screen .label #chance {
+      font-size: 24px;
+      font-weight: 500;
+    }
+    #game-screen #guess-input {
+      font-size: 4.5em;
+      max-width: 320px;
+      text-align: center;
+
+      color: var(--accent-color);
+      background-color: rgba(255, 255, 255, 0.2);
+
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+    #game-screen #hint-container {
+      position: absolute;
+      bottom: 40px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 320px;
+      height: 220px;
+      border-radius: 10px;
+
+      display: none;
+    }
+    #game-screen #hint-container p {
+      font-size: 2.5em;
+      font-weight: 500;
+      line-height: 1em;
+      color: var(--bg-color);
+      text-align: center;
+
+      margin: 0;
+    }
+    .common-summary {
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--bg-color);
+    }
+    .common-summary p {
+      color: var(--font-color);
+      font-size: 2em;
+      padding: 0 15px;
+      margin: 0;
+    }
+    .common-summary p:last-of-type {
+      margin-bottom: 25px;
+    }
+    .common-summary p .correct-number,
+    .common-summary p #guess-count {
+      font-size:  1.25em;
+      font-weight: 500;
+    }
+    .common-summary button {
+      font-size: 1.5em;
+      font-weight: 500;
+    }
+    /* congrats screen */
+    #congrats-screen {
+      display: none;
+    }
+    /* failed screen */
+    #failed-screen {
+      display: none;
+    }
+
+    /* animation */
+    .blink-once {
+      animation: blinker 0.75s linear infinite;
+    }
+    @keyframes blinker {
+      50% {
+        opacity: 0.35;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- choose level -->
+  <div id="level-screen">
+    <p class="label">Select number range..</p>
+    <div class="level-select-window">
+      <button type="button" value="0" onclick="handleSelectLevel(this)">0-10</button>
+      <button type="button" value="1" onclick="handleSelectLevel(this)">0-100</button>
+      <button type="button" value="2" onclick="handleSelectLevel(this)">0-500</button>
+      <button type="button" value="3" onclick="handleSelectLevel(this)">0-1000</button>
+    </div>
+  </div>
+  <div id="game-screen">
+    <div class="label">
+      <p>
+        You have <span id="chance"></span> times to guess the number!
+      </p>
+      <p>
+        [<span id="min-number"></span> -
+          <span id="max-number"></span>]
+      </p>
+    </div>
+    <div id="hint-container">
+      <p class="hint"></p>
+    </div>
+    <div>
+      <input
+        type="number"
+        name="guess-input"
+        id="guess-input"
+        oninput="handleTextChange(this)"
+        min="0"
+        max="10000"
+      >
+    </div>
+    <div>
+      <p>
+        Last guess: <span id="last-guess"></span>
+      </p>
+    </div>
+  </div>
+  <div id="congrats-screen" class="common-summary">
+    <p>Congratulations! The correct number is <span class="correct-number"></span>.</p>
+    <p>You guess just <span id="guess-count"></span> times to get it! 🎉</p>
+    <button type="button" onclick="handleRestart()">Restart?</button>
+  </div>
+  <div id="failed-screen" class="common-summary">
+    <p>The correct number is <span class="correct-number"></span> 😬</p>
+    <button type="button" onclick="handleRestart()">Try again?</button>
+  </div>
+
+  <script>
+    // -- CONSTANTS
+    const chanceMap = {
+      0: 3,
+      1: 6,
+      2: 9,
+      3: 12,
+    };
+
+    // -- GLOBAL VARIABLES
+    let chanceLeft;
+    let answerNumber;
+    let lastGuess = [];
+
+    // -- HANDLER FUNCTIONS
+    function handleSelectLevel(elem) {
+      let level = elem.value;
+      let [min, max] = elem.innerText.split('-');
+      chanceLeft = chanceMap[level];
+
+      controlScreen('level-screen', 'hide');
+      controlScreen('game-screen', 'show');
+      findId('chance').innerText = chanceLeft;
+      findId('min-number').innerText = min;
+      findId('max-number').innerText = max;
+
+      answerNumber = Math.ceil(Math.random() * max);
+
+      findId('guess-input').focus();
+    }
+
+    function handleTextChange(elem) {
+      if (Number(elem.value) > 10000) {
+        findId('guess-input').value = 10000;
+      }
+    }
+
+    function handleSubmit() {
+      let userGuess = Number(findId('guess-input').value);
+
+      if (lastGuess.includes(userGuess)) {
+        toastify(
+          'hint-container',
+          'You have guessed this number, try changing it!',
+          'var(--font-color)',
+          'var(--warning-color)',
+        );
+        return;
+      }
+
+      // console.log(userGuess, userGuess);
+      // console.log(answerNumber, answerNumber);
+
+      lastGuess.push(userGuess);
+      chanceLeft -= 1;
+
+      findId('last-guess').innerText = lastGuess.join(', ');
+      findId('chance').innerText = chanceLeft;
+
+      if (userGuess === answerNumber) {
+        handleShowSummaryScreen('congrats-screen');
+
+        return;
+      } else {
+        findId('guess-input').value = '';
+
+        if (userGuess > answerNumber) {
+          toastify(
+            'hint-container',
+            'Too high!',
+            'var(--font-color)',
+            'var(--too-high-color)'
+          );
+        } else {
+          toastify(
+            'hint-container',
+            'Too low!',
+            'var(--font-color)',
+            'var(--too-low-color)'
+          );
+        }
+      }
+
+      if (chanceLeft === 0) {
+        handleShowSummaryScreen('failed-screen');
+      }
+    }
+
+    /**
+     * handleShowSummaryScreen
+     * @param {('congrats-screen'|'failed-screen')} screenToGo
+     */
+    function handleShowSummaryScreen(screenToGo) {
+      controlScreen('game-screen', 'hide');
+      controlScreen(screenToGo, 'show');
+
+      findAllQuery('.correct-number').forEach((x) => {
+        x.innerText = answerNumber;
+      })
+
+      if (screenToGo === 'congrats-screen') {
+        findId('guess-count').innerText = lastGuess.length;
+      }
+    }
+
+    function handleRestart() {
+      lastGuess = [];
+      findId('last-guess').innerText = lastGuess.join(', ');
+      findId('guess-input').value = '';
+
+      controlScreen('congrats-screen', 'hide');
+      controlScreen('failed-screen', 'hide');
+      controlScreen('level-screen', 'show');
+    }
+
+    // ---- MAIN
+    // https://stackoverflow.com/a/9899701/4010864
+    (function() {
+      findId('guess-input').addEventListener("keyup", (e) => {
+        if (e.key !== "Enter") return;
+
+        handleSubmit();
+
+        e.preventDefault();
+      })
+    })();
+
+    // ---- HELPER FUNCTIONS
+    function findAllQuery(elementQuery) {
+      return document.querySelectorAll(elementQuery);
+    }
+
+    function findQuery(elementQuery) {
+      return document.querySelector(elementQuery);
+    }
+
+    function findId(elementId) {
+      return document.getElementById(elementId);
+    }
+
+    function blinkElement(elementIdOrQuery) {
+      let element = findId(elementIdOrQuery) || findQuery(elementIdOrQuery);
+
+      if (!element) {
+        return;
+      }
+
+      // blink
+      element.classList.add('blink-once');
+      // and stop after 1400ms
+      setTimeout(() => {
+        element.classList.remove('blink-once');
+      }, 1400);
+    }
+
+    function toastify(elementId, text, textColor, bgColor) {
+      let element = findId(elementId);
+      element.style.backgroundColor = bgColor;
+
+      let child = element.firstElementChild;
+      child.innerHTML = text;
+      child.style.color = textColor;
+
+      element.style.display = 'flex';
+
+      blinkElement(elementId);
+
+      setTimeout(() => {
+        element.style.display = 'none';
+      }, 1400);
+    }
+
+    /**
+     * controlScreen
+     * @param {('level-screen'|'game-screen'|'congrats-screen'|'failed-screen')} screenName
+     * @param {('hide'|'show')} action
+     */
+    function controlScreen(screenName, action) {
+      if (action === 'hide') {
+        findId(screenName).style.display = 'none';
+      } else {
+        findId(screenName).style.display = 'flex';
+      }
+    }
+  </script>
+</body>
+</html>
