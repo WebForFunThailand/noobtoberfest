@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Match</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+        integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+    <style>
+        body,
+        button {
+            font-family: 'Syne Mono', monospace;
+            font-size: 16px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .wrapper {
+            height: 95vh;
+            background: gray;
+            display: flex;
+            justify-content: center;
+        }
+
+        button.btn {
+            padding: 20px 50px;
+        }
+
+        div.block {
+            padding: 70px;
+            background: #000000;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="height: 80vh">
+        <div class="text-center m-5">
+            <h1>Color Match</h1>
+        </div>
+        <div class="row justify-content-center align-items-center w-100 h-100">
+            <div class="col-8 text-center w-50 d-none" id="block-selected">
+                <div class="py-4" style="background: chocolate;"></div>
+            </div>
+            <div class="col-8 d-none" id="block-wrapper">
+                <div class="row" id="block-content">
+                    <div class="col-6 mb-4">
+                        <div class="block"></div>
+                    </div>
+                    <div class="col-6">
+                        <div class="block"></div>
+                    </div>
+                    <div class="col-6">
+                        <div class="block"></div>
+                    </div>
+                    <div class="col-6">
+                        <div class="block"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center">
+                <button id="play" onclick="play()" class="btn btn-primary">Play</button>
+
+                <div id="timer-wrapper" class="d-none">Timer: <span id="timer">0</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let second = 5;
+        let count = 0;
+        let interval = null
+        const intervalTime = 10
+        const colors = ['5B507A', '5B618A', '9EADC8', '5E2BFF', 'B9E28C', 'D6D84F', 'EBB3A9', 'E87EA1', 'E86252',
+            'EE2677'
+        ]
+        let selected = null
+
+        function play() {
+            document.getElementById("play").classList.add('d-none')
+            document.getElementById("timer-wrapper").classList.remove('d-none')
+            document.getElementById("block-wrapper").classList.remove('d-none')
+            document.getElementById("block-selected").classList.remove('d-none')
+            const indexs = randomIndex()
+            selected = selectIndex(indexs)
+
+            let blockHtml = ''
+            for (let index = 0; index < indexs.length; index++) {
+                const color = colors[indexs[index]];
+                blockHtml += `
+                <div class="col-6 mb-4">
+                        <div class="block" onclick="handleClickBlock(${indexs[index]})" style="background: #${color}"></div>
+                    </div>
+                `
+            }
+            document.getElementById("block-content").innerHTML = blockHtml
+            document.getElementById("block-selected").innerHTML = `
+            <div class="py-4" style="background: #${colors[selected]};"></div>
+            `
+            second = 5
+            setTimer()
+        }
+
+        function randomIndex() {
+            const tempIndexs = []
+            while (tempIndexs.length < 4) {
+                const randomNumber = +(Math.random() * 10) | 0
+                if (!tempIndexs.includes(randomNumber)) {
+                    tempIndexs.push(randomNumber)
+                }
+            }
+            return tempIndexs
+        }
+
+        function selectIndex(indexs) {
+            let result = null
+            while (!result) {
+                const randomNumber = +(Math.random() * 10) | 0
+                if (indexs.includes(randomNumber)) {
+                    result = randomNumber
+                }
+            }
+            return result
+        }
+
+        function handleClickBlock(index) {
+            clearInterval(interval)
+            if (+selected !== +index) {
+                alert('Not match!!!')
+                document.getElementById("play").classList.remove('d-none')
+                document.getElementById("timer-wrapper").classList.add('d-none')
+                document.getElementById("block-wrapper").classList.add('d-none')
+                document.getElementById("block-selected").classList.add('d-none')
+            } else {
+                play()
+            }
+        }
+
+        function setTimer() {
+            interval = setInterval(() => {
+                second = (second * 1000 - intervalTime) / 1000
+                document.getElementById("timer").innerHTML = +second.toFixed(2)
+                if (second <= 0) {
+                    clearInterval(interval)
+                    second = 5
+                    alert('time out!!!')
+                    document.getElementById("play").classList.remove('d-none')
+                    document.getElementById("timer-wrapper").classList.add('d-none')
+                    document.getElementById("block-wrapper").classList.add('d-none')
+                    document.getElementById("block-selected").classList.add('d-none')
+                }
+            }, intervalTime);
+        }
+    </script>
+</body>
+
+</html>
